@@ -21,7 +21,6 @@
 body {
     color: var(--new-black);
     background-color: var(--new-white);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 button {
