@@ -38,6 +38,16 @@ a {
     font-weight: 600;
 }
 
+textarea{
+    width: 300px; 
+    height: 150px;
+    resize: none; 
+}
+
+section{
+    padding: 24px 0;
+}
+
 .margin-auto {
     margin: 0 auto;
 }
@@ -65,6 +75,7 @@ a {
     width: 70%;
     padding: 13px 23px;
     font-weight: 700;
+    color: var(--secondary-text-color);
 }
 
 .button_cadastrar a {
