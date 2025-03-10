@@ -29,71 +29,229 @@
       <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
       <ul class="navbar sidebar" id="sidebar">
         <button class="close-btn" onclick="toggleMenu()">✖</button>
-        <li class="agora">
-          <a href="#">Inicial</a>
-        </li>
         <li>
-          <a href="simulador.html">Simulador</a>
+          <img src="assets/imgs/logo_white.svg" alt="" class="logo_navbar">
+
         </li>
-        <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li>
-          <a href="cadastro.html">Cadastro</a>
-        </li>
+        <li><a href="#">O que fazemos?</a></li>
+        <li><a href="#">O que oferecemos</a></li>
+        <li><a href="#">Quem somos?</a></li>
+        <li><a href="#">Benefícios</a></li>
+        <li><a href="#">Fale conosco</a></li>
+
+        <div class="buttons">
+          <div class="button_login"><a href="#">Login</a></div>
+          <div class="button_cadastrar"><a href="#">Cadastrar</a></div>
+        </div>
       </ul>
     </div>
   </header>
 
   <div class="banner">
     <div class="container">
-      <img src="assets/imgs/fundo.png" alt="" style="height: 375px; width: 100%;">
-      <div class="banner_mensagem">
-        <h2 class="titulo">FYNX: Inteligência em Microcrédito.</h2>
-        <!-- <p>Preservando <span>hoje</span> para existirem <span>amanhã</span>.</p> -->
+      <div class=" banner_img"></div>
+      <div class="content banner_mensagem">
+        <h1 class="titulo">FYNX: Inteligência em Microcrédito.</h1>
+
         <span>Bem-vindo à FYNX! Sua plataforma inteligente para entender e antecipar as tendências de pagamento no
           universo do microcrédito.</span>
-        
-        <button class="primary_button">Conheça nossa solução</button>
+
+        <div class="primary_button"><a href="#"> Conheça nossa solução</a></div>
       </div>
     </div>
   </div>
 
-  <div class="social">
-    <div class="container">
-      <div class="boxes">
-        <div class="box">
-          <!-- <img src="assets/imgs/planet-earth_color.png"> -->
-          <h4>Missão</h4>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-            vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-            minima.</p>
+  <main>
+    <section class="container presentation">
+      <div class="content">
+        <h2>Faça uma analise de tendencia</h2>
+        <span>Com a FYNX, instituições financeiras e fintechs identificam tendências de microcrédito para ME e MEIs.
+
+          Nossa solução transforma dados em insights para tornar o crédito mais seguro e acessível.
+
+        </span>
+
+        <ul class="beneficios">
+          <li>Identificação de oportunidades</li>
+          <li>Crédito personalizado</li>
+          <li>Crescimento sustentável</li>
+        </ul>
+        <div class="secondary_button margin-auto"><a href="#">Saiba mais</a></div>
+      </div>
+
+    </section>
+
+    <section class="container offer">
+      <div class="content">
+        <div class="image-container border-3d">
+          <img src="assets/imgs/pexels-pixabay-265087.jpg" alt="" class="offer_banner">
         </div>
-        <div class="box">
-          <!-- <img src="assets/imgs/lightbulb_color.png"> -->
-          <h4>Visão</h4>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-            vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-            minima.</p>
-        </div>
-        <div class="box">
-          <!-- <img src="assets/imgs/growth_color.png"> -->
-          <h4>Valores</h4>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-            vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-            minima.</p>
+        <div class="container-text">
+          <h2>Oferecemos</h2>
+          <span>
+            A FYNX oferece tecnologia pronta para uso, permitindo que instituições financeiras analisem tendências no
+            microcrédito para ME e MEIs de forma mais ágil e estratégica.
+          </span>
+
+          <ul class="beneficios">
+            <li>Dashboard</li>
+            <li>Análises preditivas</li>
+            <li>Integração fácil</li>
+          </ul>
+          <div class="secondary_button margin-auto"><a href="#">Conheça nossa solução</a></div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="footer">
-    <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-      <span class="version">v1.0.0</span>
-    </div>
-  </div>
+    <section class="container about_us">
+      <div class="content">
+
+        <div class="container-text">
+          <h2>Quem somos ?</h2>
+          <span>
+            A FYNX é uma solução inovadora para análise de tendências no microcrédito, ajudando ME e MEIs a terem acesso
+            a crédito de forma mais sustentável.
+          </span>
+
+          <span>
+            Utilizamos tecnologia e inteligência de dados para apoiar fintechs e instituições financeiras na tomada de
+            decisões estratégicas.
+          </span>
+
+          <ul class="beneficios">
+            <li>Dashboard</li>
+            <li>Análises preditivas</li>
+            <li>Integração fácil</li>
+          </ul>
+        </div>
+        <div class="image-container">
+          <img src="assets/imgs/40476.png" alt="" class="">
+        </div>
+        <div class="secondary_button margin-auto"><a href="#">Entre em contato</a></div>
+      </div>
+    </section>
+
+    <section class="container solution">
+      <div class="content">
+
+        <h2>Sua solução para análise de crédito</h2>
+        <ul class="solucoes">
+          <li>
+            <div class="container-text">
+              <h3>
+                Análise rápida de crédito
+              </h3>
+              <span>
+                Aproveite um processo ágil e automatizado para avaliar ME e MEIs.
+              </span>
+            </div>
+
+            <div class="container_icon_solution">
+              <img src="./assets/icon/icon_credit.png" alt="" class="icon_solution">
+
+            </div>
+          </li>
+          <li>
+            <div class="container-text">
+              <h3>
+                Confiabilidade para seu negócio
+              </h3>
+              <span>
+                Dados precisos e tecnologia avançada para decisões mais seguras.
+              </span>
+            </div>
+
+            <div class="container_icon_solution">
+              <img src="./assets/icon/icon_check.png" alt="" class="icon_solution">
+
+            </div>
+          </li>
+          <li>
+            <div class="container-text">
+              <h3>
+                Segurança
+              </h3>
+              <span>
+                Proteção de dados com os mais altos padrões de segurança.
+              </span>
+            </div>
+
+            <div class="container_icon_solution">
+              <img src="./assets/icon/icon_dashboard.png" alt="" class="icon_solution">
+
+            </div>
+          </li>
+          <li>
+            <div class="container-text">
+              <h3>
+                Escalabilidade
+              </h3>
+              <span>
+                Porque nossa solução cresce com seu negócio, adaptando-se às suas necessidades.
+              </span>
+            </div>
+
+            <div class="container_icon_solution icon_growth">
+              <img src="./assets/icon/icon_growth.png" alt="" class="icon_solution">
+
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+    <section class="container contact_us">
+      <div class="content form_contact">
+        <h2>Fale Conosco</h2>
+
+        <div class="formulario">
+          <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" placeholder="Digite seu nome">
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" placeholder="Digite seu e-mail">
+          </div>
+
+          <div class="form-group">
+            <label for="message">Mensagem:</label>
+            <textarea id="message" placeholder="Digite sua mensagem"></textarea>
+          </div>
+        </div>
+        <div id="submit-btn" class="secondary_button">Enviar</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+
+    <img src="assets/imgs/logo_white.svg" alt="" class="logo_footer">
+
+    <ul class="pagina">
+      <h4>Pagina</h4>
+      <li>O que fazemos?</li>
+      <li>O que oferecemos</li>
+      <li>Quem somos ?</li>
+      <li>Beneficios</li>
+      <li>Fale conosco</li>
+    </ul>
+    <ul class="contato">
+      <h4>Contato</h4>
+      <li>(11) 99999-9999</li>
+      <li>contato@fynx.com.br</li>
+      <li>Rua haddock lobo 1915</li>
+    </ul>
+
+    <ul class="informacoes">
+      <h4>Informações</h4>
+      <li>Termos e condições</li>
+      <li>Politica de Privacidade</li>
+    </ul>
+  </footer>
 </body>
 
 <script>
