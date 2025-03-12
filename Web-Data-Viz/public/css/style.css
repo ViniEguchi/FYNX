@@ -288,6 +288,14 @@ section .content {
     border-radius: 8px;
 }
 
+.image-container-desktop {
+    display: none;
+}
+
+.image-container-q {
+    display: none;
+}
+
 .border-3d::before {
     content: "";
     position: absolute;
@@ -527,5 +535,107 @@ footer ul {
         padding: 13px 23px;
         text-align: center;
     }
+
+    section .content {
+        gap: 24px;
+        margin-left: 70px;
+    }
+
+    span {
+        line-height: 1.3;
+        width: 40%;
+    }
+
+    h2 {
+        margin-top: 2%;
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .secondary_button {
+        text-align: center;
+        margin-left: 40px;
+        margin-top: 5%;
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        width: 30%;
+        padding: 13px 23px;
+        font-weight: 700;
+        color: var(--secondary-text-color);
+    }
+
+    .image-container-desktop {
+        display: inline-block;
+        position: relative;
+        padding: 10px;
+        margin-top: -20%;
+    }
+    
+    .image-container-desktop img {
+        width: 35%;
+        display: block;
+        border-radius: 8px;
+        margin-left: 60%;
+    }
+
+    .image-container {
+        display: inline-block;
+        position: relative;
+        padding: 10px;
+    }
+    
+    .image-container img {
+        width: 35%;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .border-3dd::before {
+        content: "";
+        width: 35%;
+        position: absolute;
+        top: 0px;
+        left: 840px;
+        right: -1px;
+        bottom: 17px;
+        border: 3px solid #1d4128;
+        border-radius: 12px;
+    }
+
+    .border-3d::before {
+        content: "";
+        width: 35%;
+        position: absolute;
+        top: 0px;
+        left: 20px;
+        right: -1px;
+        bottom: 17px;
+        border: 3px solid #1d4128;
+        border-radius: 12px;
+    }
+
+    .of{
+        line-height: 1.3;
+        width: 80%;
+    }
+
+    .container-texto {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        line-height: 1.2;
+        margin-left: 50%;
+        margin-top: -25%;
+    }
+
+    .image-container-q {
+        display: inline-block;
+        position: relative;
+        padding: 10px;
+        width: 35%;
+        margin-left: 55%;
+        margin-top: -20%;
+    }
+
     
 }
