@@ -226,10 +226,6 @@ img.logo_navbar {
     transition: background 0.3s;
 }
 
-.navbar a:hover {
-    background-color: #575757;
-}
-
 /* banner */
 
 .banner .container .banner_mensagem {
@@ -434,4 +430,75 @@ footer ul {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.logo_inicial {
+    width: 40%;
+}
+
+#navbar {
+    display: none;
+}
+
+@media only screen and (min-width: 992px) {
+    #menuButton, #sidebar {
+        display: none;
+    }
+
+    #navbar {
+    display: flex;
+    padding: 20px;
+    }
+
+    #navbar li a {
+        color: var(--primary-color);
+        padding: 25px 0px 0px 0px;
+    }
+
+    .logo_inicial {
+        width: 10%;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 14px;
+        width: 100%;
+        margin-top: 20px;
+        justify-content: center;
+        height: 50px;
+    }
+    
+    .button_login {
+        border-radius: 8px;
+        border: solid 2px #04251F;
+        color: #04251F;
+        background-color: transparent;
+        width: 25%;
+        height: 70%;
+        padding: 3px 20px 0px 20px;
+        text-align: center;
+    }
+
+    .button_login a {
+        color: #04251F;
+    }
+    
+    .button_cadastrar {
+        background-color: var(--primary-color);
+        text-align: center;
+        border-radius: 8px;
+        border: solid 2px #ffffff;
+        width: 35%;
+        height: 70%;
+        padding: 3px 20px 0px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button_cadastrar a {
+        color: #ffffff !important;
+    }
+    
 }
