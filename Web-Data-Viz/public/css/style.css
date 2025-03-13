@@ -711,11 +711,31 @@ footer ul {
         display: flex;
         line-height: 1.3;
         font-size: 18px;
-        width: 30%;
-        margin-bottom: 20%;
+        width: 32%;
+        margin-bottom: 8%;
         margin-left: 18%;
         color: #d1e7d6;
     }
 
-    
+    img.logo_footer {
+        width: 10%;
+        margin: 0 auto;
+    }
+
+    .pagina {
+        margin-left: 15%;
+    }
+
+    .contato {
+        margin-left: 46%;
+        margin-top: -17%;
+        margin-bottom: 5%;
+    }
+
+    .informacoes {
+        margin-top: -17%;
+        margin-left: 70%;
+        margin-bottom: 5%;
+    }
+
 }
