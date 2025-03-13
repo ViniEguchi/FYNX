@@ -645,11 +645,13 @@ footer ul {
         text-align: center;
         line-height: 1.3;
         font-size: 25px;
-        margin-left: 60%;
+        margin-left: -5%;
     }
 
     .solucoes li {
         display: flex;
+        margin-left: 100px;
+        margin-right: 10px;
         gap: 16px;
         flex-direction: row-reverse;
         align-items: center;
@@ -737,5 +739,13 @@ footer ul {
         margin-left: 70%;
         margin-bottom: 5%;
     }
+
+    .solucoes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 450px;
+        gap: 40px;
+    }
+
 
 }
