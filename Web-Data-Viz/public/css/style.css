@@ -459,7 +459,7 @@ footer ul {
 
     #navbar {
     display: flex;
-    padding: 20px;
+    padding: 40px;
     }
 
     #navbar li a {
@@ -542,7 +542,7 @@ footer ul {
 
     section .content {
         gap: 24px;
-        margin-left: 70px;
+        margin-left: 130px;
     }
 
     span {
@@ -552,7 +552,7 @@ footer ul {
 
     h2 {
         margin-top: 2%;
-        font-size: 26px;
+        font-size: 28px;
         font-weight: 600;
     }
 
@@ -572,7 +572,8 @@ footer ul {
         display: inline-block;
         position: relative;
         padding: 10px;
-        margin-top: -20%;
+        margin-top: -25%;
+        margin-right: 10%;
     }
     
     .image-container-desktop img {
@@ -599,7 +600,7 @@ footer ul {
         width: 35%;
         position: absolute;
         top: 0px;
-        left: 840px;
+        left: 717px;
         right: -1px;
         bottom: 17px;
         border: 3px solid #1d4128;
@@ -611,7 +612,7 @@ footer ul {
         width: 35%;
         position: absolute;
         top: 0px;
-        left: 20px;
+        left: 17px;
         right: -1px;
         bottom: 17px;
         border: 3px solid #1d4128;
@@ -650,9 +651,9 @@ footer ul {
 
     .solucoes li {
         display: flex;
-        margin-left: 100px;
+        margin-left: 50px;
         margin-right: 10px;
-        gap: 16px;
+        gap: 10px;
         flex-direction: row-reverse;
         align-items: center;
     }
@@ -743,8 +744,8 @@ footer ul {
     .solucoes {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        height: 450px;
-        gap: 40px;
+        height: 470px;
+        gap: 10px;
     }
 
 
