@@ -32,6 +32,16 @@ body {
 
 }
 
+a {
+    text-decoration: none;
+}
+
+
+.form-container .a{
+    text-decoration: none;
+}
+
+
 
 
 h1 {
@@ -39,6 +49,8 @@ h1 {
     margin-bottom: 20px;
     text-align: center;
     color: #333;
+    text-decoration: none !important;
+
 }
 
 .input-container {
@@ -103,10 +115,19 @@ button {
 .form-tela{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
+
 }
 
+.form-tela img{
+    width: 50%;
+    height: 50%;
+}
+
+.form-tela .a{
+    text-decoration: none;
+}
 
 button:hover {
     background-color: #073f33;
