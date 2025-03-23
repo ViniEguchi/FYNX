@@ -14,7 +14,7 @@ public class Log {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String inicio = String.format("%s - Iniciando processo...\n", now.format(dateFormat));
+        String inicio = String.format("[%s] - Iniciando processo...\n", now.format(dateFormat));
         logs.add(inicio);
         System.out.print(inicio);
 
@@ -26,14 +26,14 @@ public class Log {
                 Thread.sleep(delay);
 
                 now = LocalDateTime.now();
-                String log = String.format("%s - Processo '%s' concluído. Status: %d\n",
+                String log = String.format("[%s] - Processo '%s' concluído. Status: %d\n",
                         now.format(dateFormat), process, status);
                 logs.add(log);
                 System.out.print(log);
 
             } catch (InterruptedException e) {
                 now = LocalDateTime.now();
-                String erro = String.format("%s - Ocorreu uma falha no procedimento '%s'. Erro: %s\n",
+                String erro = String.format("[%s] - Ocorreu uma falha no procedimento '%s'. Erro: %s\n",
                         now.format(dateFormat), process, e.getMessage());
                 logs.add(erro);
                 System.err.print(erro);
@@ -42,7 +42,7 @@ public class Log {
         }
 
         now = LocalDateTime.now();
-        String fim = String.format("%s - Operação finalizada!\n", now.format(dateFormat));
+        String fim = String.format("[%s] - Operação finalizada!\n", now.format(dateFormat));
         logs.add(fim);
         System.out.print(fim);
     }
