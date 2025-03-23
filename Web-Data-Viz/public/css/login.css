@@ -37,12 +37,16 @@ a {
     text-decoration: none;
 }
 
-
 h1 {
     font-weight: bold;
     margin-bottom: 30px;
-    text-align: center;
+    text-align: center; 
     color: #333;
+    width: 100%; 
+    margin: 0 auto; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
 
 .input-container {
@@ -103,8 +107,8 @@ button {
 
 .form-tela {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center;  
+    justify-content: center; 
     flex-direction: column;
     width: 100%;
 }
@@ -152,6 +156,19 @@ p a:hover {
     margin-bottom: 10px;
     font-size: 18px; 
 }
+
+.alinhar_btn_voltar {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%;
+    align-items: center; 
+    padding-bottom: 10px;
+}
+
+.alinhar_btn_voltar img {
+    margin-left: auto; 
+}
+
 
 
 @media (max-width: 768px) {
