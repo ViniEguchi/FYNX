@@ -2,16 +2,22 @@ package sptech.fynx;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Log {
+    static List<String> logs = new ArrayList<>();
+
     public static void generateLog(String[] processes) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now;
         int status, delay;
 
         now = LocalDateTime.now();
-        System.out.printf("Iniciando processo... [%s]%n", now.format(dateFormat));
+        String inicio = String.format("%s - Iniciando processo...\n", now.format(dateFormat));
+        logs.add(inicio);
+        System.out.print(inicio);
 
         for (String process : processes) {
             try {
@@ -21,18 +27,38 @@ public class Log {
                 Thread.sleep(delay);
 
                 now = LocalDateTime.now();
-                System.out.printf("Processo '%s' concluído. Status: %d. [%s]%n",
-                        process, status, now.format(dateFormat));
+                String log = String.format("%s - Processo '%s' concluído. Status: %d\n",
+                        now.format(dateFormat), process, status);
+                logs.add(log);
+                System.out.print(log);
 
             } catch (InterruptedException e) {
                 now = LocalDateTime.now();
-                System.err.printf("Ocorreu uma falha no procedimento '%s'. [%s] Erro: %s%n",
-                        process, now.format(dateFormat), e.getMessage());
+                String erro = String.format("%s - Ocorreu uma falha no procedimento '%s'. Erro: %s\n",
+                        now.format(dateFormat), process, e.getMessage());
+                logs.add(erro);
+                System.err.print(erro);
                 Thread.currentThread().interrupt();
             }
         }
 
         now = LocalDateTime.now();
-        System.out.printf("Operação finalizada! [%s]%n", now.format(dateFormat));
+        String fim = String.format("%s - Operação finalizada!\n", now.format(dateFormat));
+        logs.add(fim);
+        System.out.print(fim);
+    }
+
+    public static void consultarLog(String processo) {
+        System.out.println("\n=== Consulta de Logs ===");
+        boolean encontrado = false;
+        for (String log : logs) {
+            if (log.toLowerCase().contains(processo.toLowerCase())) {
+                System.out.print(log);
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("Nenhum log encontrado para o processo: " + processo);
+        }
     }
 }
