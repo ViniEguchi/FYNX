@@ -21,6 +21,7 @@ h1 {
 h2 {
     font-size: 26px;
     font-weight: 600;
+    color: #04251F;
 }
 
 h3 {
@@ -71,6 +72,8 @@ section{
     color: var(--secondary-text-color);
     max-width: 330px;
 }
+
+
 
 .primary_button {
     border-radius: 8px;
@@ -146,7 +149,6 @@ header .container {
 }
 
 .navbar {
-    display: flex;
     display: none;
 }
 
@@ -230,7 +232,6 @@ img.logo_navbar.mobile{
 img.logo_navbar {
     width: 35%;
     max-width: 150px;
-    /* margin: 0 auto; */
     padding: 30px 0;
 }
 
@@ -308,16 +309,6 @@ section .content {
     border-radius: 8px;
 }
 
-
-/* .image-container {
-    display: none;
-} */
-
-/* .image-container-q {
-    display: flex;
-} */
-
-
 .border-3d::before {
     content: "";
     position: absolute;
@@ -346,6 +337,10 @@ section .content {
 
 .about_us .content h2 {
     font-weight: 700;
+}
+
+#button_contato_desktop{
+    display: none;
 }
 
 .solution {
@@ -411,12 +406,13 @@ section .content {
     display: none;
 }
 
-.contact_us {
+.container.contact_us {
     background-color: var(--secondary-color);
+    flex-direction: column;
 }
 
 .form_contact {
-    width: 100%;
+    width: 90%;
     align-items: center;
 }
 
@@ -425,6 +421,14 @@ section .content {
     flex-direction: column;
     gap: 24px;
     width: 100%;
+}
+
+
+.form-group .primary_button{
+    display: none;
+}
+.form-group .secondary_button{
+    margin: 0 auto;
 }
 
 .form-group {
@@ -481,7 +485,13 @@ footer ul {
 
 
 @media (min-width: 625px) {
-    
+
+    h2{
+        font-size: 2.5rem;
+    }
+    .solution .content h2 {
+        font-size: 2.5rem;
+    }
     .presentation .image-container {
         display: block;
     }
@@ -499,9 +509,185 @@ footer ul {
     .content{
         padding: 32px;
     }
+    .about_us .container-texto{
+        width: 40%;
+    }
+
+    
+    section .content.about_us {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .about_us .container-texto{
+        width: 40%;
+    }
+
+    #button_contato_desktop{
+        display: block;
+    }
+    #button_contato_mobile{
+        display: none;
+    }
+
+    .about_us .content .image-container{
+        width: 100%;
+    }
+
+    .texto_contato{
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 38%;
+    }
+
+    .contato_list{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    span.texto_contato {
+        width: 50%;
+    }
+
+    .content.form_contact {
+        /* width: 90%; */
+        flex-direction: row;
+    }
+
+    .formulario{
+        padding: 20px;
+        border: solid 1px black;
+        background-color: #04251F;
+        border-radius: 8px;
+        width: 50%;
+        max-width: 400px;
+    }
+
+    .form-group{
+        color: white;
+    }
+
+    .form-group .secondary_button{
+        display: none;
+    }
+
+    .form-group .primary_button{
+        display: block;
+        margin: 0 auto;
+    }
+
+    .container {
+        justify-content: center;
+    }
+    
+    img.logo_footer {
+        width: 15%;
+    }
+    .footer_content{
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
 }
 
 @media (min-width: 1025px) {
+    section .content {
+        gap: 80px;
+    }
+    .content {
+        padding: 32px 82px;
+    }
 
+    .header {
+        padding: 8px 82px;
+    }
+    #sidebar, #menuButton{
+        display: none;
+    }
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
 
+    .navbar {
+        list-style: none;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .navbar li {
+        border-bottom: none;
+        display: flex;
+        width: auto;
+        padding: 10px;
+    }
+    .navbar a {
+        color: var(--primary-color);
+        padding: 0px;
+    }
+
+    img.logo_navbar {
+        padding: 0;
+    }
+    .buttons {
+        margin-top: 0;
+        width: auto;
+        gap: 8px;
+        margin-left: 16px;
+    }
+
+    .button_login ,.button_cadastrar{
+        max-height: 30px;
+    }
+    .button_login {
+        border-radius: 8px;
+        border: solid 2px var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button_cadastrar {
+        background-color: var(--primary-color);
+        padding: 4px 23px;
+    }
+
+    .button_cadastrar a {
+        color: var(--secondary-text-color) !important;
+    }
+
+    .content.banner_mensagem {
+        width: 45%;
+        margin-left: 32px;
+    }
+
+    .image-container {
+        max-width: 40%;
+    }
+
+    .content.form_contact {
+        justify-content: center;
+        width: 84%;
+    }
+
+    .contato_list{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .solucoes {
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .solucoes li {
+        width: 32%;
+    }
+    .contact_us h2{
+        margin: 10px 0 ;
+    }
 }
