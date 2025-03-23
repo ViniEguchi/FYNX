@@ -29,20 +29,15 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
 
 a {
     text-decoration: none;
 }
 
-
 .form-container .a{
     text-decoration: none;
 }
-
-
-
 
 h1 {
     font-weight: bold;
@@ -50,7 +45,6 @@ h1 {
     text-align: center;
     color: #333;
     text-decoration: none !important;
-
 }
 
 .input-container {
@@ -71,7 +65,7 @@ h1 {
 .input-container input {
     width: 100%;
     padding: 17px;
-    padding-left: 45px; 
+    padding-left: 45px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -95,38 +89,18 @@ h1 {
     color: #04251F;
 }
 
-    
 button {
     padding: 13px;
     font-size: 18px;
     width: 70%;
-    margin: 20px auto 0; 
-    display: block; 
+    margin: 20px auto 0;
+    display: block;
     color: white;
     background-color: #04251F;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
-}
-  
-
-
-.form-tela{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-
-}
-
-.form-tela img{
-    width: 50%;
-    height: 50%;
-}
-
-.form-tela .a{
-    text-decoration: none;
 }
 
 button:hover {
@@ -148,7 +122,7 @@ p a:hover {
     text-decoration: underline;
 }
 
-.input-container #cep {
+.input-container #input_cep {
     width: 70%;
 }
 
@@ -157,11 +131,11 @@ p a:hover {
     display: inline-block;
 }
 
-.input-container #bairro {
+.input-container #input_bairro {
     width: 70%;
 }
 
-.input-container #numero {
+.input-container #input_numero {
     width: 28%;
     display: inline-block;
 }
@@ -172,7 +146,7 @@ p a:hover {
 
 .header-tela2 {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     width: 100%;
     position: relative;
@@ -187,10 +161,29 @@ p a:hover {
 
 .header-tela2 img {
     position: absolute;
-    right: 0; 
-    cursor: pointer; 
+    right: 0;
+    cursor: pointer;
 }
 
+.header-tela1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.header-tela1 h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.header-tela1 i {
+    font-size: 24px;
+    color: #04251F;
+    cursor: pointer;
+}
 
 .input-container .half-input {
     width: 48%;
@@ -202,6 +195,7 @@ p a:hover {
     margin-right: 0;
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
     .container {
         width: 95%;
@@ -228,6 +222,22 @@ p a:hover {
     }
 }
 
+.alinhar_btn_voltar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#cadastro{
+    align-self: center;
+    margin-left: 137px;
+}
+
+.alinhar_btn_voltar img {
+    margin-bottom: 15px;
+}
+
 @media (max-width: 480px) {
     .container {
         width: 100%;
@@ -242,12 +252,12 @@ p a:hover {
 
     .input-container input {
         font-size: 14px;
-        padding: 10px; 
-        padding-left: 30px; 
+        padding: 10px;
+        padding-left: 30px;
     }
 
     .input-container i {
-        font-size: 14px; 
+        font-size: 14px;
         left: 8px;
     }
 

@@ -24,14 +24,14 @@
 <body>
   <header class="header">
     <div class="container">
-      <!-- <h1 class="titulo">FYNX</h1> -->
-      <img src="assets/imgs/logo_original2.png" alt="" class="logo_inicial">
+
+      <img src="assets/imgs/logo_original2.png" alt="" class="logo_navbar">
       <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
       <ul class="navbar sidebar" id="sidebar">
         <button class="close-btn" onclick="toggleMenu()">✖</button>
-        <li>
-          <img src="assets/imgs/logo_white.svg" alt="" class="logo_navbar">
-
+        <li class="container_logo_mobile">
+          <img src="assets/imgs/logo_white.svg" alt="" class="logo_navbar mobile">
         </li>
         <li><a href="#">O que fazemos?</a></li>
         <li><a href="#">O que oferecemos</a></li>
@@ -70,31 +70,33 @@
         <span>Bem-vindo à FYNX! Sua plataforma inteligente para entender e antecipar as tendências de pagamento no
           universo do microcrédito.</span>
 
-        <div class="primary_button"><a href="#"> Conheça nossa solução</a></div>
+        <div class="primary_button button"><a href="#"> Conheça nossa solução</a></div>
       </div>
     </div>
   </div>
 
   <main>
     <section class="container presentation">
-      <div class="content solutions">
-        <h2>Análises Estratégicas</h2>
+      <div class="content presentation">
 
-        <span>Com a FYNX, instituições financeiras e fintechs conseguem identificar padrões e oportunidades no mercado
-          de microcrédito voltado para ME e MEIs.<br><br>
-          Nossa solução transforma dados em insights detalhados, proporcionando uma análise estratégica que torna o
-          crédito mais seguro, acessível e alinhado às necessidades do mercado.
-        </span>
-
-        <ul class="beneficios">
-          <li>Identificação de oportunidades</li>
-          <li>Análise para maximização de lucro no microcrédito</li>
-          <li>Crescimento sustentável</li>
-        </ul>
-        <div class="secondary_button margin-auto"><a href="#">Saiba mais</a></div>
-
-        <div class="image-container-desktop border-3dd">
+        <div class="image-container border-3d">
           <img src="assets/imgs/businessman-using-mobile-phone.jpg" alt="">
+        </div>
+        <div class="container-texto">
+          <h2>Análises Estratégicas</h2>
+
+          <span>Com a FYNX, instituições financeiras e fintechs conseguem identificar padrões e oportunidades no mercado
+            de microcrédito voltado para ME e MEIs.<br><br>
+            Nossa solução transforma dados em insights detalhados, proporcionando uma análise estratégica que torna o
+            crédito mais seguro, acessível e alinhado às necessidades do mercado.
+          </span>
+
+          <ul class="beneficios">
+            <li>Identificação de oportunidades</li>
+            <li>Análise para maximização de lucro no microcrédito</li>
+            <li>Crescimento sustentável</li>
+          </ul>
+          <div class="secondary_button button margin-auto button"><a href="#">Saiba mais</a></div>
         </div>
       </div>
 
@@ -118,7 +120,7 @@
             <li>Análises preditivas</li>
             <li>Integração fácil</li>
           </ul>
-          <div class="secondary_button margin-auto"><a href="#">Conheça nossa proposta</a></div>
+          <div class="secondary_button button margin-auto"><a href="#">Conheça nossa proposta</a></div>
         </div>
       </div>
     </section>
@@ -126,7 +128,7 @@
     <section class="container about_us">
       <div class="content about_us">
 
-        <div class="container-text">
+        <div class="container-texto">
           <h2>Quem somos?</h2>
           <span>
             A FYNX é uma solução inovadora para análise de tendências no microcrédito, ajudando instituições financeiras
@@ -134,11 +136,12 @@
             inteligência de dados para apoiar fintechs e financeiras na tomada de decisões assertivas.
           </span>
 
+          <div class="secondary_button button margin-auto" id="button_contato_desktop"><a href="#">Entre em contato</a></div>
         </div>
         <div class="image-container">
-          <img src="assets/imgs/Group 40.png" alt="" class="image-container-q">
+          <img src="./assets/imgs/Group 40.png" alt="" class="image-container-q">
         </div>
-        <div class="secondary_button margin-auto"><a href="#">Entre em contato</a></div>
+        <div class="secondary_button button margin-auto" id="button_contato_mobile"><a href="#">Entre em contato</a></div>
       </div>
     </section>
 
@@ -146,24 +149,11 @@
       <div class="content">
 
         <h2>Sua solução para análise de crédito</h2>
-        <ul class="solucoes">
-          <li>
-            <div class="container-text" id="an">
-              <h3>
-                Análise rápida de crédito
-              </h3>
-              <span>
-                Aproveite um processo ágil e automatizado para avaliar investimentos à concessão de microcrédito para ME
-                e MEIs
-              </span>
-            </div>
-            <div class="container_icon_solution" id="ann">
-              <img src="./assets/icon/icon_credit.png" alt="" class="icon_solution">
+        <ul class="solucoes color_text_alternative">
+          
 
-            </div>
-          </li>
           <li>
-            <div class="container-text">
+            <div class="container-texto">
               <h3>
                 Confiabilidade para seu negócio
               </h3>
@@ -174,11 +164,26 @@
 
             <div class="container_icon_solution">
               <img src="./assets/icon/icon_check.png" alt="" class="icon_solution">
-
             </div>
           </li>
           <li>
-            <div class="container-text">
+            <div class="container-texto">
+              <h3>
+                Análise rápida de crédito
+              </h3>
+              <span>
+                Aproveite um processo ágil e automatizado para avaliar investimentos à concessão de microcrédito para ME
+                e MEIs
+              </span>
+            </div>
+            <div class="container_icon_solution">
+              <img src="./assets/icon/icon_credit.png" class="icon_solution">
+            </div>
+
+          </li>
+          
+          <li>
+            <div class="container-texto">
               <h3>
                 Segurança
               </h3>
@@ -189,11 +194,10 @@
 
             <div class="container_icon_solution">
               <img src="./assets/icon/icon_dashboard.png" alt="" class="icon_solution">
-
             </div>
           </li>
           <li>
-            <div class="container-text">
+            <div class="container-texto">
               <h3>
                 Escalabilidade
               </h3>
@@ -202,7 +206,7 @@
               </span>
             </div>
 
-            <div class="container_icon_solution icon_growth" id="es">
+            <div class="container_icon_solution">
               <img src="./assets/icon/icon_growth.png" alt="" class="icon_solution">
 
             </div>
@@ -213,9 +217,10 @@
     </section>
 
     <section class="container contact_us">
+      
+      <h2>Fale Conosco</h2>
+      
       <div class="content form_contact">
-        <h2>Fale Conosco</h2>
-
         <div class="formulario">
           <div class="form-group">
             <label for="name">Nome:</label>
@@ -231,17 +236,29 @@
             <label for="message">Mensagem:</label>
             <textarea id="message" placeholder="Digite sua mensagem"></textarea>
           </div>
+          <div class="form-group">
+            <div id="submit-btn" class="secondary_button button">Enviar</div>
+            <div id="submit-btn" class="primary_button button">Enviar</div>
+          </div>
         </div>
-        <div id="submit-btn" class="secondary_button" style="margin-left: 1%;">Enviar</div>
+
+        <div class="texto_contato">
+          <span  style="text-align: center;">
+            Quer saber mais sobre a FYNX e como nossa solução pode ajudar na análise de tendências para ME e MEIs? Nossa
+            equipe está pronta para tirar dúvidas e apresentar as melhores opções para sua instituição financeira ou
+            fintech.
+          </span>
+  
+          <ul class="contato_list">
+            <li>(11) 99999-9999 <br></li>
+            <li>contato@fynx.com.br <br></li>
+            <li>Rua Haddock Lobo - 595 <br></li>
+          </ul>
+
+        </div>
+
       </div>
-      <span class="te">
-        Quer saber mais sobre a FYNX e como nossa solução pode ajudar na análise de tendências para ME e MEIs? Nossa
-        equipe está pronta para tirar dúvidas e apresentar as melhores opções para sua instituição financeira ou
-        fintech.<br><br><br><br>
-        (11) 99999-9999<br><br>
-        contato@fynx.com.br<br><br>
-        Rua Haddock Lobo - 595
-      </span>
+
     </section>
 
   </main>
