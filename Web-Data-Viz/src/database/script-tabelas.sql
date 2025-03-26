@@ -52,3 +52,43 @@ CREATE TABLE IF NOT EXISTS login (
 	FOREIGN KEY (fkFuncionario)
 		REFERENCES funcionario(idFuncionario)
 );
+
+CREATE TABLE IF NOT EXISTS log (
+	idLog INT PRIMARY KEY AUTO_INCREMENT,
+	data_hora DATETIME,
+	nome VARCHAR(50),
+	status_log INT,
+
+	CONSTRAINT chk_status_log CHECK (status_log = 1 AND status_log = 2)
+)
+
+/*
+	SINTAXES
+
+ADICIONAR COLUNA EM UMA TABELA
+	ALTER TABLE <tabela>
+	ADD <coluna> <tipo do dado>;
+
+DELETAR UMA COLUNA
+	ALTER TABLE <tabela>
+	DROP COLUMN <coluna>;
+
+ALTERAR O NOME DE UMA COLUNA
+	ALTER TABLE <tabela>
+	RENAME COLUMN <nome antigo> to <nome novo>;
+
+ALTERAR O TIPO DE UMA COLUNA
+	ALTER TABLE <tabela>
+	MODIFY COLUMN <coluna> <tipo do dado>;
+
+ADIÇÃO DE CHECK
+	ALTER TABLE <tabela>
+	ADD CONSTRAINT <nome check> CHECK (Age>=18 AND City='Sandnes');
+
+ADIÇÃO DE FOREING KEY
+	ALTER TABLE <tabela>
+	ADD CONSTRAINT <nome foreing key>
+	FOREIGN KEY (<foreing key>) REFERENCES <Tabela referencia>(<id Referencia>);
+
+
+*/
