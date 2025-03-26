@@ -4,7 +4,7 @@
     --tamanho-simulador: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
     --tamanho-login: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
     --tamanho-footer: 65px;
-    --primary-color: #04251F;
+    --primary-color: #04251f;
     --secondary-color: #d1e7d6;
     --secondary-text-color: #ffffff;
     --tertiary-text-color: #B9B9B9;
@@ -68,6 +68,7 @@ section{
     margin-top: 8px;
     padding: 13px 23px;
     width: 70%;
+    height: 100%;
     border-radius: 8px;
     color: var(--secondary-text-color);
     max-width: 330px;
@@ -79,11 +80,26 @@ section{
     border-radius: 8px;
     border: solid 2px #ffffff;
     background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.primary_button:hover {
+    background-color: var(--secondary-text-color);
+    color: var(--primary-color);
 }
 
 .secondary_button {
     background-color: var(--primary-color);
     font-weight: 700;
+    transition: all 0.3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+
+.secondary_button:hover {
+    box-shadow: 0 0 15px rgba(4, 37, 31, 0.8), 
+                0 0 20px rgba(4, 37, 31, 0.5);
 }
 
 .button_cadastrar a {
@@ -98,6 +114,15 @@ section{
     justify-content: center;
 }
 
+.buttons a {
+    cursor: pointer;
+}
+
+.buttons a:hover {
+    border: none !important;
+}
+
+
 .button_login {
     border-radius: 8px;
     border: solid 2px #ffffff;
@@ -106,12 +131,15 @@ section{
     width: 30%;
     padding: 8px 23px;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .button_cadastrar {
     text-align: center;
     border-radius: 8px;
     background-color: var(--secondary-text-color);
+    color: var(--primary-color);
     width: 30%;
     padding: 4px 23px;
     font-weight: 700;
@@ -119,6 +147,14 @@ section{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.button_login:hover,
+.button_cadastrar:hover {
+    transform: scale(1.05);
 }
 
 .content h2 {
@@ -236,7 +272,6 @@ img.logo_navbar {
 }
 
 .navbar a {
-    color: var(--secondary-text-color);
     text-decoration: none;
     display: block;
     padding: 10px;
@@ -459,6 +494,7 @@ footer {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 500px;
     gap: 50px;
 }
 
@@ -626,6 +662,10 @@ footer ul {
     .navbar a {
         color: var(--primary-color);
         padding: 0px;
+    }
+
+    .navbar a:hover {
+        border-bottom: 2px var(--primary-color) solid;
     }
 
     img.logo_navbar {
