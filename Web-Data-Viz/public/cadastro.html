@@ -1,212 +1,485 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>AquaTech | Cadastro</title>
-
-  <script src="./js/sessao.js"></script>
-
-  <link rel="stylesheet" href="./css/estilo.css" />
-  <link rel="icon" href="./assets/icon/favicon2.ico" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
+<body>
 
-<body onload="listar()">
-  <!--header inicio-->
-  <div class="header">
-    <div class="container">
-      <h1 class="titulo">AquaTech</h1>
-      <ul class="navbar">
-        <li>
-          <a href="index.html">Inicial</a>
-        </li>
-        <li>
-          <a href="simulador.html">Simulador</a>
-        </li>
-        <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li class="agora">
-          <a href="#">Cadastro</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!--header fim-->
+    <style>
+        #div_mensagem {
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
+    }   
 
-  <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
-    </div>
-    <div class="container">
-      <div class="card card-cadastro">
-        <h2>Bem-vindo!</h2>
-        <div class="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
-          <div class="campo">
-            <span>Código de ativação:</span>
-            <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
-          </div>
-          <div class="campo">
-            <span>Nome:</span>
-            <input id="nome_input" type="text" placeholder="Seu nome" />
-          </div>
-          <div class="campo">
-            <span>E-mail:</span>
-            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
-          </div>
-          <div class="campo">
-            <span>Senha:</span>
-            <input id="senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Confirmação da Senha:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
-          <button class="botao" onclick="cadastrar()">Cadastrar</button>
-        </div>
-        <div id="div_aguardar" class="loading-div">
-          <img src="./assets/circle-loading.gif" id="loading-gif" />
-        </div>
-
-        <div id="div_erros_login"></div>
-      </div>
-    </div>
-  </div>
-
-  <!--footer inicio-->
-  <div class="footer">
-    <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-      <span class="version">v1.0.0</span>
-    </div>
-  </div>
-  <!--footer fim-->
-</body>
-
-</html>
-
-<script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
-
-  function cadastrar() {
-    // aguardar();
-
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular
-
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
-
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
+    #div_mensagem2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
     }
+    </style>
+    <div class="container">
+        <div class="form-container">
 
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
-    }
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
+            <div class="form-tela" id="tela1">
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+                <div class="alinhar_btn_voltar">
+                    <h1 id="cadastro">Cadastro</h1>
+                    <a href="index.html">
+                        <img src="assets/btn_voltar.png" alt="">
+                    </a>
+                </div>
+                
+                <div class="input-container">
+                    <i class="fa-solid fa-building"></i>
+                    <input type="text" id="input_cnpj" placeholder="CNPJ" oninput="validarCNPJ()">
+                    
+                </div>
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+                <div class="input-container">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <input type="text" id="input_razao_social" placeholder="Razão Social"  oninput="validarRazaoSocial()">
+                </div>
 
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
+                <div class="input-container">
+                    <i class="fas fa-industry"></i>
+                    <input type="text" id="input_nome_fantasia" placeholder="Nome fantasia" oninput="validarNomeFantasia()">
+                </div>
 
-          limparFormulario();
-          finalizarAguardar();
+                <div class="input-container">
+                    <i class="fas fa-user-tie"></i>
+                    <input type="responsavel" id="input_responsavel" placeholder="Responsável" oninput="validarResponsavel()">
+                </div>
+
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i>
+                    <input class="main-input" id="input_email" placeholder="E-mail" type="text" oninput="validarEmail()" />
+                </div>
+                <div class="input-container">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="input_senha" placeholder="Senha" oninput="validarSenha()">
+                </div>
+                <div id="div_mensagem"></div>
+
+
+                <button onclick="nextScreen()">Próximo</button>
+                <p>Já possui uma conta? <a href="login.html">Entre agora</a></p>
+            </div>
+
+            <div class="form-tela" id="tela2" style="display: none;">
+                <div class="header-tela2">
+                    <h1>Quase lá...</h1>
+                </div>
+
+                <div class="input-container">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <input id="input_cep"  type="text" placeholder="CEP" oninput="validarCEP()">
+                    <i id="alinhar_i" class="fas fa-globe"></i>
+                    <input  id="uf" type="text" placeholder="UF" >
+                </div>
+    
+                <div class="input-container">
+                    <i class="fas fa-map"></i>
+                    <input id="input_estado" type="text" placeholder="Estado" oninput="validarEstado()">
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-road"></i>
+                    <input  id="input_logradouro" type="text" placeholder="Logradouro" oninput="validarRua()">
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-building"></i>
+                    <input id="input_bairro" type="text" placeholder="Bairro" oninput="validarBairro()" >
+                    <i id="alinhar_i" class="fas fa-door-open"></i>
+                    <input id="input_numero" type="text" placeholder="Número" oninput="validarNumero()">
+                </div>
+
+                <div id="div_mensagem2"></div>
+
+                <button onclick="cadastrar()">Finalizar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+    function nextScreen() {
+
+    if (correto == false) {
+            document.getElementById('tela1').style.display = 'none';
+            document.getElementById('tela2').style.display = 'block';
         } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
+            alert("Por favor, corrija os erros antes de prosseguir.");
         }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
+    }
 
-    return false;
-  }
+        function voltarTela() {
+        document.getElementById('tela2').style.display = 'none';
+        document.getElementById('tela1').style.display = 'block';
+        }
 
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
+        var listaEmpresasCadastradas = [];
+        var correto = true;
 
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
+        function cadastrar() {
+    correto = true;
+
+    validarCNPJ();
+    validarRazaoSocial();
+    validarNomeFantasia();
+    validarResponsavel();
+    validarEmail();
+    validarSenha();
+    validarCEP();
+    validarEstado();
+    validarBairro();
+    validarRua();
+    validarNumero();
+
+    if (correto === true) {
+        var responsavelVar = input_responsavel.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+        var cnpjVar = input_cnpj.value;
+        var razaoSocialVar = input_razao_social.value;
+        var nomeFantasiaVar = input_nome_fantasia.value;
+        var cepVar = input_cep.value;
+        var bairroVar = input_bairro.value;
+        var logradouroVar = input_logradouro.value;
+        var estadoVar = input_estado.value;
+        var numeroVar = input_numero.value;
+        var ufVar = uf.value;
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                responsavelServer: responsavelVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                cnpjServer: cnpjVar,
+                razaoSocialServer: razaoSocialVar,
+                nomeFantasiaServer: nomeFantasiaVar,
+                cepServer: cepVar,
+                bairroServer: bairroVar,
+                logradouroServer: logradouroVar,
+                numeroServer: numeroVar,
+                estadoServer: estadoVar,
+                ufServer: ufVar
+            }),
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                console.log("Cadastro realizado com sucesso!");
+                div_mensagem.innerHTML = "<span style='color: green;'>Cadastro realizado com sucesso!</span>";
+            } else {
+                div_mensagem.innerHTML = "<span style='color: red;'>Erro ao cadastrar. Tente novamente.</span>";
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro:", erro);
+            div_mensagem.innerHTML = "<span style='color: red;'>Erro ao conectar ao servidor.</span>";
         });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
+    } else {
+        alert("Por favor, corrija os erros antes de prosseguir.");
+    }
+}
 
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
-</script>
+    var isEmail = false;
+  var isSenha = false;
+  var mensagem_error_email = "";
+  function validarCNPJ() {
+    var cnpj = input_cnpj.value;
+    var tamanho_cnpj = cnpj.length;
+    var possui_traco = cnpj.includes("-");
+    var possui_barra = cnpj.includes("/");
+    var possui_ponto = cnpj.includes(".");
+    var mensagem = "";
+
+    if (possui_traco || possui_barra || possui_ponto) {
+        input_cnpj.style.borderColor = "red";
+        mensagem += "Por favor, insira o CNPJ sem pontos, traços ou barras. Caracteres inválidos encontrados. <br>";
+        correto = false;
+    }
+
+     else if (tamanho_cnpj !== 14) {
+        input_cnpj.style.borderColor = "red";
+        mensagem += "O CNPJ deve possuir exatamente 14 números. <b>Você digitou " + tamanho_cnpj + " números.</b> <br>";
+        correto = false;
+    } else if (tamanho_cnpj == 14) {
+        input_cnpj.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>CNPJ válido</span><br>";
+    } else if (possui_traco || possui_barra || possui_ponto) {
+        input_cnpj.style.borderColor = "red";
+        mensagem += "Por favor, insira o CNPJ sem pontos, traços ou barras. Caracteres inválidos encontrados. <br>";
+        correto = false;
+    }
+    div_mensagem.innerHTML = mensagem;
+}
+
+function validarRazaoSocial() {
+    var razao_social = input_razao_social.value;
+    var tamanho_razao = razao_social.length;
+    var mensagem = "";
+
+    if (tamanho_razao < 3) {
+        input_razao_social.style.borderColor = "red";
+        mensagem += "A razão social deve ter pelo menos 3 caracteres. <b>Atualmente, possui " + tamanho_razao + " caracteres. </b><br>";
+        correto = false;
+    } else {
+        input_razao_social.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Razão social válida</span>";
+    }
+    div_mensagem.innerHTML = mensagem;
+}
+
+function validarNomeFantasia() {
+    var nome_fantasia = input_nome_fantasia.value;
+    var tamanho_fantasia = nome_fantasia.length;
+    var mensagem = "";
+
+    if (tamanho_fantasia < 3) {
+        input_nome_fantasia.style.borderColor = "red";
+        mensagem += "O nome fantasia deve ter pelo menos 3 caracteres. <b>Você digitou apenas " + tamanho_fantasia + " caracteres. </b><br>";
+        correto = false;
+    } else {
+        input_nome_fantasia.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Nome fantasia válido</span>";
+    }
+    div_mensagem.innerHTML = mensagem;
+}
+
+function validarResponsavel() {
+    var responsavel = input_responsavel.value;
+    var tamanho_responsavel = responsavel.length;
+    var possui_1 = input_responsavel.value.includes("1")
+    var possui_2 = input_responsavel.value.includes("2")
+    var possui_3 = input_responsavel.value.includes("3")
+    var possui_4 = input_responsavel.value.includes("4")
+    var possui_5 = input_responsavel.value.includes("5")
+    var possui_6 = input_responsavel.value.includes("6")
+    var possui_7 = input_responsavel.value.includes("7")
+    var possui_8 = input_responsavel.value.includes("8")
+    var possui_9 = input_responsavel.value.includes("9")
+    var possui_0 = input_responsavel.value.includes("0")
+    var mensagem = "";
+
+    if (possui_1 || possui_2 || possui_3 || possui_4 || possui_5 || possui_6 || possui_7 || possui_8 || possui_9 || possui_0 ) {
+        input_responsavel.style.borderColor = "red";
+        mensagem += "O nome do responsável não pode conter números.  <b>Por favor, remova os dígitos numéricos.</b> <br>";
+        correto = false;
+    } 
+    else if (tamanho_responsavel <= 3) {
+        input_responsavel.style.borderColor = "red";
+        mensagem += "O nome do responsável deve ter pelo menos 3 caracteres. <b>Você digitou " + tamanho_responsavel + " caracteres. </b><br>";
+        correto = false;
+    } else {
+        input_responsavel.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Nome do responsável válido</span>";
+    }
+    div_mensagem.innerHTML = mensagem;
+}
+
+function validarEmail() {
+    var email = input_email.value;
+    email = email.toLowerCase();
+    var mensagem = "";
+
+    var comeca_ponto = email.startsWith('.');
+    var ponto_ponto = email.includes('..');
+    var arroba_ponto = email.includes('@.');
+    var termina_com = email.endsWith('.com');
+    var termina_br = email.endsWith('.br');
+    var termina_school = email.endsWith('.school')
+    var possui_arroba = email.includes('@');
+    var possui_barra = email.includes('\\');
+    var possui_barra_direita = email.includes('/');
+    var possui_aspas = email.includes('"');
+
+    if(ponto_ponto){
+        input_email.style.borderColor = "red";
+        correto = false;
+      mensagem_error_email += "Não pode ter .. no email<br>"
+    }
+    if(arroba_ponto){
+        input_email.style.borderColor = "red";
+
+        correto = false;
+      mensagem += " Não pode ter @. no email<br>"
+    }
+    if (possui_barra) {
+        input_email.style.borderColor = "red";
+
+        correto = false;
+        mensagem += "Não pode ter \\ no email<br>"
+    }
+    if (possui_barra_direita) {
+        input_email.style.borderColor = "red";
+
+        correto = false;
+        mensagem += "Não pode ter / no emai<br>"
+    }
+    if (possui_aspas) {
+        input_email.style.borderColor = "red";
+        correto = false;
+        mensagem += `Não pode ter " no emai<br>`
+    }
+    
+    if (comeca_ponto) {
+        input_email.style.borderColor = "red";
+        correto = false;
+        mensagem += " Não pode ter . no início no emai<br>"
+    }
+    
+    if (!termina_br && !termina_com && !termina_school) {
+        input_email.style.borderColor = "red";
+        correto = false;
+        mensagem += "O e-mail deve terminar com .com, .br ou .school<br>"
+    }
+    if (!possui_arroba) {
+        input_email.style.borderColor = "red";
+        correto = false;
+        mensagem += " Inclua '@' no e-mail.<br> ";
+    } 
+    if (!possui_arroba || (!termina_com && !termina_br && !termina_school)) {
+    input_email.style.borderColor = "red";
+    mensagem += "Certifique-se de que o e-mail contém '@' e termina com '.com', '.br' ou '.school'.<br>";
+    correto = false;
+    }
+    else {
+        input_email.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Email válido</span>";
+    }
+    div_mensagem.innerHTML = mensagem;
+}
+
+
+
+function validarCEP() {
+    var cep = input_cep.value;
+    var tamanho_cep = cep.length;
+    var mensagem = "";
+
+    if (tamanho_cep !== 8) {
+        input_cep.style.borderColor = "red";
+        mensagem += "O CEP deve ter exatamente 8 dígitos. <b> Você digitou " + tamanho_cep + " dígitos. </b><br>";
+        correto = false;
+    } else {
+        input_cep.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>CEP válido</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+}
+
+function validarEstado() {
+    var estado = input_estado.value;
+    var mensagem = "";
+
+    if (estado.length < 6) {
+        input_estado.style.borderColor = "red";
+        mensagem += "Nome de estado inválido.<br>";
+        correto = false;
+    } else {
+        input_estado.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Estado válido</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+}
+
+function validarBairro() {
+    var mensagem = "";
+    var bairro = input_bairro.value;
+
+    if (bairro.length <= 0) {
+        input_bairro.style.borderColor = "red";
+        mensagem += "Por favor, insira o nome do bairro. <br>";
+        correto = false;
+    } else {
+        input_bairro.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Bairro válido</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+}
+
+function validarRua() {
+    var mensagem = "";
+    var rua = input_logradouro.value;
+
+    if (rua.length <= 0) {
+        input_logradouro.style.borderColor = "red";
+        mensagem += "Por favor, insira o nome da rua. <br>";
+        correto = false;
+    } else {
+        input_logradouro.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Rua válida</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+}
+function validarNumero() {
+    var mensagem = "";
+    var numero = input_numero.value;
+
+    if (numero.length <= 0) {
+        input_numero.style.borderColor = "red";
+        mensagem += "Por favor, insira um número. <br>";
+        correto = false;
+    } else {
+        input_numero.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Número válido</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+}
+
+function validarSenha() {
+    var senha = input_senha.value;
+    var mensagem = "";
+    var tem_especial = senha.includes("!") || senha.includes("@") || senha.includes("#") ||
+                       senha.includes("$") || senha.includes("%") || senha.includes("&");
+    
+    var possui_numero = senha.includes("0") || senha.includes("1") || senha.includes("2") ||
+                        senha.includes("3") || senha.includes("4") || senha.includes("5") ||
+                        senha.includes("6") || senha.includes("7") || senha.includes("8") ||
+                        senha.includes("9");
+    
+    var temMaiuscula = senha != senha.toLowerCase();
+    var temMinuscula = senha != senha.toUpperCase();
+    
+    var correto = true;
+
+    if (senha.length < 6) {
+        input_senha.style.borderColor = "red";
+        mensagem += "A senha precisa de ao menos 6 caracteres.<br><b>Atualmente, possui " + senha.length + " caracteres.</b><br>";
+        correto = false;
+    } else if (senha.length > 6 && tem_especial && possui_numero && temMaiuscula && temMinuscula) {
+        input_senha.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Senha válida</span>";
+    } else {
+        mensagem += "A senha precisa ter:<br>" +
+                    "- Ao menos um caractere especial (! @ # $ % &)<br>" +
+                    "- Ao menos uma letra maiúscula<br>" +
+                    "- Ao menos um numero <br>" +
+                    "- Ao menos uma letra minúscula";
+        input_senha.style.borderColor = "red";
+        correto = false;
+    }
+    
+    div_mensagem.innerHTML = mensagem;
+}
+
+
+
+
+        div_mensagem.innerHTML  = "";
+
+
+
+        
+    </script>
+</body>
+</html>

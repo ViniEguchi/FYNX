@@ -1,0 +1,273 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('../assets/background_cadastro.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 450px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.form-container .a{
+    text-decoration: none;
+}
+
+h1 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    text-decoration: none !important;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-container i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 16px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 17px;
+    padding-left: 45px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    background-color: #D9D9D9;
+    transition: all 0.3s;
+}
+
+.input-container input::placeholder {
+    color: #888;
+}
+
+.input-container input:focus {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #073f33;
+    outline: none;
+}
+
+.input-container input:focus + i {
+    color: #04251F;
+}
+
+button {
+    padding: 13px;
+    font-size: 18px;
+    width: 70%;
+    margin: 20px auto 0;
+    display: block;
+    color: white;
+    background-color: #04251F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #073f33;
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+p a {
+    color: #021814;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+.input-container #input_cep {
+    width: 70%;
+}
+
+.input-container #uf {
+    width: 28%;
+    display: inline-block;
+}
+
+.input-container #input_bairro {
+    width: 70%;
+}
+
+.input-container #input_numero {
+    width: 28%;
+    display: inline-block;
+}
+
+.input-container #alinhar_i {
+    margin-left: 72%;
+}
+
+.header-tela2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.header-tela2 h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.header-tela2 img {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+.header-tela1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.header-tela1 h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.header-tela1 i {
+    font-size: 24px;
+    color: #04251F;
+    cursor: pointer;
+}
+
+.input-container .half-input {
+    width: 48%;
+    display: inline-block;
+    margin-right: 4%;
+}
+
+.input-container .half-input:last-child {
+    margin-right: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .input-container input {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .input-container .half-input {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+.alinhar_btn_voltar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#cadastro{
+    align-self: center;
+    margin-left: 137px;
+}
+
+.alinhar_btn_voltar img {
+    margin-bottom: 15px;
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+        height: auto;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .input-container input {
+        font-size: 14px;
+        padding: 10px;
+        padding-left: 30px;
+    }
+
+    .input-container i {
+        font-size: 14px;
+        left: 8px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .input-container .half-input {
+        width: 100%;
+        margin-right: 0;
+    }
+}
