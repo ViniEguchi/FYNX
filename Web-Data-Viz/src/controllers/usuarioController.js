@@ -1,5 +1,7 @@
 var usuarioModel = require("../models/usuarioModel");
 var aquarioModel = require("../models/aquarioModel");
+var enderecoModel = require("../models/enderecoModel");
+var empresaModel = require("../models/empresaModel")
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -31,7 +33,9 @@ function autenticar(req, res) {
                                         aquarios: resultadoAquarios
                                     });
                                 } else {
-                                    res.status(204).json({ aquarios: [] });
+                                    res.status(204).json({
+                                        aquarios: []
+                                    });
                                 }
                             })
                     } else if (resultadoAutenticar.length == 0) {
@@ -53,38 +57,100 @@ function autenticar(req, res) {
 
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
+
+    var responsavel = req.body.responsavelServer
+    var email = req.body.emailServer
+    var senha = req.body.senhaServer
+    var cnpj = req.body.cnpjServer
+    var razaoSocial = req.body.razaoSocialServer
+    var nomeFantasia = req.body.nomeFantasiaServer
+    var cep = req.body.cepServer
+    var bairro = req.body.bairroServer
+    var logradouro = req.body.logradouroServer
+    var numero = req.body.numeroServer
+    var estado = req.body.estadoServer
+    var uf = req.body.ufServer
 
     // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+    if (responsavel == undefined) {
+        res.status(400).send("O responsável está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua empresa a vincular está undefined!");
+    } else if (cnpj == undefined) {
+        res.status(400).send("Seu CNPJ está undefined!");
+    } else if (razaoSocial == undefined) {
+        res.status(400).send("A razão social está undefined!");
+    } else if (nomeFantasia == undefined) {
+        res.status(400).send("O nome fantasia está undefined!");
+    } else if (cep == undefined) {
+        res.status(400).send("O CEP está undefined!");
+    } else if (bairro == undefined) {
+        res.status(400).send("O bairro está undefined!");
+    } else if (logradouro == undefined) {
+        res.status(400).send("O logradouro está undefined!");
+    } else if (numero == undefined) {
+        res.status(400).send("O número está undefined!");
+    } else if (estado == undefined) {
+        res.status(400).send("O estado está undefined!");
+    } else if (uf == undefined) {
+        res.status(400).send("A UF está undefined!");
     } else {
+        empresaModel.buscarPorCnpj(cnpj)
+            .then((resultadoCNPJ) => {
+                console.log(resultadoCNPJ.length == 0)
+                if(resultadoCNPJ.length == 0){
+                    empresaModel.cadastrar(responsavel, cnpj, razaoSocial, nomeFantasia)
+                    .then((resultadoCadastroEmpresa) => {
+                        var idEmpresa = resultadoCadastroEmpresa.insertId
+                        console.log(`Resultados empresa: ${JSON.stringify(resultadoCadastroEmpresa)}`);
+                        console.log(resultadoCadastroEmpresa.affectedRows > 0)
+                        if (resultadoCadastroEmpresa.affectedRows > 0) {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
+                            enderecoModel.cadastrar(idEmpresa, cep, logradouro, numero)
+                                .then((resultadoEnderecoModel) => {
+                                    console.log(`Resultados endereço: ${JSON.stringify(resultadoEnderecoModel)}`);
+
+                                    if (resultadoEnderecoModel.affectedRows > 0) {
+                                        usuarioModel.cadastrar(idEmpresa, responsavel)
+                                            .then((resultadoCadastroFuncionario) => {
+                                                var idFuncionario = resultadoCadastroFuncionario.insertId
+                                                console.log(`Resultados funcionario: ${JSON.stringify(resultadoCadastroFuncionario)}`);
+
+                                                if (resultadoCadastroFuncionario.affectedRows > 0) {
+                                                    usuarioModel.cadastrarLogin(idFuncionario, idEmpresa, email, senha)
+                                                        .then((resultadoCadastroLogin) => {
+                                                            console.log(`Resultados login: ${JSON.stringify(resultadoCadastroLogin)}`);
+                                                        })
+                                                }
+                                            })
+
+                                    }
+
+                                })
+
+                        }
+                        console.log(resultadoCadastroEmpresa);
+
+                    })
+                    .catch(
+                        function (erro) {
+                            console.log(erro);
+                            console.log(
+                                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                                erro.sqlMessage
+                            );
+                            res.status(500).json(erro.sqlMessage);
+                        }
                     );
-                    res.status(500).json(erro.sqlMessage);
+                }else{
+                    console.log("\nEmpresa ja existente!")
+                        res.status(400).json();
                 }
-            );
+
+            })
+
     }
 }
 
