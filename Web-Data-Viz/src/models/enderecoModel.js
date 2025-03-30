@@ -18,9 +18,9 @@ function buscarPorCep(cnpj) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(fkEmpresa, cep, logradouro, numero) {
+function cadastrar(fkEmpresa, cep, logradouro, numero,complemento) {
   var instrucaoSql = `INSERT INTO endereco (fkEmpresa, cep, logradouro, numero, complemento)
-    VALUES ('${fkEmpresa}', '${cep}', '${logradouro}', '${numero}', '');
+    VALUES ('${fkEmpresa}', '${cep}', '${logradouro}', '${numero}', '${complemento}');
   `;
 
   return database.executar(instrucaoSql);

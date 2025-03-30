@@ -213,10 +213,10 @@
 }
 
 
-    var isEmail = false;
-  var isSenha = false;
-  var mensagem_error_email = "";
-  function validarCNPJ() {
+var isEmail = false;
+var isSenha = false;
+var mensagem_error_email = "";
+function validarCNPJ() {
     var cnpj = input_cnpj.value;
     var tamanho_cnpj = cnpj.length;
     var possui_traco = cnpj.includes("-");
@@ -427,8 +427,6 @@ function validarEmail() {
     div_mensagem.innerHTML = mensagem;
 }
 
-
-
 function validarCEP() {
     var cep = input_cep.value;
     var tamanho_cep = cep.length;
@@ -445,12 +443,12 @@ function validarCEP() {
     var mensagem = "";
     var correto = true; 
 
-
     if (tamanho_cep !== 8) {
         input_cep.style.borderColor = "red";
         mensagem += "O CEP deve ter exatamente 8 dígitos. <b>Você digitou " + tamanho_cep + " dígitos.</b><br>";
         correto = false;
     } 
+
     else if(!(cep.includes("0") || cep.includes("1") || cep.includes("2") || cep.includes("3") || 
     cep.includes("4") || cep.includes("5") || cep.includes("6") || cep.includes("7") || 
     cep.includes("8") || cep.includes("9"))){
@@ -464,10 +462,6 @@ function validarCEP() {
     div_mensagem2.innerHTML = mensagem;
 
 }
-
-
-
-
 
 function validarEstado() {
     var estado = input_estado.value;
@@ -561,6 +555,7 @@ function validarComplemento(){
     div_mensagem2.innerHTML = mensagem;
 
 }
+
 function validarNumero() {
     var mensagem = "";
     var numero = input_numero.value;
@@ -619,14 +614,8 @@ function validarSenha() {
     div_mensagem.innerHTML = mensagem;
 }
 
+    div_mensagem.innerHTML  = "";
 
-
-
-        div_mensagem.innerHTML  = "";
-
-
-
-        
     </script>
 </body>
 </html> 
