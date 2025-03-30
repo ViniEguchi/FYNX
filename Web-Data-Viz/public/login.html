@@ -143,7 +143,7 @@
             if (emailVar === "" || senhaVar === "") {
 
                 document.getElementById("cardErro").style.display = "block";
-                document.getElementById("mensagem_erro").innerHTML = "(Mensagem de erro para todos os campos em branco)";
+                alert("Corrija os campos em branco")
 
                 document.getElementById('loading').style.display = 'none';
                 setTimeout(sumirMensagem, 5000);
