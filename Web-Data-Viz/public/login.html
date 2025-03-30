@@ -50,14 +50,11 @@
         </div>
     </div>
 
-
-
     <script>
         var isEmail = false;
         var isSenha = false;
         var mensagem_error_email = "";
-//
-    
+
         function validarEmail() {
             var email = document.getElementById("ipt_email").value;
             email = email.toLowerCase();
@@ -174,7 +171,7 @@
                             if (sessionStorage.TIPO_USUARIO === 'suporte') {
                                 window.location = "./dashboard/dash_suporte.html";
                             } else {
-                                window.location = "./dashboard/index.html";
+                                window.location = "./dashboard/dashboard.html";
                             }
                         }, 1000);
                     });
