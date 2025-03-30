@@ -22,7 +22,7 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
+                        empresaModel.buscarPorId(resultadoAutenticar[0].empresaId)
                             .then((resultadoAquarios) => {
                                 if (resultadoAquarios.length > 0) {
                                     res.json({
@@ -70,6 +70,7 @@ function cadastrar(req, res) {
     var numero = req.body.numeroServer
     var estado = req.body.estadoServer
     var uf = req.body.ufServer
+    var complemento = req.body.complementoServer
 
     // Faça as validações dos valores
     if (responsavel == undefined) {
@@ -108,7 +109,7 @@ function cadastrar(req, res) {
                         console.log(resultadoCadastroEmpresa.affectedRows > 0)
                         if (resultadoCadastroEmpresa.affectedRows > 0) {
 
-                            enderecoModel.cadastrar(idEmpresa, cep, logradouro, numero)
+                            enderecoModel.cadastrar(idEmpresa, cep, logradouro, numero,complemento)
                                 .then((resultadoEnderecoModel) => {
                                     console.log(`Resultados endereço: ${JSON.stringify(resultadoEnderecoModel)}`);
 
