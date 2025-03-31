@@ -1,4 +1,4 @@
-package sptech.fynx;
+package log;
 
 import java.util.Scanner;
 
