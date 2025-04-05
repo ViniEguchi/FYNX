@@ -60,7 +60,24 @@ CREATE TABLE IF NOT EXISTS log (
 	status_log INT,
 
 	CONSTRAINT chk_status_log CHECK (status_log = 1 AND status_log = 2)
-)
+);
+
+CREATE TABLE IF NOT EXISTS dados (
+	idDados INT PRIMARY KEY AUTO_INCREMENT,
+	data_contratacao DATE,
+	valor_operacao DOUBLE,
+	valor_desenbolsado DOUBLE,
+	fonte_recurso VARCHAR(50),
+	custo_financeiro VARCHAR(50),
+	juros FLOAT,
+	prazo_carencia INT,
+	prazo_amortizacao INT,
+	produto VARCHAR(50),
+	setor_cnae VARCHAR(50),
+	subsetor_cnae VARCHAR(50),
+	cnae CHAR(7),
+	situacao_operacao VARCHAR(50)
+);
 
 /*
 	SINTAXES
