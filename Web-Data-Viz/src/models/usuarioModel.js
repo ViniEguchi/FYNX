@@ -39,7 +39,7 @@ function cadastrarLogin(idFuncionario, idEmpresa, email, senha) {
 function carregarPerfil(idUsuario) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function carregarPerfil(): ", idUsuario)
     var instrucaoSql = `
-        SELECT f.fkEmpresa,f.nome, f.cpf, f.celular, l.gerente, l.email, l.senha, l.gerente
+        SELECT f.fkEmpresa,f.nome, f.cpf, f.celular, l.gerente, l.email, l.senha
         FROM funcionario as f
         JOIN login as l
         ON f.idFuncionario = l.fkFuncionario
@@ -72,5 +72,5 @@ module.exports = {
     cadastrar,
     cadastrarLogin,
     carregarPerfil,
-    atualizar
+    atualizar,
 };
