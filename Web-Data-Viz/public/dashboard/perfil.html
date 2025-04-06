@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil Editável</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-card {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .field-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .label {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .editable,
+    .input-edit {
+      font-size: 16px;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #f8f9fa;
+      transition: all 0.3s ease-in-out;
+      display: block;
+    }
+
+    .editable {
+      cursor: pointer;
+    }
+
+    .editable:hover {
+      background-color: #e9ecef;
+    }
+
+    .input-edit {
+      display: none;
+      background-color: #fff;
+    }
+
+    .input-edit:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .save-btn {
+      display: none;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .save-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body onload="carregarPerfil()">
+
+  <div class="profile-card" id="profile-card">
+  </div>
+
+  <script src="./js/perfil.js"></script>
+</body>
+
+</html>
