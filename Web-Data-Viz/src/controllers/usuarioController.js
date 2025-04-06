@@ -3,11 +3,7 @@ var enderecoModel = require("../models/enderecoModel");
 var empresaModel = require("../models/empresaModel");
 
 function autenticar(req, res) {
-    const {
-        emailServer: email,
-        senhaServer: senha
-    } = req.body;
-
+const { emailServer: email, senhaServer: senha } = req.body;
     if (!email || !senha) {
         return res.status(400).send("Email e senha são obrigatórios.");
     }
@@ -178,21 +174,22 @@ function atualizar(req, res) {
     }
 
     usuarioModel.atualizar(
-            idUsuario,
-            nome,
-            cpf,
-            celular,
-            email,
-            senha,
-            nome_fantasia,
-            razao_social,
-            representante_legal,
-            cnpj,
-            cep,
-            logradouro,
-            numero,
-            complemento
-        )
+    idUsuario,
+    nome,
+    cpf,
+    celular,
+    email,
+    senha,
+    nome_fantasia,
+    razao_social,
+    representante_legal,
+    cnpj,
+    cep,
+    logradouro,
+    numero,
+    complemento
+)
+
         .then((resultado) => {
             res.status(200).json(resultado);
         })
@@ -206,5 +203,6 @@ module.exports = {
     autenticar,
     cadastrar,
     perfil,
-    atualizar,
+    atualizar
 };
+
