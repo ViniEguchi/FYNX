@@ -164,14 +164,13 @@
                     resposta.json().then(json => {
                         sessionStorage.EMAIL_USUARIO = json.email;
                         sessionStorage.NOME_RESPONSAVEL = json.responsavel;
-                        sessionStorage.ID_USUARIO = json.idUsuario;
+                        sessionStorage.ID_USUARIO = json.id;
                         sessionStorage.ID_EMPRESA = json.idEmpresa;
-    
                         setTimeout(function () {
-                            if (sessionStorage.TIPO_USUARIO === 'suporte') {
-                                window.location = "./dashboard/dash_suporte.html";
+                            if (json.isGerente) {
+                                window.location = "./dashboard/perfil.html";
                             } else {
-                                window.location = "./dashboard/dashboard.html";
+                                window.location = "./dashboard/index.html.html";
                             }
                         }, 1000);
                     });
