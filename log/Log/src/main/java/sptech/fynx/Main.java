@@ -1,9 +1,13 @@
 package sptech.fynx;
 
+import sptech.fynx.dao.ConexaoBD;
+import sptech.fynx.dao.DadosDAO;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+/*
         String[] tarefas = {"Processo 1", "Processo 2", "Processo 3"};
         Scanner scanner = new Scanner(System.in);
 
@@ -19,5 +23,15 @@ public class Main {
         }
 
         scanner.close();
+*/
+
+
+        ConexaoBD conexao = new ConexaoBD();
+        DadosDAO dadosDAO = new DadosDAO(conexao.getConexaoBD());
+
+
+        String caminhoArquivo = "C:\\Users\\Giovanna\\Downloads\\tratamento_dados.xlsx";
+        LeitorExcel leitor = new LeitorExcel();
+        leitor.lerPlanilha(caminhoArquivo);
     }
 }
