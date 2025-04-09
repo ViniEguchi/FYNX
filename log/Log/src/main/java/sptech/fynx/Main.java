@@ -1,13 +1,15 @@
-package log;
+package sptech.fynx;
 
-import java.util.Scanner;
+import sptech.fynx.dao.ConexaoBD;
+import sptech.fynx.dao.DadosDAO;
 
 public class Main {
     public static void main(String[] args) {
+/*
         String[] tarefas = {"Processo 1", "Processo 2", "Processo 3"};
         Scanner scanner = new Scanner(System.in);
 
-        Log.generateLog(tarefas);
+        sptech.fynx.dao.Log.generateLog(tarefas);
 
         System.out.print("\nDeseja consultar algum processo específico? (s/n): ");
         String resposta = scanner.nextLine();
@@ -15,9 +17,19 @@ public class Main {
         if (resposta.equalsIgnoreCase("s")) {
             System.out.print("Digite o nome ou parte do nome do processo: ");
             String processo = scanner.nextLine();
-            Log.consultarLog(processo);
+            sptech.fynx.dao.Log.consultarLog(processo);
         }
 
         scanner.close();
+*/
+
+
+        String caminhoArquivo = "C:\\Users\\Giovanna\\Downloads\\tratamento_dados.xlsx";
+
+        LeitorExcel leitor = new LeitorExcel();
+        leitor.lerPlanilha(caminhoArquivo);
+
+        ConexaoBD conexao = new ConexaoBD();
+        DadosDAO dadosDAO = new DadosDAO(conexao.getConexaoBD());
     }
 }
