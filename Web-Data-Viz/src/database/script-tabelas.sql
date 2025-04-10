@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS login (
 
 CREATE TABLE IF NOT EXISTS log (
 	idLog INT PRIMARY KEY AUTO_INCREMENT,
-	data_hora DATETIME,
+	data_hora_inico DATETIME,
+	data_hora_fim DATETIME,
 	nome VARCHAR(50),
 	status_log BOOLEAN,
 	erro VARCHAR(50)
