@@ -1,94 +1,62 @@
-function carregarPerfil() {
-    fetch(`/funcionarios/listar/${sessionStorage.ID_EMPRESA}`).then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status === 204) {
-                const feed = document.getElementById("profile-card-row");
-                const mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado.";
-                feed.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!";
-            }
+window.onload = () => {
+    const isGerente = sessionStorage.getItem("IS_GERENTE");
 
-            resposta.json().then(function (funcionarios) {
-                console.log("Dados recebidos:", funcionarios);
-                const container = document.getElementById("profile-card-row");
-                container.innerHTML = ""; // Limpa antes
-
-                funcionarios.forEach(func => {
-                    const idSufixo = func.idFuncionario;
-
-                    container.innerHTML += `
-                        <div class="profile-card">
-                            ${criarCampoUsuario("Nome", `nome_${idSufixo}`, "text", func.nome)}
-                            ${criarCampoUsuario("CPF", `cpf_${idSufixo}`, "text", func.cpf)}
-                            ${criarCampoUsuario("Celular", `celular_${idSufixo}`, "text", func.celular)}
-                            ${criarCampoUsuario("Email", `email_${idSufixo}`, "email", func.email)}
-                            ${criarCampoUsuario("Senha", `senha_${idSufixo}`, "password", func.senha, true)}
-                            ${criarCampoSelect("Gerente", `gerente_${idSufixo}`, func.isGerente)}
-                            <button id="saveBtn_${idSufixo}" class="save-btn" onclick="salvarPerfil(${func.idFuncionario})">Salvar</button>
-                            <button class="delete-btn" onclick="excluirPerfil(${func.idFuncionario})">Excluir Perfil</button>
-                        </div>
-                    `;
-
-                    makeEditable(`nome_${idSufixo}`, idSufixo);
-                    makeEditable(`cpf_${idSufixo}`, idSufixo);
-                    makeEditable(`celular_${idSufixo}`, idSufixo);
-                    makeEditable(`email_${idSufixo}`, idSufixo);
-                    makeEditable(`senha_${idSufixo}`, idSufixo);
-
-                    const selectGerente = document.getElementById(`gerente_${idSufixo}Input`);
-                    const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
-
-                    selectGerente.addEventListener('change', () => {
-                        saveBtn.style.display = 'block';
-                    });
-                });
-            });
-        }
-    });
-}
+    if (isGerente !== "1") {
+        
+        window.location.href = "/pagina-nao-autorizada.html";
+        
+    }
+};
 
 function makeEditable(fieldId, idSufixo) {
-    const span = document.getElementById(fieldId);
-    const input = document.getElementById(fieldId + 'Input');
-    const saveBtn = document.getElementById(`saveBtn_${idSufixo}`); // Aqui tá o pulo do gato 🧠
+    setTimeout(() => {
+        const span = document.getElementById(fieldId);
+        const input = document.getElementById(fieldId + 'Input');
+        const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
 
-    span.addEventListener('click', () => {
-        span.style.display = 'none';
-        input.style.display = 'block';
-        input.focus();
-    });
-
-    input.addEventListener('input', () => {
-        saveBtn.style.display = 'block';
-    });
-
-    input.addEventListener('blur', () => {
-        span.textContent = input.value;
-        span.style.display = 'block';
-        input.style.display = 'none';
-
-        if (fieldId == `senha_${idSufixo}`) {
-            span.textContent = '•'.repeat(input.value.length);
+        if (!span || !input || !saveBtn) {
+            console.warn(`Elementos não encontrados para: ${fieldId}`);
+            return;
         }
-    });
 
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            input.blur();
-        }
-    });
+        span.addEventListener('click', () => {
+            span.style.display = 'none';
+            input.style.display = 'block';
+            input.focus();
+        });
+
+        input.addEventListener('input', () => {
+            saveBtn.style.display = 'block';
+        });
+
+        input.addEventListener('blur', () => {
+            span.textContent = input.value;
+            span.style.display = 'block';
+            input.style.display = 'none';
+
+            if (fieldId.startsWith(`senha_`)) {
+                span.textContent = '•'.repeat(input.value.length);
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                input.blur();
+            }
+        });
+    }, 0); // delay pra garantir que os elementos existam
 }
+
 
 function criarCampoUsuario(label, id, tipo = "text", valor = "", mascarar = false) {
     const valorSpan = mascarar ? '•'.repeat(valor.length) : valor;
     return `
     <div class="field-group fieldGroupRow">
-      <label class="label">${label}</label>
-      <span id="${id}" class="editable">${valorSpan}</span>
-      <input type="${tipo}" id="${id}Input" class="input-edit" value="${valor}">
-      </div>
-  `;
+        <label class="label">${label}</label>
+        <span id="${id}" class="editable">${valorSpan}</span>
+        <input type="${tipo}" id="${id}Input" class="input-edit" value="${valor}" style="display:none;">
+    </div>
+    `;
 }
 
 function criarCampoSelect(label, id, valorAtual) {
@@ -103,8 +71,64 @@ function criarCampoSelect(label, id, valorAtual) {
     `;
 }
 
-function salvarPerfil(idFuncionario) {
+function criarCardPerfil(func) {
+    const idSufixo = func.idFuncionario;
+    const container = document.getElementById("profile-card-row");
 
+    const cardHTML = `
+        <div class="profile-card">
+            ${criarCampoUsuario("Nome", `nome_${idSufixo}`, "text", func.nome)}
+            ${criarCampoUsuario("CPF", `cpf_${idSufixo}`, "text", func.cpf)}
+            ${criarCampoUsuario("Celular", `celular_${idSufixo}`, "text", func.celular)}
+            ${criarCampoUsuario("Email", `email_${idSufixo}`, "email", func.email)}
+            ${criarCampoUsuario("Senha", `senha_${idSufixo}`, "password", func.senha, true)}
+            ${criarCampoSelect("Gerente", `gerente_${idSufixo}`, func.isGerente)}
+            <button id="saveBtn_${idSufixo}" class="save-btn" onclick="salvarPerfil(${func.idFuncionario})" style="display:none;">Salvar</button>
+            <button class="delete-btn" onclick="excluirPerfil(${func.idFuncionario})">Excluir Perfil</button>
+        </div>
+    `;
+
+    container.innerHTML += cardHTML;
+
+    // Ativa edição nos campos
+    ["nome", "cpf", "celular", "email", "senha"].forEach(campo => {
+        makeEditable(`${campo}_${idSufixo}`, idSufixo);
+    });
+
+    const selectGerente = document.getElementById(`gerente_${idSufixo}Input`);
+    const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
+
+    selectGerente.addEventListener('change', () => {
+        saveBtn.style.display = 'block';
+    });
+}
+
+// FUNÇÃO PRINCIPAL
+
+function carregarPerfil() {
+    fetch(`/funcionarios/listar/${sessionStorage.ID_EMPRESA}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status === 204) {
+                const feed = document.getElementById("profile-card-row");
+                const mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado.";
+                feed.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!";
+            }
+
+            resposta.json().then(function (funcionarios) {
+                const container = document.getElementById("profile-card-row");
+                container.innerHTML = ""; // Limpa antes de renderizar
+
+                funcionarios.forEach(func => criarCardPerfil(func));
+            });
+        }
+    });
+}
+
+// SALVAR / EXCLUIR PERFIL
+
+function salvarPerfil(idFuncionario) {
     const dadosAtualizados = {
         nome: document.getElementById(`nome_${idFuncionario}Input`).value,
         cpf: document.getElementById(`cpf_${idFuncionario}Input`).value,
@@ -113,26 +137,27 @@ function salvarPerfil(idFuncionario) {
         senha: document.getElementById(`senha_${idFuncionario}Input`).value,
         gerente: document.getElementById(`gerente_${idFuncionario}Input`).value
     };
+
     fetch(`/funcionarios/atualizar/${idFuncionario}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dadosAtualizados)
-        })
-        .then(resposta => {
-            if (resposta.ok) {
-                alert("Perfil atualizado com sucesso!");
-                document.getElementById(`saveBtn_${idFuncionario}`).style.display = 'none';
-            } else if (resposta.status === 404) {
-                alert("Usuário não encontrado.");
-            } else {
-                throw `Erro ao atualizar: ${resposta.status}`;
-            }
-        })
-        .catch(erro => {
-            console.error("Erro ao atualizar perfil:", erro);
-        });
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dadosAtualizados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            alert("Perfil atualizado com sucesso!");
+            document.getElementById(`saveBtn_${idFuncionario}`).style.display = 'none';
+        } else if (resposta.status === 404) {
+            alert("Usuário não encontrado.");
+        } else {
+            throw `Erro ao atualizar: ${resposta.status}`;
+        }
+    })
+    .catch(erro => {
+        console.error("Erro ao atualizar perfil:", erro);
+    });
 }
 
 function excluirPerfil(idFuncionario) {
@@ -143,8 +168,7 @@ function excluirPerfil(idFuncionario) {
         .then(resposta => {
             if (resposta.ok) {
                 alert("Perfil excluído com sucesso.");
-                window.location = "./dashboard/users.html";
-                
+                carregarPerfil(); // Recarrega lista
             } else {
                 alert("Erro ao excluir perfil.");
             }
@@ -154,6 +178,8 @@ function excluirPerfil(idFuncionario) {
         });
     }
 }
+
+// CADASTRO
 
 function cadastrar() {
     const nome = document.getElementById('cadastroNomeInput').value;
@@ -189,7 +215,8 @@ function cadastrar() {
     .then(resposta => {
         if (resposta.ok) {
             alert("Perfil criado com sucesso!");
-            document.getElementById('saveBtn').style.display = 'none';
+            fecharFormulario();
+            carregarPerfil();
         } else if (resposta.status === 409) {
             alert("Este e-mail ou CPF já está cadastrado.");
         } else {
@@ -202,6 +229,8 @@ function cadastrar() {
     });
 }
 
+// FORMULÁRIO MODAL
+
 function abrirFormulario() {
     const dialog = document.getElementById('formDialog');
     dialog.showModal();
@@ -213,8 +242,5 @@ function fecharFormulario() {
 }
 
 function salvarCadastro() {
-    cadastrar(); 
-    fecharFormulario(); 
+    cadastrar();
 }
-
-
