@@ -166,6 +166,8 @@
                         sessionStorage.NOME_RESPONSAVEL = json.responsavel;
                         sessionStorage.ID_USUARIO = json.id;
                         sessionStorage.ID_EMPRESA = json.idEmpresa;
+                        sessionStorage.IS_GERENTE = json.isGerente
+
                         setTimeout(function () {
                             if (json.isGerente) {
                                 window.location = "./dashboard/perfil.html";
