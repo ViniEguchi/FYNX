@@ -55,11 +55,11 @@ CREATE TABLE IF NOT EXISTS login (
 
 CREATE TABLE IF NOT EXISTS log (
 	idLog INT PRIMARY KEY AUTO_INCREMENT,
-	data_hora DATETIME,
+	data_hora_inico DATETIME,
+	data_hora_fim DATETIME,
 	nome VARCHAR(50),
 	status_log BOOLEAN,
-
-	CONSTRAINT chk_status_log CHECK (status_log = 1 AND status_log = 2)
+	erro VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS dados (

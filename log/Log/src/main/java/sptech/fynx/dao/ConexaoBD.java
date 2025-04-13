@@ -1,9 +1,8 @@
-package dao;
+package sptech.fynx.dao;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 
 public class ConexaoBD {
 
