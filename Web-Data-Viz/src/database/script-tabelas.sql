@@ -10,6 +10,12 @@ CREATE TABLE IF NOT EXISTS empresa (
     cnpj CHAR(18)
 );
 
+INSERT INTO empresa VALUES
+	(default, "Empresa 1", "Empresa 1", "Nicolas", "51.821.261/0001-03"),
+	(default, "Empresa 2", "Empresa 2", "Vinicius", "69.764.076/0001-90"),
+	(default, "Empresa 3", "Empresa 3", "Guilherme", "72.397.013/0001-57"),
+	(default, "Empresa 4", "Empresa 4", "Giovanna", "18.145.241/0001-94");
+
 CREATE TABLE IF NOT EXISTS endereco (
     idEndereco INT AUTO_INCREMENT,
     fkEmpresa INT,
@@ -24,6 +30,12 @@ CREATE TABLE IF NOT EXISTS endereco (
         REFERENCES empresa (idEmpresa)
 );
 
+INSERT INTO endereco VALUES
+	(default, 1, "05017040", "Rua algum lugar", "220", "Andar 7"),
+	(default, 1, "05017040", "Rua algum lugar", "220", "Andar 3"),
+	(default, 1, "05017052", "Rua exemplo", "1000", "Andar 2"),
+	(default, 1, "05017157", "Rua Alto", "551", "Andar 25");
+
 CREATE TABLE IF NOT EXISTS funcionario (
 	idFuncionario INT AUTO_INCREMENT,
 	fkEmpresa INT,
@@ -37,6 +49,20 @@ CREATE TABLE IF NOT EXISTS funcionario (
 	FOREIGN KEY (fkEmpresa)
 		REFERENCES empresa(idEmpresa)
 );
+
+INSERT INTO funcionario VALUES
+	(default, 1, "Francis", "12345678912", "11912345678"),
+	(default, 1, "Nick", "12345678912", "11912345678"),
+	(default, 1, "Lucas", "12345678912", "11912345678"),
+	(default, 2, "Rodrigo", "12345678912", "11912345678"),
+	(default, 2, "Maria", "12345678912", "11912345678"),
+	(default, 3, "Roberto", "12345678912", "11912345678"),
+	(default, 3, "Caio", "12345678912", "11912345678"),
+	(default, 3, "Breno", "12345678912", "11912345678"),
+	(default, 4, "Vitoria", "12345678912", "11912345678"),
+	(default, 4, "Marcela", "12345678912", "11912345678"),
+	(default, 4, "Thiago", "12345678912", "11912345678"),
+	(default, 4, "Shirley", "12345678912", "11912345678");
 
 CREATE TABLE IF NOT EXISTS login (
 	idLogin INT AUTO_INCREMENT,
@@ -53,9 +79,23 @@ CREATE TABLE IF NOT EXISTS login (
 		REFERENCES funcionario(idFuncionario)
 );
 
+INSERT INTO login VALUES
+	(default, 1, 1, true, "Francis@email.com", "Abc1234@"),
+	(default, 2, 1, false, "Nick@email.com", "Abc1234@"),
+	(default, 3, 1, false, "Lucas@email.com", "Abc1234@"),
+	(default, 4, 2, false, "Rodrigo@email.com", "Abc1234@"),
+	(default, 5, 2, true, "Maria@email.com", "Abc1234@"),
+	(default, 6, 3, false, "Roberto@email.com", "Abc1234@"),
+	(default, 7, 3, false, "Caio@email.com", "Abc1234@"),
+	(default, 8, 3, true, "Breno@email.com", "Abc1234@"),
+	(default, 9, 4, true, "Vitoria@email.com", "Abc1234@"),
+	(default, 10, 4, false, "Marcela@email.com", "Abc1234@"),
+	(default, 11, 4, false, "Thiago@email.com", "Abc1234@"),
+	(default, 12, 4, true, "Shirley@email.com", "Abc1234@");
+
 CREATE TABLE IF NOT EXISTS log (
 	idLog INT PRIMARY KEY AUTO_INCREMENT,
-	data_hora_inico DATETIME,
+	data_hora_inicio DATETIME,
 	data_hora_fim DATETIME,
 	nome VARCHAR(50),
 	status_log BOOLEAN,
