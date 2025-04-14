@@ -114,5 +114,18 @@ ADIÇÃO DE FOREING KEY
 	ADD CONSTRAINT <nome foreing key>
 	FOREIGN KEY (<foreing key>) REFERENCES <Tabela referencia>(<id Referencia>);
 
+CRIAR USUÁRIO E CONSEDER PRIVILÉGIOS
+	CREATE USER 'novo_usuário'@'localhost' IDENTIFIED BY 'senha';
 
+	GRANT ALL PRIVILEGES ON <Base de Dados> . <Tabela> TO 'novo_usuario'@'localhost';
+		- É possivel substituir ALL PRIVILEGES pelo tipo especifico de privilégio (CREATE, SELECT, etc)
+		- No campo de <Base de Dados> e <Tabela> é possivel usar "*" para todas bases ou tabelas
+
+	FLUSH PRIVILEGES;
+
+RETIRAR PRIVILÉGIOS DE UM USUÁRIO
+	REVOKE ALL PRIVILEGES ON nome_do_banco_de_dados.nome_da_tabela FROM 'nome_do_usuário'@'localhost';
+
+EXCLUIR UM USUÁRIO
+	DROP USER 'nome_do_usuário'@'localhost';
 */
