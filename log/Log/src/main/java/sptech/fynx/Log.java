@@ -10,6 +10,7 @@ public class Log {
 
     static List<String> logs = new ArrayList<>();
 
+    
     public static void generateLog(String[] processes) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
