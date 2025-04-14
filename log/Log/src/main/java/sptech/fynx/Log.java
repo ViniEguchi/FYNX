@@ -10,6 +10,7 @@ public class Log {
 
     static List<String> logs = new ArrayList<>();
 
+
     public static void generateLog(String[] processes) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -18,6 +19,7 @@ public class Log {
         logs.add(inicio);
         System.out.print(inicio);
 
+
         for (String process : processes) {
             try {
                 int delay = ThreadLocalRandom.current().nextInt(1000, 5000);
@@ -25,6 +27,7 @@ public class Log {
 
                 Thread.sleep(delay);
 
+                
                 now = LocalDateTime.now();
                 String log = String.format("[%s] - Processo '%s' concluído. Status: %d\n",
                         now.format(dateFormat), process, status);
