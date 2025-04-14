@@ -244,3 +244,5 @@ function fecharFormulario() {
 function salvarCadastro() {
     cadastrar();
 }
+
+carregarPerfil()
