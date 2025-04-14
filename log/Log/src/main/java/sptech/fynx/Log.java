@@ -18,6 +18,7 @@ public class Log {
         logs.add(inicio);
         System.out.print(inicio);
 
+
         for (String process : processes) {
             try {
                 int delay = ThreadLocalRandom.current().nextInt(1000, 5000);
