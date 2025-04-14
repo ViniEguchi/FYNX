@@ -36,7 +36,7 @@ function atualizar(req, res) {
         celular,
         email,
         senha,
-        gerente,
+        isGerente,
     } = req.body;
 
     if (!idUsuario || !email || !nome) {
@@ -44,7 +44,7 @@ function atualizar(req, res) {
     }
 
     funcionarioModel.atualizar(
-            idUsuario, nome, cpf, celular, email, senha, gerente
+            idUsuario, nome, cpf, celular, email, senha, isGerente
         )
         .then((resultado) => {
             res.status(200).json(resultado);
@@ -75,7 +75,8 @@ function cadastrar(req, res) {
     funcionarioModel.verificarDadosExistentes(email, celular, cpf)
         .then((resultado) => {
             if (resultado.length > 0) {
-                return res.status(409).send("E-mail ou celular já cadastrado.");
+                 res.status(409).send("E-mail ou celular já cadastrado.");
+                 return;
             }
 
             return funcionarioModel.cadastrar(
@@ -83,14 +84,13 @@ function cadastrar(req, res) {
             );
         })
         .then((resultadoCadastro) => {
-            res.status(200).json(resultadoCadastro);
+            res.status(201).json(resultadoCadastro);
         })
         .catch((erro) => {
             console.error("Erro ao criar perfil:", erro.sqlMessage || erro);
             res.status(500).json(erro.sqlMessage || erro);
         });
 }
-
 
 function deletarFuncionario(req, res) {
     const idFuncionario = req.params.idFuncionario;
@@ -112,10 +112,7 @@ function deletarFuncionario(req, res) {
         });
 }
 
-
-
 module.exports = {
-    // autenticar,
     cadastrar,
     deletarFuncionario,
     atualizar,
