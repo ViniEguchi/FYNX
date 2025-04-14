@@ -20,7 +20,6 @@ function verificarDadosExistentes(email, celular, cpf) {
     return database.executar(instrucaoSql);
 }
 
-
 async function cadastrar(idEmpresa, nome, cpf, celular, email, senha, gerente) {
     console.log("ACESSEI O FUNCIONARIO MODEL\nFunção cadastrar():", idEmpresa, email, senha);
 
@@ -31,7 +30,6 @@ async function cadastrar(idEmpresa, nome, cpf, celular, email, senha, gerente) {
 
     console.log("Executando a instrução SQL:\n" + inserirFuncionario);
 
-    // Executa o INSERT do funcionário e pega o ID gerado
     const resultadoFuncionario = await database.executar(inserirFuncionario);
     const idFuncionarioInserido = resultadoFuncionario.insertId;
 
@@ -45,13 +43,8 @@ async function cadastrar(idEmpresa, nome, cpf, celular, email, senha, gerente) {
     return database.executar(inserirLogin);
 }
 
-
-
 function cadastrarLogin(idFuncionario, idEmpresa, email, senha) {
     console.log("ACESSEI O FUNCIONARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarLogin():", idFuncionario, idEmpresa, email, senha);
-
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
     var instrucaoSql = `
         INSERT INTO login (fkFuncionario, fkEmpresa, gerente, email, senha)
             VALUES (${idFuncionario}, ${idEmpresa}, true, '${email}', '${senha}');
@@ -94,11 +87,9 @@ async function atualizar(idUsuario, nome, cpf, celular, email, senha, gerente) {
     const atualizarLogin = `UPDATE login SET email = '${email}', senha = '${senha}', gerente = ${gerente} WHERE fkFuncionario = ${idUsuario};`;
     console.log("Executando a instrução SQL: \n" + atualizarLogin);
    
-
     await database.executar(atualizarFuncionario);
     return database.executar(atualizarLogin);
 }
-
 
 async function deletarFuncionario(idFuncionario) {
     console.log("ACESSEI O FUNCIONARIO MODEL - deletarFuncionario()");
@@ -115,7 +106,6 @@ async function deletarFuncionario(idFuncionario) {
     console.log("Executando a instrução SQL: \n" + deletarFuncionario);
     return database.executar(deletarFuncionario);
 }
-
 
 module.exports = {
     autenticar,

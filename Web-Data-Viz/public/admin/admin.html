@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Gerenciar Empresas</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Administração de Empresas</h1>
+
+    <section>
+      <h2>Cadastro de Empresa</h2>
+      <button id="btnCadastrarEmpresa">Cadastrar Empresa</button>
+
+      <dialog id="dialogCadastrarEmpresa">
+        <h2>Cadastrar Empresa</h2>
+        <form method="dialog" id="formEmpresa">
+          <h3>Cadastrar Empresa</h3>
+
+          <div class="field-group">
+            <label for="inputNomeFantasia">Nome Fantasia</label>
+            <input type="text" id="inputNomeFantasia" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputRazaoSocial">Razão Social</label>
+            <input type="text" id="inputRazaoSocial" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputRepresentanteLegal">Representante Legal</label>
+            <input type="text" id="inputRepresentanteLegal" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputCnpj">CNPJ</label>
+            <input type="text" id="inputCnpj" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputCep">CEP</label>
+            <input type="text" id="inputCep" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputLogradouro">Logradouro</label>
+            <input type="text" id="inputLogradouro" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputNumero">Número</label>
+            <input type="text" id="inputNumero" required />
+          </div>
+
+          <div class="field-group">
+            <label for="inputComplemento">Complemento</label>
+            <input type="text" id="inputComplemento" />
+          </div>
+
+          <div style="margin-top: 15px; text-align: right;">
+            <button type="button" onclick="salvarEmpresa()">Salvar</button>
+            <button type="button" onclick="fecharFormulario()">Cancelar</button>
+          </div>
+        </form>
+
+        <button id="cancelarCadastroEmpresa">Cancelar</button>
+      </dialog>
+    </section>
+
+    <section>
+      <h2>Empresas Cadastradas</h2>
+      <table id="tabelaEmpresas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome Fantasia</th>
+            <th>razaoSocial</th>
+            <th>Representante</th>
+            <th>CNPJ</th>
+            <th>cep</th>
+            <th>logradouro</th>
+            <th>numero</th>
+            <th>complemento</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="funcionariosSection" style="display: none;">
+      <h2>Funcionários da Empresa</h2>
+      <button id="voltarEmpresasBtn">Voltar para Empresas</button>
+      <button id="cadastrarFuncionarioBtn">Cadastrar Funcionário</button>
+
+      <dialog id="dialogCadastrarFuncionario">
+
+        <form method="dialog" id="formCadastro">
+          <h3>Cadastrar Funcionário</h3>
+
+          <div class="field-group">
+            <label for="cadastroNomeInput">Nome</label>
+            <input type="text" id="cadastroNomeInput" required>
+          </div>
+
+          <div class="field-group">
+            <label for="cadastroCpfInput">CPF</label>
+            <input type="text" id="cadastroCpfInput" required>
+          </div>
+
+          <div class="field-group">
+            <label for="cadastroCelularInput">Celular</label>
+            <input type="text" id="cadastroCelularInput" required>
+          </div>
+
+          <div class="field-group">
+            <label for="cadastroEmailInput">Email</label>
+            <input type="email" id="cadastroEmailInput" required>
+          </div>
+
+          <div class="field-group">
+            <label for="cadastroSenhaInput">Senha</label>
+            <input type="password" id="cadastroSenhaInput" required>
+          </div>
+
+          <div class="field-group">
+            <label for="cadastroGerenteInput">É gerente?</label>
+            <select id="cadastroGerenteInput">
+              <option value="0">Não</option>
+              <option value="1">Sim</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 15px; text-align: right;">
+            <button type="button" onclick="cadastrarFuncionario()">Salvar</button>
+            <!-- <button type="button" onclick="fecharFormulario()">Cancelar</button> -->
+            <button id="cancelarCadastroFuncionario">Cancelar</button>
+          </div>
+
+          <input type="hidden" id="inputEmpresaIdFuncionario" />
+        </form>
+      </dialog>
+
+      <table id="tabelaFuncionarios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Celular</th>
+            <th>E-mail</th>
+            <th>Senha</th>
+            <th>Gerente</th>
+            <th>ações</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>
