@@ -1,23 +1,22 @@
 package sptech.fynx;
 
-import java.util.Scanner;
+import sptech.fynx.dao.ConexaoBD;
+import sptech.fynx.dao.DadosDAO;
+import sptech.fynx.dao.LogDAO;
 
 public class Main {
     public static void main(String[] args) {
-        String[] tarefas = {"Processo 1", "Processo 2", "Processo 3"};
-        Scanner scanner = new Scanner(System.in);
+        String caminhoArquivo = "C:\\Users\\giopa\\Downloads\\tratamento_dados.xlsx";
 
-        Log.generateLog(tarefas);
+        // Conectar ao banco
+        ConexaoBD conexaoBD = new ConexaoBD();
 
-        System.out.print("\nDeseja consultar algum processo específico? (s/n): ");
-        String resposta = scanner.nextLine();
+        // Criação do objeto DadosDAO e LogDAO já com o DataSource
+        DadosDAO dadosDAO = new DadosDAO(conexaoBD.getConexaoBD());
+        LogDAO logDAO = new LogDAO(conexaoBD.getConexaoBD());
 
-        if (resposta.equalsIgnoreCase("s")) {
-            System.out.print("Digite o nome ou parte do nome do processo: ");
-            String processo = scanner.nextLine();
-            Log.consultarLog(processo);
-        }
-
-        scanner.close();
+        // Ler a planilha e inserir os dados no banco
+        LeitorExcel leitor = new LeitorExcel();
+        leitor.lerPlanilha(caminhoArquivo, dadosDAO, logDAO);  // Passando logDAO como argumento
     }
 }
