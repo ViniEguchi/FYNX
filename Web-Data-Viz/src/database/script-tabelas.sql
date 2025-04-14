@@ -79,6 +79,13 @@ CREATE TABLE IF NOT EXISTS dados (
 	situacao_operacao VARCHAR(50)
 );
 
+CREATE TABLE IF NOT EXISTS formulario (
+	idFormulario INT PRIMARY KEY AUTO_INCREMENT,
+	email_representante VARCHAR(45),
+	tel_representate CHAR(11),
+	mensagem VARCHAR(300)
+);
+
 /*
 	SINTAXES
 
