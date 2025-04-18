@@ -162,11 +162,14 @@
 
                 if (resposta.ok) {
                     resposta.json().then(json => {
+                        sessionStorage.NOME_USUARIO = json.nome;
                         sessionStorage.EMAIL_USUARIO = json.email;
                         sessionStorage.NOME_RESPONSAVEL = json.responsavel;
                         sessionStorage.ID_USUARIO = json.id;
                         sessionStorage.ID_EMPRESA = json.idEmpresa;
                         sessionStorage.IS_GERENTE = json.isGerente
+
+                        console.log("====================== nome: " + sessionStorage.NOME_USUARIO);
 
                         setTimeout(function () {
                             if (json.isGerente) {
