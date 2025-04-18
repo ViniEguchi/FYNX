@@ -1,3 +1,5 @@
+usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
 function carregarPerfil() {
     const tipoUsuario = sessionStorage.IS_GERENTE;
 
@@ -14,25 +16,37 @@ function carregarPerfil() {
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 
+                let camposUsuarioComum = `
+                    ${criarCampoPerfil("Nome", "nome", "text", resposta.nome)}
+                    ${criarCampoPerfil("CPF", "cpf", "text", resposta.cpf)}
+                    ${criarCampoPerfil("Celular", "celular", "text", resposta.celular)}
+                    ${criarCampoPerfil("Email", "email", "email", resposta.email)}
+                    ${criarCampoPerfil("Senha", "senha", "password", resposta.senha, true)}                  
+                `;
+
+                let camposUsuarioAdmin = `
+                    ${camposUsuarioComum}
+                    ${criarCampoPerfil("Nome Fantasia", "nome_fantasia", "text", resposta.nome_fantasia)}
+                    ${criarCampoPerfil("Razão Social", "razao_social", "text", resposta.razao_social)}
+                    ${criarCampoPerfil("Representante Legal", "representante_legal", "text", resposta.representante_legal)}
+                    ${criarCampoPerfil("CNPJ", "cnpj", "text", resposta.cnpj)}
+                    ${criarCampoPerfil("CEP", "cep", "text", resposta.cep)}
+                    ${criarCampoPerfil("Logradouro", "logradouro", "text", resposta.logradouro)}
+                    ${criarCampoPerfil("Número", "numero", "text", resposta.numero)}
+                    ${criarCampoPerfil("Complemento", "complemento", "text", resposta.complemento)}
+                `
+                
                 let htmlCampos = `
-                  <h2>Perfil</h2>
-                  ${criarCampoPerfil("Nome", "nome", "text", resposta.nome)}
-                  ${criarCampoPerfil("CPF", "cpf", "text", resposta.cpf)}
-                  ${criarCampoPerfil("Celular", "celular", "text", resposta.celular)}
-                  ${criarCampoPerfil("Email", "email", "email", resposta.email)}
-                  ${criarCampoPerfil("Senha", "senha", "password", resposta.senha, true)}
+                  <div class="campos">
+                    ${camposUsuarioComum}
+                  </div>
                 `;
 
                 if (tipoUsuario == 1) {
-                    htmlCampos += `
-                      ${criarCampoPerfil("Nome Fantasia", "nome_fantasia", "text", resposta.nome_fantasia)}
-                      ${criarCampoPerfil("Razão Social", "razao_social", "text", resposta.razao_social)}
-                      ${criarCampoPerfil("Representante Legal", "representante_legal", "text", resposta.representante_legal)}
-                      ${criarCampoPerfil("CNPJ", "cnpj", "text", resposta.cnpj)}
-                      ${criarCampoPerfil("CEP", "cep", "text", resposta.cep)}
-                      ${criarCampoPerfil("Logradouro", "logradouro", "text", resposta.logradouro)}
-                      ${criarCampoPerfil("Número", "numero", "text", resposta.numero)}
-                      ${criarCampoPerfil("Complemento", "complemento", "text", resposta.complemento)}
+                    htmlCampos = `
+                    <div class="campos">
+                        ${camposUsuarioAdmin}
+                    </div>  
                     `;
                 }
 
