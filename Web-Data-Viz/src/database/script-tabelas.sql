@@ -121,8 +121,8 @@ CREATE TABLE IF NOT EXISTS historico (
 
 CREATE TABLE IF NOT EXISTS formulario (
 	idFormulario INT PRIMARY KEY AUTO_INCREMENT,
-	email_representante VARCHAR(45),
-	tel_representate CHAR(11),
+	nome VARCHAR(50),
+	email VARCHAR(50),
 	mensagem VARCHAR(300)
 );
 
