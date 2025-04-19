@@ -1,9 +1,10 @@
-package sptech.fynx.dao;
+package sptech.fynx.model.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import sptech.fynx.model.LogModel;
+
 import javax.sql.DataSource;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +19,7 @@ public class LogDAO {
     }
 
     public void inserirLog(LogModel log) {
-        String sql = "INSERT INTO log (data_hora_inicio, data_hora_fim, nome, status_log, erro) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO log (data_hora_inicio, data_hora_fim, descricao, status_log, erro) VALUES (?, ?, ?, ?, ?)";
 
         try {
             // Para o console, ajusta para horário de Brasília

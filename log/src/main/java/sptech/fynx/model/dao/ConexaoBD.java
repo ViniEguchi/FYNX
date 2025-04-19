@@ -1,4 +1,4 @@
-package sptech.fynx.dao;
+package sptech.fynx.model.dao;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
