@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS log (
 	erro VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS dados (
-	idDados INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS historico (
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	data_contratacao DATE,
 	valor_operacao DOUBLE,
 	valor_desenbolsado DOUBLE,
