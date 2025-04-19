@@ -1,4 +1,4 @@
-package sptech.fynx.dao;
+package sptech.fynx.model;
 
 public class DadosModel {
     private int idDados;

@@ -1,4 +1,4 @@
-package sptech.fynx.dao;
+package sptech.fynx.model;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,34 @@ public class LogModel {
     private Boolean statusLog;
     private String erro;
 
-    // Getters e Setters
+    // === CONSTRUTORES ===
+
+    // Log simples: nome, início e status
+    public LogModel(String nome, LocalDateTime dataHoraInicio, boolean statusLog) {
+        this.nome = nome;
+        this.dataHoraInicio = dataHoraInicio;
+        this.statusLog = statusLog;
+    }
+
+    // Log com início, fim e status
+    public LogModel(String nome, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, boolean statusLog) {
+        this.nome = nome;
+        this.dataHoraInicio = dataHoraInicio;
+        this.dataHoraFim = dataHoraFim;
+        this.statusLog = statusLog;
+    }
+
+    // Log com erro
+    public LogModel(String nome, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, boolean statusLog, String erro) {
+        this.nome = nome;
+        this.dataHoraInicio = dataHoraInicio;
+        this.dataHoraFim = dataHoraFim;
+        this.statusLog = statusLog;
+        this.erro = erro;
+    }
+
+    // === GETTERS E SETTERS ===
+
     public LocalDateTime getDataHoraInicio() {
         return dataHoraInicio;
     }

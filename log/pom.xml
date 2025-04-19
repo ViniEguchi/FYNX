@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+        <!-- Dependências existentes -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -60,6 +61,13 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>12.8.1.jre11</version>
         </dependency>
+
+        <!-- Adicionando a implementação NOP para o SLF4J (Silencia os erros de logging) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.32</version> <!-- Verifique a versão mais recente -->
+        </dependency>
     </dependencies>
 
     <build>
@@ -90,5 +98,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
