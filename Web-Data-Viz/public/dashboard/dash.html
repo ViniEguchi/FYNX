@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Home - Dashboard</title>
+  <title>Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -163,12 +163,35 @@
       margin: 20px 0;
     }
 
-    .caixa-principal {
+    .dashboard-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100% - 60px);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.dashboard-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.dashboard-filters select {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.caixa-principal {
   background-color: #04251F;
   padding: 20px;
   border-radius: 8px;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 5px;
+  margin-right: 5px;
   margin-top: 10px;
   border: 3px solid #FFFFFF;
 }
@@ -200,38 +223,20 @@
   height: 50px;
 }
 
-.graficos-superiores {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      margin-top: 20px;
-      width: 100%;
-    }
+.charts-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
 
-    .grafico-box {
-      flex: 1;
-      background-color: white;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-left: 25px;
-      margin-right: 25px;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 200px !important;
-    }
-
-    .grafico-maior {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-      margin-left: 25px;
-      margin-right: 25px;
-    }
+.chart-box {
+  flex: 1;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  height: 300px; 
+}
   </style>
 </head>
 
@@ -242,13 +247,13 @@
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
 
       <div class="options">
-        <div class="option selected">
-          <img src="../assets/icon/home (1) 2.png" alt="">
-          <a href="#">HOME</a>
-        </div>
         <div class="option">
-          <img src="../assets/icon/bar-chart 4.png" alt="">
-          <a href="../dashboard/dash.html">DASHBOARD</a>
+          <img src="../assets/icon/home 3.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option selected">
+          <img src="../assets/icon/bar-chart (1) 2.png" alt="">
+          <a href="#">DASHBOARD</a>
         </div>
         <div class="option">
           <img src="../assets/icon/user (1) 2.png" alt="">
@@ -268,37 +273,48 @@
     <div class="container" style="width: 100%; height: 100%;">
         <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
           <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
-            <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">INICIO</p>
+            <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">DASHBOARD</p>
             <p style="margin-right: 30px; font-weight: 600; font-size: 23px;">BEM VINDO, <span id="usuario"></span>!</p>
           </div>
         </div>
 
-        <div class="caixa-principal">
-            <div class="linha-setores">
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
-              </div>
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
-              </div>
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
-              </div>
+        <div class="dashboard-content">
+            <div class="dashboard-filters">
+              <select>
+                <option></option>
+              </select>
+              <select>
+                <option></option>
+              </select>
             </div>
-          </div>
           
-          <div class="graficos-superiores">
-            <div class="grafico-box"><canvas id="grafico1"></canvas></div>
-            <div class="grafico-box"><canvas id="grafico2"></canvas></div>
-            <div class="grafico-box"><canvas id="grafico3"></canvas></div>
-          </div>
-  
-          <div class="grafico-maior">
-            <canvas id="graficoPrincipal"></canvas>
-          </div>
+            <div class="caixa-principal">
+                <div class="linha-setores">
+                  <div class="caixa-setor">
+                    <p>KPI</p>
+                    <div class="caixa-branca"></div>
+                  </div>
+                  <div class="caixa-setor">
+                    <p>KPI</p>
+                    <div class="caixa-branca"></div>
+                  </div>
+                  <div class="caixa-setor">
+                    <p>KPI</p>
+                    <div class="caixa-branca"></div>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="charts-container">
+                <div class="chart-box">
+                  <canvas id="grafico1"></canvas>
+                </div>
+                <div class="chart-box">
+                  <canvas id="grafico2"></canvas>
+                </div>
+              </div>
+          
+    
         </div>
       </div>
           
@@ -309,78 +325,32 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      // Gráfico 1 - Setores A, B, C
-      new Chart(document.getElementById("grafico1"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [70, 40, 90],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
-
-      // Gráfico 2 - Setores A, B, C
-      new Chart(document.getElementById("grafico2"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [50, 60, 70],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
-
-      // Gráfico 3 - Setores A, B, C
-      new Chart(document.getElementById("grafico3"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [80, 60, 100],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
-
-      new Chart(document.getElementById("graficoPrincipal"), {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-          datasets: [{
-            label: 'Total Produzido',
-            data: [100, 120, 90, 130],
-            backgroundColor: 'rgba(33,150,243,0.2)',
-            borderColor: '#04251F',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          plugins: { legend: { display: true } },
-          scales: {
-            y: { beginAtZero: true }
+        const ctx1 = document.getElementById('grafico1').getContext('2d');
+        const ctx2 = document.getElementById('grafico2').getContext('2d');
+      
+        new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+            datasets: [{
+              label: 'LALA',
+              data: [100, 200, 150, 300],
+              backgroundColor: '#04251F'
+            }]
           }
-        }
-      });
-    </script>
+        });
+      
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            datasets: [{
+              label: 'LALA',
+              data: [400, 300, 500, 600],
+              backgroundColor: '#04251F'
+            }]
+          }
+        });
+      </script>
   </body>
   </html>
