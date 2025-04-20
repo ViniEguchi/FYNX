@@ -1,168 +1,348 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
+  <meta charset="UTF-8">
+  <title>Usuários - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f5f7fa;
-        margin: 0;
-        padding: 40px;
-        display: flex;
-        justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      background-color: #F2F2F2;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
     }
 
     .profile-card {
-        background-color: #fff;
-        padding: 30px 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        display: flex;
-        text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #fff;
+      padding: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 1000px;
+      height: 550px;
+      text-align: center;
+    }
+
+    .campos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0 20px;
+      width: 100%;    
+      height: 100%;
     }
 
     h2 {
-        margin-top: 0;
-        font-size: 24px;
-        color: #333;
-    }
-
-    .profile-card-row,
-    .fieldGroupRow {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .fieldGroupRow {
-        flex-direction: column;
+      margin-top: 0;
+      font-size: 24px;
+      color: #333;
     }
 
     .field-group {
-        margin-bottom: 15px;
-        text-align: left;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin: 15px;
+      margin-bottom: 5px;
+      text-align: left;
     }
 
     .label {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 5px;
-        display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+      display: block;
     }
 
     .editable,
-    .input-edit,
-    select.input-edit {
-        font-size: 16px;
-        padding: 10px;
-        width: 100%;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        transition: all 0.3s ease-in-out;
-        display: block;
+    .input-edit {
+      font-size: 16px;
+      padding: 10px;
+      min-width: 170px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #f8f9fa;
+      transition: all 0.3s ease-in-out;
+      display: block;
     }
 
     .editable {
-        background-color: #f8f9fa;
-        cursor: pointer;
+      cursor: pointer;
     }
 
     .editable:hover {
-        background-color: #e9ecef;
+      background-color: #e9ecef;
     }
 
     .input-edit {
-        background-color: #fff;
-        display: none;
+      display: none;
+      background-color: #fff;
     }
 
-    .input-edit:focus,
-    select.input-edit:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        outline: none;
+    .input-edit:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      width: 100px;
     }
 
     .save-btn {
-        display: none;
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 6px;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: background 0.3s ease;
+      display: none;
+      width: 100%;
+      height: 40px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
 
     .save-btn:hover {
-        background-color: #0056b3;
+      background-color: #0056b3;
     }
-</style>
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 150px;
+    }
+
+    .options .option {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      width: 230px;
+      gap: 20px;
+      border-radius: 8px;
+    }
+
+    .options .option.selected {
+      background-color: #fff;
+    }
+
+    .options .option.selected a {
+      color: #000;
+    }
+
+    .option img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .side_menu {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .logo {
+      margin: 20px 0;
+    }
+
+    .tabela-container {
+  width: 98%;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  position: relative;
+}
+
+.add-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #04251F;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 24px;
+  padding: 5px 15px;
+  cursor: pointer;
+  width: 15%;
+}
+
+.tabela-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 60px;
+}
+
+.tabela-usuarios th,
+.tabela-usuarios td {
+  border: 1px solid #145B4F;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.tabela-usuarios th {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+  </style>
+</head>
 
 <body onload="carregarPerfil()">
 
-    <button id="createBtn" class="create-btn" onclick="abrirFormulario()">Novo Funcionario</button>
+  <main style="display: flex; justify-content: space-between; width: 100vw; height: 100%;  ">
+    <div class="side_menu" style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
 
-    <div class="profile-card-row" id="profile-card-row">
+      <div class="options">
+        <div class="option">
+          <img src="../assets/icon/home 3.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dash.html">DASHBOARD</a>
+        </div>
+        <div class="option selected">
+          <img src="../assets/icon/user (2) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/edit 2.png" alt="">
+          <a href="#">EDITAR</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="#">SAIR</a>
+        </div>
+      </div>
     </div>
 
-    <!-- Janela modal -->
-    <dialog id="formDialog">
-        <form method="dialog" id="formCadastro">
-            <h3>Cadastrar Funcionário</h3>
+    <div class="container" style="width: 100%; height: 100%;">
+        <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
+          <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
+            <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">USUÁRIOS</p>
+            <p style="margin-right: 30px; font-weight: 600; font-size: 23px;">BEM VINDO, <span id="usuario"></span>!</p>
+          </div>
+        </div>
 
-            <div class="field-group">
-                <label for="cadastroNomeInput">Nome</label>
-                <input type="text" id="cadastroNomeInput" required>
-            </div>
+        <div class="tabela-container">
+            <button class="add-btn">+</button>
+            <table class="tabela-usuarios">
+              <thead>
+                <tr>
+                  <th>NOME:</th>
+                  <th>SETOR</th>
+                  <th>EDITAR</th>
+                  <th>EXCLUIR</th>
+                </tr>
+              </thead>
+              <tbody>
 
-            <div class="field-group">
-                <label for="cadastroCpfInput">CPF</label>
-                <input type="text" id="cadastroCpfInput" required>
-            </div>
+                <tr>
+                  <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                  <td>XXXXXXXXXXXX</td>
+                  <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                  <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                </tr>
 
-            <div class="field-group">
-                <label for="cadastroCelularInput">Celular</label>
-                <input type="text" id="cadastroCelularInput" required>
-            </div>
+                <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-            <div class="field-group">
-                <label for="cadastroEmailInput">Email</label>
-                <input type="email" id="cadastroEmailInput" required>
-            </div>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-            <div class="field-group">
-                <label for="cadastroSenhaInput">Senha</label>
-                <input type="password" id="cadastroSenhaInput" required>
-            </div>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-            <div class="field-group">
-                <label for="cadastroGerenteInput">É gerente?</label>
-                <select id="cadastroGerenteInput">
-                    <option value="0">Não</option>
-                    <option value="1">Sim</option>
-                </select>
-            </div>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-            <div style="margin-top: 15px; text-align: right;">
-                <button type="button" onclick="salvarCadastro()">Salvar</button>
-                <button type="button" onclick="fecharFormulario()">Cancelar</button>
-            </div>
-        </form>
-    </dialog>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-    <script src="./js/users.js"></script>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-</body>
+                  <tr>
+                    <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
+                    <td>XXXXXXXXXXXX</td>
+                    <td><img src="../assets/icon/digital-pen 1.png" alt="editar" class="icon"></td>
+                    <td><img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon"></td>
+                  </tr>
 
-</html>
+              </tbody>
+            </table>
+          </div>
+
+    </main>
+    <script  src="./js/perfil.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+  </body>
+  </html>
