@@ -22,6 +22,8 @@ const { emailServer: email, senhaServer: senha } = req.body;
                         return res.status(404).send("Empresa vinculada não encontrada.");
                     }
 
+                    console.log("AAAAAAAAAAAA")
+                    console.log(usuario)
                     res.json({
                         id: usuario.idLogin,
                         idEmpresa: usuario.empresaId,
