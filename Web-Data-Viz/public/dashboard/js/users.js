@@ -1,4 +1,3 @@
-
 window.onload = () => {
     const isGerente = sessionStorage.getItem("IS_GERENTE");
 
@@ -9,6 +8,7 @@ window.onload = () => {
     }
 };
 
+usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
 function carregarPerfil() {
     fetch(`/funcionarios/listar/${sessionStorage.ID_EMPRESA}`).then(function (resposta) {

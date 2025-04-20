@@ -125,6 +125,10 @@
       background-color: #0056b3;
     }
 
+    main {
+      position: relative;
+    }
+
     .options {
       display: flex;
       flex-direction: column;
@@ -165,6 +169,29 @@
       margin: 20px 0;
     }
 
+    .form-dialog {
+      position: absolute;
+      top: 50px;
+      left: 45%;
+      padding: 30px;
+      width: 400px;
+    }
+
+    .form-dialog button {
+      border: none;
+      background-color: #04251F;
+      cursor: pointer;
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      width: 100px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .form-dialog button:hover {
+      background-color: #145B4F;
+    }
+
     .tabela-container {
       width: 98%;
       margin: 30px auto;
@@ -173,20 +200,6 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       position: relative;
-    }
-
-    .add-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #04251F;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 24px;
-      padding: 5px 15px;
-      cursor: pointer;
-      width: 15%;
     }
 
     .tabela-usuarios {
@@ -218,7 +231,7 @@
 
 <body>
   <!-- Janela modal -->
-  <dialog id="formDialog">
+  <dialog id="formDialog" class="form-dialog">
     <form method="dialog" id="formCadastro">
       <h3>Cadastrar Funcionário</h3>
 
@@ -262,7 +275,7 @@
     </form>
   </dialog>
 
-  <main style="display: flex; justify-content: space-between; width: 100vw; height: 100%;  ">
+  <main style="display: flex; justify-content: space-between; width: 100vw; height: 100vh;  ">
     <div class="side_menu"
       style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
@@ -292,30 +305,35 @@
       </div>
     </div>
 
-    <div class="container" style="width: 100%; height: 100%;">
+    <div class="container" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center;">
       <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
         <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
-          <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">DASHBOARD</p>
+          <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">LISTA DE USUÁRIOS</p>
           <p style="margin-right: 30px; font-weight: 600; font-size: 23px;">BEM VINDO, <span id="usuario"></span>!</p>
         </div>
       </div>
       <!-- <div class="profile-card-row" id="profile-card-row">
       </div> -->
-      <table class="tabela-usuarios">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Celular</th>
-            <th>Email</th>
-            <th>Senha</th>
-            <th>Gerente</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaUsuariosBody"></tbody>
-      </table>
-      
+      <div class="container-button" style="display: flex; justify-content: flex-end; align-items: center; width: 100%; height: 15%; margin-bottom: 20px;">
+        <button style="padding: 15px; width: 150px; height: 50px; border: none; background-color: #04251F; color: #fff; border-radius: 8px; margin: 20px 20px 20px 0; font-size: 18px; cursor: pointer;" onclick="abrirFormulario()">+</button>
+      </div>
+
+      <div class="container-tabela-usuarios" style="display: flex;  width: 1000px; height: 60%; align-items: center; overflow-x: scroll;">
+        <table class="tabela-usuarios" style="height: 450px;">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Celular</th>
+              <th>Email</th>
+              <th>Senha</th>
+              <th>Gerente</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaUsuariosBody"></tbody>
+        </table>
+      </div>
     </div>
     
 
