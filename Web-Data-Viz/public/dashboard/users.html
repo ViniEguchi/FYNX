@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Usuários - Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
+
   <style>
     * {
       margin: 0;
@@ -48,7 +50,7 @@
       justify-content: center;
       flex-wrap: wrap;
       padding: 0 20px;
-      width: 100%;    
+      width: 100%;
       height: 100%;
     }
 
@@ -164,60 +166,105 @@
     }
 
     .tabela-container {
-  width: 98%;
-  margin: 30px auto;
-  padding: 20px;
-  background-color: #f8f8f8;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  position: relative;
-}
+      width: 98%;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      position: relative;
+    }
 
-.add-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #04251F;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 24px;
-  padding: 5px 15px;
-  cursor: pointer;
-  width: 15%;
-}
+    .add-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #04251F;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 24px;
+      padding: 5px 15px;
+      cursor: pointer;
+      width: 15%;
+    }
 
-.tabela-usuarios {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 60px;
-}
+    .tabela-usuarios {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 60px;
+    }
 
-.tabela-usuarios th,
-.tabela-usuarios td {
-  border: 1px solid #145B4F;
-  padding: 10px;
-  text-align: center;
-  font-size: 14px;
-}
+    .tabela-usuarios th,
+    .tabela-usuarios td {
+      border: 1px solid #145B4F;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-.tabela-usuarios th {
-  background-color: #ffffff;
-  font-weight: bold;
-}
+    .tabela-usuarios th {
+      background-color: #ffffff;
+      font-weight: bold;
+    }
 
-.icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
+    .icon {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
-<body onload="carregarPerfil()">
+<body>
+  <!-- Janela modal -->
+  <dialog id="formDialog">
+    <form method="dialog" id="formCadastro">
+      <h3>Cadastrar Funcionário</h3>
+
+      <div class="field-group">
+        <label for="cadastroNomeInput">Nome</label>
+        <input type="text" id="cadastroNomeInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroCpfInput">CPF</label>
+        <input type="text" id="cadastroCpfInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroCelularInput">Celular</label>
+        <input type="text" id="cadastroCelularInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroEmailInput">Email</label>
+        <input type="email" id="cadastroEmailInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroSenhaInput">Senha</label>
+        <input type="password" id="cadastroSenhaInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroGerenteInput">É gerente?</label>
+        <select id="cadastroGerenteInput">
+          <option value="0">Não</option>
+          <option value="1">Sim</option>
+        </select>
+      </div>
+
+      <div style="margin-top: 15px; text-align: right;">
+        <button type="button" onclick="salvarCadastro()">Salvar</button>
+        <button type="button" onclick="fecharFormulario()">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
 
   <main style="display: flex; justify-content: space-between; width: 100vw; height: 100%;  ">
-    <div class="side_menu" style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div class="side_menu"
+      style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
 
       <div class="options">
@@ -246,6 +293,34 @@
     </div>
 
     <div class="container" style="width: 100%; height: 100%;">
+      <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
+        <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
+          <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">DASHBOARD</p>
+          <p style="margin-right: 30px; font-weight: 600; font-size: 23px;">BEM VINDO, <span id="usuario"></span>!</p>
+        </div>
+      </div>
+      <!-- <div class="profile-card-row" id="profile-card-row">
+      </div> -->
+      <table class="tabela-usuarios">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Celular</th>
+            <th>Email</th>
+            <th>Senha</th>
+            <th>Gerente</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaUsuariosBody"></tbody>
+      </table>
+      
+    </div>
+    
+
+
+    <!-- <div class="container" style="width: 100%; height: 100%;">
         <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
           <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
             <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">USUÁRIOS</p>
@@ -340,10 +415,13 @@
               </tbody>
             </table>
           </div>
-    </main>
-    <script  src="./js/perfil.js"></script>
+    </div> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-  </body>
-  </html>
+  </main>
+  <script src="./js/users.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+
+</html>
