@@ -8,6 +8,8 @@ window.onload = () => {
     }
 };
 
+usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
 function makeEditable(fieldId, idSufixo) {
     setTimeout(() => {
         const span = document.getElementById(fieldId);
@@ -83,8 +85,8 @@ function criarCardPerfil(func) {
             ${criarCampoUsuario("Email", `email_${idSufixo}`, "email", func.email)}
             ${criarCampoUsuario("Senha", `senha_${idSufixo}`, "password", func.senha, true)}
             ${criarCampoSelect("Gerente", `gerente_${idSufixo}`, func.isGerente)}
-            <button id="saveBtn_${idSufixo}" class="save-btn" onclick="salvarPerfil(${func.idFuncionario})" style="display:none;">Salvar</button>
-            <button class="delete-btn" onclick="excluirPerfil(${func.idFuncionario})">Excluir Perfil</button>
+            <i class="fa-solid fa-floppy-disk" id="saveBtn_${idSufixo}" onclick="salvarPerfil(${func.idFuncionario})" style="display:none;"></i>
+            <i class="fa-solid fa-trash" onclick="excluirPerfil(${func.idFuncionario})"></i>
         </div>
     `;
 
@@ -151,7 +153,7 @@ function salvarPerfil(idFuncionario) {
             document.getElementById(`saveBtn_${idFuncionario}`).style.display = 'none';
         } else if (resposta.status === 404) {
             alert("Usuário não encontrado.");
-        } else {
+        } else {    
             throw `Erro ao atualizar: ${resposta.status}`;
         }
     })

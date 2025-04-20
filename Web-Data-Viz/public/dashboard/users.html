@@ -1,168 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f5f7fa;
-        margin: 0;
-        padding: 40px;
-        display: flex;
-        justify-content: center;
+      font-family: "Poppins", sans-serif;
+      background-color: #f2f2f2;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    main {
+      position: relative;
     }
 
     .profile-card {
-        background-color: #fff;
-        padding: 30px 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        display: flex;
-        text-align: center;
+      background-color: #fff;
+      padding: 30px 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
     }
 
     h2 {
-        margin-top: 0;
-        font-size: 24px;
-        color: #333;
+      margin-top: 0;
+      font-size: 24px;
+      color: #333;
     }
 
     .profile-card-row,
     .fieldGroupRow {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
     }
 
+    .profile-card-row {
+        width: 100%;
+    }
+
+
     .fieldGroupRow {
-        flex-direction: column;
+      flex-direction: column;
     }
 
     .field-group {
-        margin-bottom: 15px;
-        text-align: left;
+      margin-bottom: 15px;
+      text-align: left;
     }
 
     .label {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 5px;
-        display: block;
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 5px;
+      display: block;
     }
 
     .editable,
-    .input-edit,
-    select.input-edit {
-        font-size: 16px;
-        padding: 10px;
-        width: 100%;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        transition: all 0.3s ease-in-out;
-        display: block;
+    .input-edit {
+      font-size: 16px;
+      padding: 7px;
+      min-width: 120px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #f8f9fa;
+      transition: all 0.3s ease-in-out;
+      display: block;
     }
 
     .editable {
-        background-color: #f8f9fa;
-        cursor: pointer;
+      cursor: pointer;
     }
 
     .editable:hover {
-        background-color: #e9ecef;
+      background-color: #e9ecef;
     }
 
     .input-edit {
-        background-color: #fff;
-        display: none;
+      display: none;
+      background-color: #fff;
     }
 
-    .input-edit:focus,
-    select.input-edit:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        outline: none;
-    }
-
-    .save-btn {
-        display: none;
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 6px;
-        background-color: #007bff;
-        color: white;
+    .fa-trash,
+    .fa-floppy-disk {
+        font-size: 20px;
         cursor: pointer;
-        margin-top: 10px;
-        transition: background 0.3s ease;
     }
 
-    .save-btn:hover {
-        background-color: #0056b3;
+    .options {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 150px;
     }
-</style>
 
-<body onload="carregarPerfil()">
+    .options .option {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      width: 230px;
+      gap: 20px;
+      border-radius: 8px;
+    }
 
-    <button id="createBtn" class="create-btn" onclick="abrirFormulario()">Novo Funcionario</button>
+    .options .option.selected {
+      background-color: #fff;
+    }
 
-    <div class="profile-card-row" id="profile-card-row">
-    </div>
+    .options .option.selected a {
+      color: #000;
+    }
 
-    <!-- Janela modal -->
-    <dialog id="formDialog">
-        <form method="dialog" id="formCadastro">
-            <h3>Cadastrar Funcionário</h3>
+    .option img {
+      width: 30px;
+      height: 30px;
+    }
 
-            <div class="field-group">
+    .side_menu {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .logo {
+      margin: 20px 0;
+    }
+
+    .form-dialog {
+      font-family: "Poppins", sans-serif;
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .form-dialog h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-dialog button {
+        padding: 10px;
+        background-color: #04251f;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .users-container::-webkit-scrollbar {
+        width: 8px;
+        border: 1px solid #ffffff;
+    }
+
+    .users-container::-webkit-scrollbar-thumb {
+        background-color: #04251f;
+        border-radius: 3px;
+    }
+  </style>
+
+  <body onload="carregarPerfil()">
+    <main
+      style="
+        display: flex;
+        justify-content: space-between;
+        width: 100vw;
+        height: 100%;
+      "
+    >
+      <div
+        class="side_menu"
+        style="
+          background-color: #04251f;
+          width: 362px;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        "
+      >
+        <img
+          class="logo"
+          src="../assets/icon/v5-removebg-preview 2.png"
+          style="width: 250px; height: 150px"
+          alt=""
+        />
+
+        <div class="options">
+          <div class="option">
+            <img src="../assets/icon/home 3.png" alt="" />
+            <a href="../dashboard/home.html">HOME</a>
+          </div>
+          <div class="option">
+            <img src="../assets/icon/bar-chart 4.png" alt="" />
+            <a href="../dashboard/dash.html">DASHBOARD</a>
+          </div>
+          <div class="option selected">
+            <img src="../assets/icon/user (2) 2.png" alt="" />
+            <a href="../dashboard/users.html">USUÁRIOS</a>
+          </div>
+          <div class="option">
+            <img src="../assets/icon/edit 2.png" alt="" />
+            <a href="../dashboard/perfil.html">EDITAR</a>
+          </div>
+          <div class="option">
+            <img src="../assets/icon/logout 2.png" alt="" />
+            <a href="../index.html">SAIR</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" style="width: 100%; height: 100%">
+        <div
+          class="header"
+          style="width: 100%; height: 60px; background-color: #ffffff"
+        >
+          <div
+            class="container-textos-header"
+            style="
+              display: flex;
+              width: 100%;
+              height: 100%;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <p style="margin-left: 30px; font-weight: 600; font-size: 23px">
+              LISTA DE USUÁRIOS
+            </p>
+            <p style="margin-right: 30px; font-weight: 600; font-size: 23px">
+              BEM VINDO, <span id="usuario"></span>!
+            </p>
+          </div>
+        </div>
+
+        <div
+            class="button-container"
+            style="width: 100%; display: flex; justify-content: flex-end"
+          >
+            <button
+              style="
+                margin: 15px 20px 20px 0;
+                background-color: #04251f;
+                color: #ffffff;
+                border: none;
+                border-radius: 8px;
+                padding: 10px;
+                width: 130px;
+                font-size: 20px;
+                cursor: pointer;
+              "
+              id="createBtn"
+              class="create-btn"
+              onclick="abrirFormulario()"
+            >
+              +
+            </button>
+          </div>
+
+        <div
+          class="users-container"
+          style="min-width: 1000px; height: 480px; margin-top: 10px; overflow-y: scroll;"
+        >
+          
+          <div class="profile-card-row" id="profile-card-row"></div>
+
+          <!-- Janela modal -->
+          <dialog id="formDialog" class="form-dialog">
+            <form method="dialog" id="formCadastro">
+              <h3>Cadastrar Funcionário</h3>
+
+              <div class="field-group">
                 <label for="cadastroNomeInput">Nome</label>
-                <input type="text" id="cadastroNomeInput" required>
-            </div>
+                <input type="text" id="cadastroNomeInput" required />
+              </div>
 
-            <div class="field-group">
+              <div class="field-group">
                 <label for="cadastroCpfInput">CPF</label>
-                <input type="text" id="cadastroCpfInput" required>
-            </div>
+                <input type="text" id="cadastroCpfInput" required />
+              </div>
 
-            <div class="field-group">
+              <div class="field-group">
                 <label for="cadastroCelularInput">Celular</label>
-                <input type="text" id="cadastroCelularInput" required>
-            </div>
+                <input type="text" id="cadastroCelularInput" required />
+              </div>
 
-            <div class="field-group">
+              <div class="field-group">
                 <label for="cadastroEmailInput">Email</label>
-                <input type="email" id="cadastroEmailInput" required>
-            </div>
+                <input type="email" id="cadastroEmailInput" required />
+              </div>
 
-            <div class="field-group">
+              <div class="field-group">
                 <label for="cadastroSenhaInput">Senha</label>
-                <input type="password" id="cadastroSenhaInput" required>
-            </div>
+                <input type="password" id="cadastroSenhaInput" required />
+              </div>
 
-            <div class="field-group">
+              <div class="field-group">
                 <label for="cadastroGerenteInput">É gerente?</label>
                 <select id="cadastroGerenteInput">
-                    <option value="0">Não</option>
-                    <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                  <option value="1">Sim</option>
                 </select>
-            </div>
+              </div>
 
-            <div style="margin-top: 15px; text-align: right;">
+              <div style="margin-top: 15px; text-align: right">
                 <button type="button" onclick="salvarCadastro()">Salvar</button>
-                <button type="button" onclick="fecharFormulario()">Cancelar</button>
-            </div>
-        </form>
-    </dialog>
-
-
+                <button type="button" onclick="fecharFormulario()">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </dialog>
+        </div>
+      </div>
+    </main>
 
     <script src="./js/users.js"></script>
-
-</body>
-
+  </body>
 </html>
