@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin - Gerenciar Empresas</title>
   <link rel="stylesheet" href="admin.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -16,8 +20,7 @@
       <h2>Cadastro de Empresa</h2>
       <button id="btnCadastrarEmpresa">Cadastrar Empresa</button>
 
-      <dialog id="dialogCadastrarEmpresa">
-        <h2>Cadastrar Empresa</h2>
+      <dialog id="dialogCadastrarEmpresa" class="form-dialog">
         <form method="dialog" id="formEmpresa">
           <h3>Cadastrar Empresa</h3>
 
@@ -61,13 +64,11 @@
             <input type="text" id="inputComplemento" />
           </div>
 
-          <div style="margin-top: 15px; text-align: right;">
+          <div style="text-align: right;">
             <button type="button" onclick="salvarEmpresa()">Salvar</button>
-            <button type="button" onclick="fecharFormulario()">Cancelar</button>
+            <button id="cancelarCadastroEmpresa" type="button" onclick="fecharFormulario()">Cancelar</button>
           </div>
         </form>
-
-        <button id="cancelarCadastroEmpresa">Cancelar</button>
       </dialog>
     </section>
 
