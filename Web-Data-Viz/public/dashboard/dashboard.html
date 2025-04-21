@@ -15,7 +15,7 @@
 <body onload="carregarPerfil()">
 
   <main>
-    <div class="side_menu">
+    <div class="side-menu">
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
@@ -25,11 +25,11 @@
         </div>
         <div class="option selected">
           <img src="../assets/icon/bar-chart (1) 2.png" alt="">
-          <a href="#">DASHBOARD</a>
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
         </div>
         <div class="option">
           <img src="../assets/icon/user (1) 2.png" alt="">
-          <a href="../dashboard/user.html">USUÁRIOS</a>
+          <a href="../dashboard/users.html">USUÁRIOS</a>
         </div>
         <div class="option">
           <img src="../assets/icon/edit 2.png" alt="">
@@ -37,7 +37,7 @@
         </div>
         <div class="option">
           <img src="../assets/icon/logout 2.png" alt="">
-          <a href="#">SAIR</a>
+          <a href="../index.html">SAIR</a>
         </div>
       </div>
     </div>
@@ -101,7 +101,15 @@
                   data: [100, 200, 150, 300],
                   backgroundColor: '#04251F'
                 }]
-              }
+              },
+              options: {
+              plugins: { legend: { display: true } },
+              scales: {
+                y: { beginAtZero: true }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+             }
             });
           
             new Chart(ctx2, {
@@ -113,7 +121,15 @@
                   data: [400, 300, 500, 600],
                   backgroundColor: '#04251F'
                 }]
-              }
+              },
+              options: {
+              plugins: { legend: { display: true } },
+              scales: {
+                y: { beginAtZero: true }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+             }
             });
           </script>
   </body>
