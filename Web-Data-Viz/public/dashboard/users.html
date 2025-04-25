@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Usuários - Dashboard</title>
+
+  <link rel="stylesheet" href="../css/dashboard-css/users.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Janela modal -->
+  <dialog id="formDialog" class="form-dialog">
+    <form method="dialog" id="formCadastro">
+      <h3>Cadastrar Funcionário</h3>
+
+      <div class="field-group">
+        <label for="cadastroNomeInput">Nome</label>
+        <input type="text" id="cadastroNomeInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroCpfInput">CPF</label>
+        <input type="text" id="cadastroCpfInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroCelularInput">Celular</label>
+        <input type="text" id="cadastroCelularInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroEmailInput">Email</label>
+        <input type="email" id="cadastroEmailInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroSenhaInput">Senha</label>
+        <input type="password" id="cadastroSenhaInput" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cadastroGerenteInput">É gerente?</label>
+        <select id="cadastroGerenteInput">
+          <option value="0">Não</option>
+          <option value="1">Sim</option>
+        </select>
+      </div>
+
+      <div style="margin-top: 15px; text-align: right;">
+        <button type="button" onclick="salvarCadastro()">Salvar</button>
+        <button type="button" onclick="fecharFormulario()">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+      <div class="options">
+        <div class="option">
+          <img src="../assets/icon/home 3.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
+
+        </div>
+        <div class="option selected">
+          <img src="../assets/icon/user (2) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/edit 2.png" alt="">
+          <a href="../dashboard/perfil.html">EDITAR</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="../index.html">SAIR</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>LISTA DE USUÁRIOS</p>
+          <p>BEM VINDO, <span id="usuario"></span>!</p>
+        </div>
+      </div>
+      <!-- <div class="profile-card-row" id="profile-card-row">
+      </div> -->
+      <div class="container-button">
+        <button onclick="abrirFormulario()">+</button>
+      </div>
+
+      <div class="container-tabela-usuarios">
+        <table class="tabela-usuarios">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Celular</th>
+              <th>Email</th>
+              <th>Senha</th>
+              <th>Gerente</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaUsuariosBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script src="./js/users.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+.field-group {
+display: flex;
+flex-direction: column;
+flex-wrap: wrap;
+margin: 15px;
+margin-bottom: 5px;
+text-align: left;
+}
+
+.label {
+font-size: 14px;
+color: #666;
+margin-bottom: 5px;
+display: block;
+}
+
+.editable,
+.input-edit {
+font-size: 16px;
+padding: 10px;
+min-width: 170px;
+border-radius: 6px;
+border: 1px solid #ccc;
+background-color: #f8f9fa;
+transition: all 0.3s ease-in-out;
+display: block;
+}
+
+.editable {
+cursor: pointer;
+}
+
+.editable:hover {
+background-color: #e9ecef;
+}
+
+.input-edit {
+display: none;
+background-color: #fff;
+}
+
+.input-edit:focus {
+border-color: #007bff;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+width: 100px;
+}
+
+.save-btn {
+display: none;
+width: 100%;
+height: 40px;
+padding: 10px;
+font-size: 16px;
+border: none;
+border-radius: 6px;
+background-color: #04251f;
+color: white;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+
+.save-btn:hover {
+background-color: #145b4f;
+}
+
+.form-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  width: 400px;
+}
+
+.form-dialog button {
+  border: none;
+  background-color: #04251f;
+  cursor: pointer;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100px;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-dialog button:hover {
+  background-color: #145b4f;
+}
+
+.container-button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+  margin-bottom: 20px;
+}
+
+.container-button button {
+  padding: 15px;
+  width: 150px;
+  height: 50px;
+  border: none;
+  background-color: #04251f;
+  color: #fff;
+  border-radius: 8px;
+  margin: 20px 40px 20px 0;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.container-tabela-usuarios {
+  display: flex;
+  width: 1000px;
+  height: 60%;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.tabela-usuarios {
+  width: 100%;
+  height: 450px;
+  border-collapse: collapse;
+  margin-top: 60px;
+}
+
+.tabela-usuarios th,
+.tabela-usuarios td {
+  border: 1px solid #145b4f;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.tabela-usuarios th {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}

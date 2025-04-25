@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="../css/dashboard-css/home.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
+</head>
+
+<body onload="carregarPerfil()">
+
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+      <div class="options">
+        <div class="option selected">
+          <img src="../assets/icon/home (1) 2.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
+
+        </div>
+        <div class="option">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/edit 2.png" alt="">
+          <a href="../dashboard/perfil.html">EDITAR</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="../index.html">SAIR</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+          <div class="container-textos-header">
+            <p>INICIO</p>
+            <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+            
+            <!-- <button class="menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; margin-right: 30px; cursor: pointer;">
+                <img src="../assets/icon/Header.png" alt="Menu" style="width: 30px; height: 30px;">
+              </button> -->
+          </div>
+        </div>
+
+        <div class="caixa-principal">
+            <div class="linha-setores">
+              <div class="caixa-setor">
+                <p>SETOR</p>
+                <div class="caixa-branca"></div>
+              </div>
+              <div class="caixa-setor">
+                <p>SETOR</p>
+                <div class="caixa-branca"></div>
+              </div>
+              <div class="caixa-setor">
+                <p>SETOR</p>
+                <div class="caixa-branca"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="graficos-superiores">
+            <div class="grafico-box"><canvas id="grafico1"></canvas></div>
+            <div class="grafico-box"><canvas id="grafico2"></canvas></div>
+            <div class="grafico-box"><canvas id="grafico3"></canvas></div>
+          </div>
+  
+          <div class="grafico-maior">
+            <canvas id="graficoPrincipal"></canvas>
+          </div>
+        </div>
+      </div>
+          
+    
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+      usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+// function toggleSidebar() {
+//   const menu = document.getElementById('sideMenu');
+//   const isHidden = menu.style.display === 'none';
+
+//   if (isHidden) {
+//     menu.style.display = 'flex';  // Torna o menu visível
+//   } else {
+//     menu.style.display = 'none';  // Esconde o menu
+//   }
+// }
+      // Gráfico 1 - Setores A, B, C
+      new Chart(document.getElementById("grafico1"), {
+        type: 'bar',
+        data: {
+          labels: ['Setor A', 'Setor B', 'Setor C'],
+          datasets: [{
+            label: 'Valor',
+            data: [70, 40, 90],
+            backgroundColor: ['#04251F', '#04251F', '#04251F']
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 100 } },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+
+      // Gráfico 2 - Setores A, B, C
+      new Chart(document.getElementById("grafico2"), {
+        type: 'bar',
+        data: {
+          labels: ['Setor A', 'Setor B', 'Setor C'],
+          datasets: [{
+            label: 'Valor',
+            data: [50, 60, 70],
+            backgroundColor: ['#04251F', '#04251F', '#04251F']
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 100 } },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+
+      // Gráfico 3 - Setores A, B, C
+      new Chart(document.getElementById("grafico3"), {
+        type: 'bar',
+        data: {
+          labels: ['Setor A', 'Setor B', 'Setor C'],
+          datasets: [{
+            label: 'Valor',
+            data: [80, 60, 100],
+            backgroundColor: ['#04251F', '#04251F', '#04251F']
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 100 } },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+
+      new Chart(document.getElementById("graficoPrincipal"), {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+          datasets: [{
+            label: 'Total Produzido',
+            data: [100, 120, 90, 130],
+            backgroundColor: 'rgba(33,150,243,0.2)',
+            borderColor: '#04251F',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          plugins: { legend: { display: true } },
+          scales: {
+            y: { beginAtZero: true }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+    </script>
+  </body>
+  </html>

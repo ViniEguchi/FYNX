@@ -11,34 +11,32 @@
 
     <style>
         #div_mensagem {
-    text-align: center;
-    margin-bottom: 10px;
-    color: red;
-    }   
+            text-align: center;
+            margin-bottom: 10px;
+            color: red;
+        }
 
-    #div_mensagem2 {
-    text-align: center;
-    margin-bottom: 10px;
-    color: red;
-    }
+        #div_mensagem2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: red;
+        }
     </style>
     <div class="container">
         <div class="form-container">
-
 
             <div class="form-tela" id="tela1">
 
                 <div class="alinhar_btn_voltar">
                     <h1 id="cadastro">Cadastro</h1>
                     <a href="index.html">
-                        <img src="assets/btn_voltar.png" alt="">
+                        <img src="assets/btn_voltar.png" alt="Voltar">
                     </a>
                 </div>
-                
+
                 <div class="input-container">
                     <i class="fa-solid fa-building"></i>
                     <input type="text" id="input_cnpj" placeholder="CNPJ" oninput="validarCNPJ()">
-                    
                 </div>
 
                 <div class="input-container">
@@ -66,12 +64,17 @@
                 </div>
                 <div id="div_mensagem"></div>
 
-
                 <button onclick="nextScreen()">Próximo</button>
                 <p>Já possui uma conta? <a href="login.html">Entre agora</a></p>
             </div>
 
             <div class="form-tela" id="tela2" style="display: none;">
+                <div class="alinhar_btn_voltar">
+                    <a href="javascript:void(0);" onclick="voltarTela()">
+                        <img src="assets/btn_voltar.png" alt="Voltar">
+                    </a>
+                </div>
+
                 <div class="header-tela2">
                     <h1>Quase lá...</h1>
                 </div>
@@ -79,31 +82,37 @@
                 <div class="input-container">
                     <i class="fas fa-map-marked-alt"></i>
                     <input id="input_cep"  type="text" placeholder="CEP" oninput="validarCEP()">
-                    <i id="alinhar_i" class="fas fa-globe"></i>
-                    <input  id="uf" type="text" placeholder="UF" >
-                </div>
-    
-                <div class="input-container">
-                    <i class="fas fa-map"></i>
-                    <input id="input_estado" type="text" placeholder="Estado" oninput="validarEstado()">
                 </div>
                 <div class="input-container">
                     <i class="fas fa-road"></i>
                     <input  id="input_logradouro" type="text" placeholder="Logradouro" oninput="validarRua()">
                 </div>
+
+                <div class="input-container">
+                    <i class="fas fa-home"></i>
+                    <input id="input_complemento" type="text" placeholder="Complemento" oninput="validarComplemento()" >
+                </div>
+
                 <div class="input-container">
                     <i class="fas fa-building"></i>
-                    <input id="input_bairro" type="text" placeholder="Bairro" oninput="validarBairro()" >
+                    <input id="input_bairro" type="text" placeholder="Bairro" oninput="validarBairro()">
                     <i id="alinhar_i" class="fas fa-door-open"></i>
                     <input id="input_numero" type="text" placeholder="Número" oninput="validarNumero()">
                 </div>
 
                 <div id="div_mensagem2"></div>
 
-                <button onclick="cadastrar()">Finalizar</button>
+                <button  onclick="cadastrar()">Finalizar</button>
+                <div id="loading" style="display: none;">
+                    <img src="assets/circle-loading.gif" alt="Carregando..." width="50">
+                </div>
             </div>
         </div>
     </div>
+
+</body>
+</html>
+
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
@@ -139,8 +148,12 @@
     validarBairro();
     validarRua();
     validarNumero();
+    validarComplemento();
 
     if (correto === true) {
+
+        document.getElementById('loading').style.display = 'block';
+
         var responsavelVar = input_responsavel.value;
         var emailVar = input_email.value;
         var senhaVar = input_senha.value;
@@ -153,6 +166,7 @@
         var estadoVar = input_estado.value;
         var numeroVar = input_numero.value;
         var ufVar = uf.value;
+        var complementoVar = input_complemento.value;
 
         fetch("/usuarios/cadastrar", {
             method: "POST",
@@ -171,36 +185,55 @@
                 logradouroServer: logradouroVar,
                 numeroServer: numeroVar,
                 estadoServer: estadoVar,
-                ufServer: ufVar
+                ufServer: ufVar,
+                complementoServer: complementoVar
             }),
         })
         .then(function (resposta) {
+
+            document.getElementById('loading').style.display = 'none';
+
             if (resposta.ok) {
                 console.log("Cadastro realizado com sucesso!");
                 div_mensagem.innerHTML = "<span style='color: green;'>Cadastro realizado com sucesso!</span>";
+                
+                window.location.href = "index.html";  
             } else {
                 div_mensagem.innerHTML = "<span style='color: red;'>Erro ao cadastrar. Tente novamente.</span>";
             }
         })
         .catch(function (erro) {
+
+            document.getElementById('loading').style.display = 'none';
+            
             console.error("Erro:", erro);
             div_mensagem.innerHTML = "<span style='color: red;'>Erro ao conectar ao servidor.</span>";
         });
-    } else {
-        alert("Por favor, corrija os erros antes de prosseguir.");
     }
 }
 
-    var isEmail = false;
-  var isSenha = false;
-  var mensagem_error_email = "";
-  function validarCNPJ() {
+
+var isEmail = false;
+var isSenha = false;
+var mensagem_error_email = "";
+function validarCNPJ() {
     var cnpj = input_cnpj.value;
     var tamanho_cnpj = cnpj.length;
     var possui_traco = cnpj.includes("-");
     var possui_barra = cnpj.includes("/");
     var possui_ponto = cnpj.includes(".");
+    var possui_1 = input_cnpj.value.includes("1")
+    var possui_2 = input_cnpj.value.includes("2")
+    var possui_3 = input_cnpj.value.includes("3")
+    var possui_4 = input_cnpj.value.includes("4")
+    var possui_5 = input_cnpj.value.includes("5")
+    var possui_6 = input_cnpj.value.includes("6")
+    var possui_7 = input_cnpj.value.includes("7")
+    var possui_8 = input_cnpj.value.includes("8")
+    var possui_9 = input_cnpj.value.includes("9")
+    var possui_0 = input_cnpj.value.includes("0")
     var mensagem = "";
+
 
     if (possui_traco || possui_barra || possui_ponto) {
         input_cnpj.style.borderColor = "red";
@@ -208,27 +241,47 @@
         correto = false;
     }
 
-     else if (tamanho_cnpj !== 14) {
+    else if (tamanho_cnpj !== 14) {
         input_cnpj.style.borderColor = "red";
         mensagem += "O CNPJ deve possuir exatamente 14 números. <b>Você digitou " + tamanho_cnpj + " números.</b> <br>";
         correto = false;
-    } else if (tamanho_cnpj == 14) {
-        input_cnpj.style.borderColor = "green";
-        mensagem += "<span style='color: green;'>CNPJ válido</span><br>";
-    } else if (possui_traco || possui_barra || possui_ponto) {
-        input_cnpj.style.borderColor = "red";
-        mensagem += "Por favor, insira o CNPJ sem pontos, traços ou barras. Caracteres inválidos encontrados. <br>";
+    }
+    else if(!(cnpj.includes("0") || cnpj.includes("1") || cnpj.includes("2") || cnpj.includes("3") || 
+               cnpj.includes("4") || cnpj.includes("5") || cnpj.includes("6") || cnpj.includes("7") || 
+               cnpj.includes("8") || cnpj.includes("9"))){
+        mensagem += "O CNPJ não pode conter letras. <br>";
         correto = false;
     }
+    else {
+        input_cnpj.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>CNPJ válido</span>";
+    }
+
     div_mensagem.innerHTML = mensagem;
 }
+
 
 function validarRazaoSocial() {
     var razao_social = input_razao_social.value;
     var tamanho_razao = razao_social.length;
+    var possui_1 = input_razao_social.value.includes("1")
+    var possui_2 = input_razao_social.value.includes("2")
+    var possui_3 = input_razao_social.value.includes("3")
+    var possui_4 = input_razao_social.value.includes("4")
+    var possui_5 = input_razao_social.value.includes("5")
+    var possui_6 = input_razao_social.value.includes("6")
+    var possui_7 = input_razao_social.value.includes("7")
+    var possui_8 = input_razao_social.value.includes("8")
+    var possui_9 = input_razao_social.value.includes("9")
+    var possui_0 = input_razao_social.value.includes("0")
     var mensagem = "";
 
-    if (tamanho_razao < 3) {
+    if (possui_1 || possui_2 || possui_3 || possui_4 || possui_5 || possui_6 || possui_7 || possui_8 || possui_9 || possui_0 ) {
+        input_razao_social.style.borderColor = "red";
+        mensagem += "A razão social não pode conter números.  <b>Por favor, remova os dígitos numéricos.</b> <br>";
+        correto = false;
+    } 
+    else if (tamanho_razao < 3) {
         input_razao_social.style.borderColor = "red";
         mensagem += "A razão social deve ter pelo menos 3 caracteres. <b>Atualmente, possui " + tamanho_razao + " caracteres. </b><br>";
         correto = false;
@@ -242,9 +295,24 @@ function validarRazaoSocial() {
 function validarNomeFantasia() {
     var nome_fantasia = input_nome_fantasia.value;
     var tamanho_fantasia = nome_fantasia.length;
+    var possui_1 = input_nome_fantasia.value.includes("1")
+    var possui_2 = input_nome_fantasia.value.includes("2")
+    var possui_3 = input_nome_fantasia.value.includes("3")
+    var possui_4 = input_nome_fantasia.value.includes("4")
+    var possui_5 = input_nome_fantasia.value.includes("5")
+    var possui_6 = input_nome_fantasia.value.includes("6")
+    var possui_7 = input_nome_fantasia.value.includes("7")
+    var possui_8 = input_nome_fantasia.value.includes("8")
+    var possui_9 = input_nome_fantasia.value.includes("9")
+    var possui_0 = input_nome_fantasia.value.includes("0")
     var mensagem = "";
 
-    if (tamanho_fantasia < 3) {
+    if (possui_1 || possui_2 || possui_3 || possui_4 || possui_5 || possui_6 || possui_7 || possui_8 || possui_9 || possui_0 ) {
+        input_nome_fantasia.style.borderColor = "red";
+        mensagem += "O nome fantasia não pode conter números.  <b>Por favor, remova os dígitos numéricos.</b> <br>";
+        correto = false;
+    } 
+    else if (tamanho_fantasia < 3) {
         input_nome_fantasia.style.borderColor = "red";
         mensagem += "O nome fantasia deve ter pelo menos 3 caracteres. <b>Você digitou apenas " + tamanho_fantasia + " caracteres. </b><br>";
         correto = false;
@@ -359,22 +427,40 @@ function validarEmail() {
     div_mensagem.innerHTML = mensagem;
 }
 
-
-
 function validarCEP() {
     var cep = input_cep.value;
     var tamanho_cep = cep.length;
+    var possui_1 = input_cep.value.includes("1")
+    var possui_2 = input_cep.value.includes("2")
+    var possui_3 = input_cep.value.includes("3")
+    var possui_4 = input_cep.value.includes("4")
+    var possui_5 = input_cep.value.includes("5")
+    var possui_6 = input_cep.value.includes("6")
+    var possui_7 = input_cep.value.includes("7")
+    var possui_8 = input_cep.value.includes("8")
+    var possui_9 = input_cep.value.includes("9")
+    var possui_0 = input_cep.value.includes("0")   
     var mensagem = "";
+    var correto = true; 
 
     if (tamanho_cep !== 8) {
         input_cep.style.borderColor = "red";
-        mensagem += "O CEP deve ter exatamente 8 dígitos. <b> Você digitou " + tamanho_cep + " dígitos. </b><br>";
+        mensagem += "O CEP deve ter exatamente 8 dígitos. <b>Você digitou " + tamanho_cep + " dígitos.</b><br>";
         correto = false;
-    } else {
+    } 
+
+    else if(!(cep.includes("0") || cep.includes("1") || cep.includes("2") || cep.includes("3") || 
+    cep.includes("4") || cep.includes("5") || cep.includes("6") || cep.includes("7") || 
+    cep.includes("8") || cep.includes("9"))){
+        mensagem += "O CNPJ não pode conter letras. <br>";
+        correto = false;
+    }
+    else {
         input_cep.style.borderColor = "green";
         mensagem += "<span style='color: green;'>CEP válido</span>";
     }
     div_mensagem2.innerHTML = mensagem;
+
 }
 
 function validarEstado() {
@@ -395,8 +481,24 @@ function validarEstado() {
 function validarBairro() {
     var mensagem = "";
     var bairro = input_bairro.value;
+    var possui_1 = input_bairro.value.includes("1")
+    var possui_2 = input_bairro.value.includes("2")
+    var possui_3 = input_bairro.value.includes("3")
+    var possui_4 = input_bairro.value.includes("4")
+    var possui_5 = input_bairro.value.includes("5")
+    var possui_6 = input_bairro.value.includes("6")
+    var possui_7 = input_bairro.value.includes("7")
+    var possui_8 = input_bairro.value.includes("8")
+    var possui_9 = input_bairro.value.includes("9")
+    var possui_0 = input_bairro.value.includes("0")
+    
+    if (possui_1 || possui_2 || possui_3 || possui_4 || possui_5 || possui_6 || possui_7 || possui_8 || possui_9 || possui_0 ) {
+        input_bairro.style.borderColor = "red";
+        mensagem += "O nome do bairro não pode conter números.  <b>Por favor, remova os dígitos numéricos.</b> <br>";
+        correto = false;
+    } 
 
-    if (bairro.length <= 0) {
+    else if (bairro.length <= 0) {
         input_bairro.style.borderColor = "red";
         mensagem += "Por favor, insira o nome do bairro. <br>";
         correto = false;
@@ -410,8 +512,23 @@ function validarBairro() {
 function validarRua() {
     var mensagem = "";
     var rua = input_logradouro.value;
-
-    if (rua.length <= 0) {
+    var possui_1 = input_logradouro.value.includes("1")
+    var possui_2 = input_logradouro.value.includes("2")
+    var possui_3 = input_logradouro.value.includes("3")
+    var possui_4 = input_logradouro.value.includes("4")
+    var possui_5 = input_logradouro.value.includes("5")
+    var possui_6 = input_logradouro.value.includes("6")
+    var possui_7 = input_logradouro.value.includes("7")
+    var possui_8 = input_logradouro.value.includes("8")
+    var possui_9 = input_logradouro.value.includes("9")
+    var possui_0 = input_logradouro.value.includes("0")
+    
+    if (possui_1 || possui_2 || possui_3 || possui_4 || possui_5 || possui_6 || possui_7 || possui_8 || possui_9 || possui_0 ) {
+        input_logradouro.style.borderColor = "red";
+        mensagem += "O nome do logradouro não pode conter números.  <b>Por favor, remova os dígitos numéricos.</b> <br>";
+        correto = false;
+    } 
+    else if (rua.length <= 0) {
         input_logradouro.style.borderColor = "red";
         mensagem += "Por favor, insira o nome da rua. <br>";
         correto = false;
@@ -421,6 +538,24 @@ function validarRua() {
     }
     div_mensagem2.innerHTML = mensagem;
 }
+
+function validarComplemento(){
+    var mensagem = "";
+    var complemento = input_complemento.value;
+
+    if(complemento.length <= 0){
+        input_complemento.style.borderColor = "red";
+        mensagem += "Por favor, insira o complemento. <br>";
+        correto = false;
+
+    }else{
+        input_complemento.style.borderColor = "green";
+        mensagem += "<span style='color: green;'>Complemento válido</span>";
+    }
+    div_mensagem2.innerHTML = mensagem;
+
+}
+
 function validarNumero() {
     var mensagem = "";
     var numero = input_numero.value;
@@ -429,7 +564,14 @@ function validarNumero() {
         input_numero.style.borderColor = "red";
         mensagem += "Por favor, insira um número. <br>";
         correto = false;
-    } else {
+    }
+    else if(!(numero.includes("0") || numero.includes("1") || numero.includes("2") || numero.includes("3") || 
+    numero.includes("4") || numero.includes("5") || numero.includes("6") || numero.includes("7") || 
+    numero.includes("8") || numero.includes("9"))){
+        mensagem += "O numero não pode conter letras. <br>";
+        correto = false;
+        }
+    else {
         input_numero.style.borderColor = "green";
         mensagem += "<span style='color: green;'>Número válido</span>";
     }
@@ -472,14 +614,8 @@ function validarSenha() {
     div_mensagem.innerHTML = mensagem;
 }
 
+    div_mensagem.innerHTML  = "";
 
-
-
-        div_mensagem.innerHTML  = "";
-
-
-
-        
     </script>
 </body>
-</html>
+</html> 

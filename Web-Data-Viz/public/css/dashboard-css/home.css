@@ -1,0 +1,145 @@
+main {
+  height: 100% !important;
+}
+
+.caixa-principal {
+  background-color: #04251f;
+  padding: 20px;
+  border-radius: 8px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 10px;
+  border: 3px solid #ffffff;
+  width: 95%;
+}
+
+.linha-setores {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.caixa-setor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.caixa-setor p {
+  margin-bottom: 10px;
+}
+
+.caixa-branca {
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 6px;
+  width: 80%;
+  height: 50px;
+}
+
+.graficos-superiores {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.grafico-box {
+  flex: 1;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 200px !important;
+}
+
+.grafico-maior {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-right: 25px;
+  width: 95%;
+  height: 220px;
+}
+
+@media (max-width: 624px) {
+  /* Esconde a sidebar */
+  .side_menu {
+    display: none !important;
+  }
+
+  /* Header INÍCIO + BEM-VINDO na mesma linha, com texto menor */
+  .header .container-textos-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5px;
+  }
+
+  .header .container-textos-header h1,
+  .header .container-textos-header h2 {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  /* Caixas dos setores LADO A LADO com wrap */
+  .linha-setores {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  .caixa-setor {
+    width: 30% !important;
+    padding: 6px 4px !important;
+    font-size: 12px !important;
+  }
+
+  .caixa-branca {
+    width: 100% !important;
+  }
+  .graficos-superiores {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px;
+  }
+
+  .grafico-box {
+    width: 45%;
+    min-width: 140px;
+    margin: 0;
+  }
+
+  .grafico-maior {
+    margin: 10px;
+  }
+
+  /* Ajuste geral */
+  .caixa-principal {
+    margin: 10px;
+  }
+
+  canvas {
+    height: auto !important;
+  }
+}
