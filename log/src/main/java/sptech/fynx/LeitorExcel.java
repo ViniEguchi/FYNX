@@ -38,6 +38,7 @@ public class LeitorExcel {
         try {
             System.out.println("Iniciando leitura...");
 
+
             // Log de início - Grava um log informando que a leitura foi iniciada
             LogModel logInicio = new LogModel("Iniciando leitura...", getDataHoraBrasilia(), true);
             logDAO.inserirLog(logInicio);
