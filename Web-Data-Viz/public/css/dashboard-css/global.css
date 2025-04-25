@@ -107,4 +107,97 @@
     font-weight: 600;
     font-size: 23px;
   }
+
+  @media (max-width: 624px) {
+    /* Oculta a sidebar */
+    .side-menu {
+      display: none !important;
+    }
+  
+    /* Centraliza o conteúdo principal */
+    main {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .container {
+      padding: 10px;
+      width: 100%;
+    }
+
+    .bem-vindo {
+      display: none;
+    }
+  
+    .header {
+      padding: 0 10px;
+      height: auto;
+    }
+  
+    .container-textos-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+  
+    .container-textos-header p {
+      font-size: 16px;
+    }
+  
+    .logo {
+      width: 180px;
+      height: auto;
+    }
+  
+    .options {
+      gap: 15px;
+      margin-bottom: 60px;
+    }
+  
+    .options .option {
+      width: 90%;
+      gap: 10px;
+      padding: 8px;
+      font-size: 14px;
+    }
+  
+    .caixa-principal {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+  
+    .linha-setores {
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+  
+    .caixa-setor {
+      width: 90%;
+      font-size: 14px;
+    }
+  
+    .caixa-branca {
+      width: 100%;
+    }
+  
+    .graficos-superiores {
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+  
+    .grafico-box,
+    .grafico-maior {
+      width: 95%;
+      margin: 10px 0;
+    }
+  
+    canvas {
+      height: auto !important;
+      max-height: 200px;
+    }
+  }
+  
   
