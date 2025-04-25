@@ -97,20 +97,24 @@ canvas {
 
   /* Caixas dos setores LADO A LADO com wrap */
   .linha-setores {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch;
     gap: 10px;
-    margin: 10px 0;
+    padding: 0 10px;
   }
 
   .caixa-setor {
-    width: 30%;
-    min-width: 90px;
-    padding: 6px 4px;
-    font-size: 12px;
+    width: 30% !important;
+    padding: 6px 4px !important;
+    font-size: 12px !important;
   }
 
+  .caixa-branca {
+    width: 100% !important;
+  }
   .graficos-superiores {
     display: flex;
     flex-direction: row;
