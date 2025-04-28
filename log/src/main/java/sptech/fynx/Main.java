@@ -8,8 +8,8 @@ public class Main {
     public static void main(String[] args) {
 
         // ===== VERSÃO S3 =====
-        String bucketName = "s3-raw-lab-giovanna"; // Altere para o nome do seu bucket
-        String nomeArquivo = "tratamento_dados.xlsx"; // Caminho do arquivo dentro do bucket
+        String bucketName = System.getenv("BUCKET_NAME"); // Altere para o nome do seu bucket
+        String nomeArquivo = System.getenv("ARCHIEVE_NAME"); // Caminho do arquivo dentro do bucket
 
         ConexaoBD conexaoBD = new ConexaoBD();
         DadosDAO dadosDAO = new DadosDAO(conexaoBD.getConexaoBD());

@@ -75,7 +75,7 @@ public class DadosDAO {
                 """;
 
         // Tamanho do lote (pode ser ajustado conforme necessidade)
-        int batchSize = 1000;
+        int batchSize = 2000;
 
         // Inserir os dados em lote
         for (int i = 0; i < dadosList.size(); i += batchSize) {
