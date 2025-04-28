@@ -12,52 +12,43 @@ import java.util.List;
 
 public class DadosDAO {
 
-    //atributo - jdbcTembplate pra usar o framework mais facilmente pras querrys
-
     private final JdbcTemplate jdbcTemplate;
-
-    //conexão com o banco -- COnecction é uma interface do JDBC
     private final Connection conexao;
 
     public DadosDAO(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource); // Inicializa o JdbcTemplate com o DataSource
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
 
-        // testar conexão -- variavel começa nula
         Connection tempConexao = null;
-
         try {
-
-            // Tenta obter uma conexão a partir do DataSource
-            tempConexao = jdbcTemplate.getDataSource().getConnection(); // Obtém a conexão do DataSource
+            tempConexao = jdbcTemplate.getDataSource().getConnection();
+            limparTabelaHistorico(); // <<< AQUI! Faz o TRUNCATE logo que inicia
             criarTabela();
         } catch (SQLException e) {
-            e.printStackTrace();  // Tratamento de exceção
-
+            e.printStackTrace();
         } finally {
-            this.conexao = tempConexao;  // Atribui a conexão (null caso falhe)
+            this.conexao = tempConexao;
         }
     }
 
     private void criarTabela() {
         String sql = """
-                    CREATE TABLE IF NOT EXISTS dados (
-                        idDados INT PRIMARY KEY AUTO_INCREMENT,
-                        data_contratacao DATE,
-                        valor_operacao DOUBLE,
-                        valor_desenbolsado DOUBLE,
-                        fonte_recurso VARCHAR(50),
-                        custo_financeiro VARCHAR(50),
-                        juros FLOAT,
-                        prazo_carencia INT,
-                        prazo_amortizacao INT,
-                        produto VARCHAR(50),
-                        setor_cnae VARCHAR(50),
-                        subsetor_cnae VARCHAR(50),
-                        cnae CHAR(7),
-                        situacao_operacao VARCHAR(50)
-                    )
+                CREATE TABLE IF NOT EXISTS dados (
+                    idDados INT PRIMARY KEY AUTO_INCREMENT,
+                    data_contratacao DATE,
+                    valor_operacao DOUBLE,
+                    valor_desenbolsado DOUBLE,
+                    fonte_recurso VARCHAR(50),
+                    custo_financeiro VARCHAR(50),
+                    juros FLOAT,
+                    prazo_carencia INT,
+                    prazo_amortizacao INT,
+                    produto VARCHAR(50),
+                    setor_cnae VARCHAR(50),
+                    subsetor_cnae VARCHAR(50),
+                    cnae CHAR(7),
+                    situacao_operacao VARCHAR(50)
+                )
                 """;
-
         jdbcTemplate.execute(sql);
     }
 
@@ -67,22 +58,19 @@ public class DadosDAO {
 
     public void inserirDadosEmLote(List<DadosModel> dadosList) {
         String sql = """
-                    INSERT INTO historico (
-                        data_contratacao, valor_operacao, valor_desenbolsado, fonte_recurso, 
-                        custo_financeiro, juros, prazo_carencia, prazo_amortizacao, produto, 
-                        setor_cnae, subsetor_cnae, cnae, situacao_operacao
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO historico (
+                    data_contratacao, valor_operacao, valor_desenbolsado, fonte_recurso, 
+                    custo_financeiro, juros, prazo_carencia, prazo_amortizacao, produto, 
+                    setor_cnae, subsetor_cnae, cnae, situacao_operacao
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        // Tamanho do lote (pode ser ajustado conforme necessidade)
-        int batchSize = 2000;
+        int batchSize = 1000;
 
-        // Inserir os dados em lote
         for (int i = 0; i < dadosList.size(); i += batchSize) {
             int end = Math.min(i + batchSize, dadosList.size());
             List<DadosModel> sublist = dadosList.subList(i, end);
 
-            // Executar a inserção em lote com o BatchPreparedStatementSetter
             jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -107,8 +95,11 @@ public class DadosDAO {
                     return sublist.size();
                 }
             });
-
-
         }
+    }
+
+    private void limparTabelaHistorico() {
+        String sql = "TRUNCATE TABLE historico";
+        jdbcTemplate.execute(sql);
     }
 }
