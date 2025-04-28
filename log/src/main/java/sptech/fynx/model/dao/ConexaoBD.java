@@ -13,7 +13,7 @@ public class ConexaoBD {
 
         DriverManagerDataSource driver = new DriverManagerDataSource();
 
-        String host = "localhost";  // Host fixo
+        String host = System.getenv("DB_HOST");
         String port = System.getenv("DB_PORT");
         String database = System.getenv("DB_DATABASE");
         String user = System.getenv("DB_USER");
