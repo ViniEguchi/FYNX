@@ -2,6 +2,9 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +49,7 @@
     <div class="header">
       <div class="container-textos-header">
         <p>DASHBOARD</p>
-        <p>BEM VINDO, <span id="usuario"></span>!</p>
+        <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
       </div>
     </div>
 
@@ -123,13 +126,15 @@
             const ctx2 = document.getElementById('grafico2').getContext('2d');
           
             new Chart(ctx1, {
-              type: 'bar',
+              type: 'line',
               data: {
                 labels: ['Jan', 'Fev', 'Mar', 'Abr'],
                 datasets: [{
-                  label: 'LALALA',
-                  data: [100, 200, 150, 300],
-                  backgroundColor: '#04251F'
+                  label: 'Valor médio de operações por mês',
+                  data: [5000, 500, 7000, 2000],
+                  borderColor: '#04251F',
+                  backgroundColor: 'rgba(4, 37, 31, 0.2)',
+                  fill: true
                 }]
               },
               options: {
@@ -145,10 +150,10 @@
             new Chart(ctx2, {
               type: 'bar',
               data: {
-                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                labels: ['Transporte', 'Comércio', 'Alimentação', 'Varejo'],
                 datasets: [{
-                  label: 'LALALA',
-                  data: [400, 300, 500, 600],
+                  label: 'Total de operações por setor',
+                  data: [50000, 30000, 70000, 90000],
                   backgroundColor: '#04251F'
                 }]
               },

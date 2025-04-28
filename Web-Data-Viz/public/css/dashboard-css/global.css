@@ -107,3 +107,41 @@
     font-weight: 600;
     font-size: 23px;
   }
+
+  @media (max-width: 768px) {
+    body {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  
+    main {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: auto;
+    }
+  
+    .container {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    .logo {
+      width: 200px;
+      height: auto;
+    }
+  
+    .options {
+      gap: 15px;
+      margin-bottom: 50px;
+    }
+  
+    p {
+      font-size: 18px;
+    }
+  
+    a {
+      font-size: 16px;
+    }
+  }
+  
