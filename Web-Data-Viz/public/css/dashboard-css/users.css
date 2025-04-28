@@ -142,3 +142,157 @@ background-color: #145b4f;
   height: 20px;
   cursor: pointer;
 }
+
+@media (min-width: 1920px) {
+  .container-tabela-usuarios {
+    width: 90%;
+  }
+
+  .tabela-usuarios th,
+  .tabela-usuarios td,
+  .editable {
+    font-size: 18px;
+  }
+
+  .icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .container-button button {
+    margin-right: 80px;
+    font-size: 30px;
+    height: 70px;
+    width: 200px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 1025px) {
+  .side-menu {
+    display: none !important;
+  }
+
+  .header {
+    height: 70px !important;
+  }
+
+  .container-textos-header {
+    flex-direction: row;
+    height: 70px !important;
+  }
+
+  .container-textos-header p{
+    font-size: 20px !important;
+    text-wrap: nowrap;
+  }
+
+  .container-textos-header p:nth-of-type(1) {
+    display: none;
+  }
+
+  .container-tabela-usuarios {
+    height: 100% !important;
+    width: 90vw !important;
+    margin-bottom: 50px;
+  }
+
+  .tabela-usuarios {
+    height: 110% !important;
+    width: 100% !important;
+  }
+  
+  .tabela-usuarios th {
+    font-size: 20px;
+  }
+
+  .tabela-usuarios td,
+  .tabela-usuarios th {
+    padding: 10px;
+    height: 80px;
+  }
+
+  .container-button button {
+    height: 80px;
+    width: 150px;
+    border-radius: 10px;
+    font-size: 25px;
+    margin-right: 20px;
+  }
+  
+  .editable {
+    min-width: 250px;
+    font-size: 20px;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .container-hamburguer-menu {
+    display: flex !important;
+  }
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: #0f0f0f;
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: 900;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 250%;
+    width: 100%;
+    height: 100vh;
+    background-color: #04251f;
+    color: #fff;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: left 0.3s ease;
+    /* Transição suave */
+  }
+
+  .sidebar li a {
+    font-weight: 300;
+    color: #e1e1e1;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .navbar {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .option {
+    font-size: 20px !important;
+    padding: 15px !important;
+  }
+
+  .option.selected {
+    width: 300px !important;
+  }
+}
+
