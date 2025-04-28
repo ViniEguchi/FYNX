@@ -48,6 +48,38 @@
         <div class="container-textos-header">
           <p>EDITAR INFORMAÇÕES</p>
           <p>BEM VINDO, <span id="usuario"></span>!</p>
+
+          <div class="container-hamburguer-menu" style="display: none;">
+            <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+            <ul class="navbar sidebar" id="sidebar">
+              <button class="close-btn" onclick="toggleMenu()">✖</button>
+              <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+              <div class="options">
+                <div class="option">
+                  <img src="../assets/icon/home 3.png" alt="">
+                  <a href="../dashboard/home.html">HOME</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/bar-chart 4.png" alt="">
+                  <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/user (1) 2.png" alt="">
+                  <a href="../dashboard/users.html">USUÁRIOS</a>
+                </div>
+                <div class="option selected">
+                  <img src="../assets/icon/edit (1) 1.png" alt="">
+                  <a href="../dashboard/perfil.html">EDITAR</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/logout 2.png" alt="">
+                  <a href="../index.html">SAIR</a>
+                </div>
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
       
@@ -58,6 +90,15 @@
     </div>
   </main>
   <script src="./js/perfil.js"></script>
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      const menuButton = document.getElementById("menuButton");
+
+      sidebar.classList.toggle("active");
+      menuButton.classList.toggle("hidden");
+    }
+  </script>
 </body>
 
 </html>

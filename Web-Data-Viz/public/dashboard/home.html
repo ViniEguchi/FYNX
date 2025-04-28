@@ -2,11 +2,13 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Home - Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <link rel="stylesheet" href="../css/dashboard-css/home.css">
@@ -49,7 +51,39 @@
           <div class="container-textos-header">
             <p>INICIO</p>
             <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
-            
+
+            <div class="container-hamburguer-menu" style="display: none;">
+              <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+              <ul class="navbar sidebar" id="sidebar">
+                <button class="close-btn" onclick="toggleMenu()">✖</button>
+                <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+                <div class="options">
+                  <div class="option selected">
+                    <img src="../assets/icon/home (1) 2.png" alt="">
+                    <a href="../dashboard/home.html">HOME</a>
+                  </div>
+                  <div class="option">
+                    <img src="../assets/icon/bar-chart 4.png" alt="">
+                    <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                  </div>
+                  <div class="option">
+                    <img src="../assets/icon/user (1) 2.png" alt="">
+                    <a href="../dashboard/users.html">USUÁRIOS</a>
+                  </div>
+                  <div class="option">
+                    <img src="../assets/icon/edit 2.png" alt="">
+                    <a href="../dashboard/perfil.html">EDITAR</a>
+                  </div>
+                  <div class="option">
+                    <img src="../assets/icon/logout 2.png" alt="">
+                    <a href="../index.html">SAIR</a>
+                  </div>
+                </div>
+              </ul>
+            </div>
+
             <!-- <button class="menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; margin-right: 30px; cursor: pointer;">
                 <img src="../assets/icon/Header.png" alt="Menu" style="width: 30px; height: 30px;">
               </button> -->
@@ -92,6 +126,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
 
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      const menuButton = document.getElementById("menuButton");
+
+      sidebar.classList.toggle("active");
+      menuButton.classList.toggle("hidden");
+    }
+
       usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
 // function toggleSidebar() {
@@ -107,20 +149,22 @@
       // Gráfico 1 - Setores A, B, C
       new Chart(document.getElementById("grafico1"), {
         type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [70, 40, 90],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } },
-          responsive: true,
-          maintainAspectRatio: false,
-        }
+              data: {
+                labels: ['Transporte', 'Comércio', 'Alimentação', 'Varejo'],
+                datasets: [{
+                  label: 'Total de operações por setor',
+                  data: [50000, 30000, 70000, 90000],
+                  backgroundColor: '#04251F'
+                }]
+              },
+              options: {
+              plugins: { legend: { display: true } },
+              scales: {
+                y: { beginAtZero: true }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+             }
       });
 
       // Gráfico 2 - Setores A, B, C
