@@ -76,12 +76,10 @@ canvas {
 }
 
 @media (max-width: 768px) {
-  /* Oculta a sidebar */
   .side-menu {
     display: none !important;
   }
 
-  /* Centraliza o conteúdo principal */
   main {
     flex-direction: column;
     align-items: center;
