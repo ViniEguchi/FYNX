@@ -172,11 +172,12 @@
                         console.log("====================== nome: " + sessionStorage.NOME_USUARIO);
 
                         setTimeout(function () {
-                            if (json.isGerente) {
-                                window.location = "./dashboard/home.html";
-                            } else {
-                                window.location = "./dashboard/index.html.html";
-                            }
+                            window.location = "./dashboard/home.html";
+                            // if (json.isGerente) {
+                            //     window.location = "./dashboard/home.html";
+                            // } else {
+                            //     window.location = "./dashboard/dash.html";
+                            // }
                         }, 1000);
                     });
                 } else {
