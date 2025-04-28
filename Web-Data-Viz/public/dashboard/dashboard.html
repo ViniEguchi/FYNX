@@ -2,6 +2,9 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +15,14 @@
   <link rel="stylesheet" href="../css/dashboard-css/global.css">
 </head>
 
-<body onload="carregarPerfil()">
+<body>
 
   <main>
     <div class="side-menu">
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
-        <div class="option">
+        <!-- <div class="option">
           <img src="../assets/icon/home 3.png" alt="">
           <a href="../dashboard/home.html">HOME</a>
         </div>
@@ -38,68 +41,100 @@
         <div class="option">
           <img src="../assets/icon/logout 2.png" alt="">
           <a href="../index.html">SAIR</a>
-        </div>
+        </div> -->
       </div>
     </div>
 
-    <div class="container">
-        <div class="header">
-          <div class="container-textos-header">
-            <p>DASHBOARD</p>
-            <p>BEM VINDO, <span id="usuario"></span>!</p>
+  <div class="container">
+    <div class="header">
+      <div class="container-textos-header">
+        <p>DASHBOARD</p>
+        <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <div class="dashboard-filters">
+        <select>
+          <option></option>
+        </select>
+        <select>
+          <option></option>
+        </select>
+      </div>
+            
+      <div class="caixa-principal">
+        <div class="linha-setores">
+          <div class="caixa-setor">
+            <p>KPI</p>
+            <div class="caixa-branca"></div>
+          </div>
+          <div class="caixa-setor">
+            <p>KPI</p>
+            <div class="caixa-branca"></div>
+          </div>
+          <div class="caixa-setor">
+            <p>KPI</p>
+            <div class="caixa-branca"></div>
           </div>
         </div>
+      </div>
+            
+      <div class="charts-container">
+        <div class="chart-box">
+          <canvas id="grafico1"></canvas>
+        </div>
+        <div class="chart-box">
+          <canvas id="grafico2"></canvas>
+        </div>
+      </div>
 
-        <div class="dashboard-content">
-            <div class="dashboard-filters">
-              <select>
-                <option></option>
-              </select>
-              <select>
-                <option></option>
-              </select>
-            </div>
-          
-            <div class="caixa-principal">
-                <div class="linha-setores">
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                </div>
-              </div>
-          
-              <div class="charts-container">
-                <div class="chart-box">
-                  <canvas id="grafico1"></canvas>
-                </div>
-                <div class="chart-box">
-                  <canvas id="grafico2"></canvas>
-                </div>
-              </div>
+  <script>
+            
+    const tipoUsuario = sessionStorage.IS_GERENTE; 
+    const paginaAtual = window.location.pathname;  
 
-          <script  src="./js/perfil.js"></script>
+    const optionsContainer = document.querySelector('.options');
 
+    optionsContainer.innerHTML = `
+      <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
+        <img src="../assets/icon/home 3.png" alt="">
+        <a href="../dashboard/home.html">HOME</a>
+      </div>
+      <div class="option ${paginaAtual.includes('dashboard.html') ? 'selected' : ''}">
+        <img src="../assets/icon/bar-chart (1) 2.png" alt="">
+        <a href="../dashboard/dashboard.html">DASHBOARD</a>
+      </div>
+      ${tipoUsuario == 1 ? `
+        <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+      ` : ''}
+      <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
+        <img src="../assets/icon/edit 2.png" alt="">
+        <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option">
+        <img src="../assets/icon/logout 2.png" alt="">
+        <a href="../index.html">SAIR</a>
+      </div>
+    `;
+          </script>
           <script>
             const ctx1 = document.getElementById('grafico1').getContext('2d');
             const ctx2 = document.getElementById('grafico2').getContext('2d');
           
             new Chart(ctx1, {
-              type: 'bar',
+              type: 'line',
               data: {
                 labels: ['Jan', 'Fev', 'Mar', 'Abr'],
                 datasets: [{
-                  label: 'LALALA',
-                  data: [100, 200, 150, 300],
-                  backgroundColor: '#04251F'
+                  label: 'Valor médio de operações por mês',
+                  data: [5000, 500, 7000, 2000],
+                  borderColor: '#04251F',
+                  backgroundColor: 'rgba(4, 37, 31, 0.2)',
+                  fill: true
                 }]
               },
               options: {
@@ -115,10 +150,10 @@
             new Chart(ctx2, {
               type: 'bar',
               data: {
-                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                labels: ['Transporte', 'Comércio', 'Alimentação', 'Varejo'],
                 datasets: [{
-                  label: 'LALALA',
-                  data: [400, 300, 500, 600],
+                  label: 'Total de operações por setor',
+                  data: [50000, 30000, 70000, 90000],
                   backgroundColor: '#04251F'
                 }]
               },

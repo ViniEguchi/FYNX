@@ -108,7 +108,7 @@
   }
 
   .container-textos-header p{
-    font-size: 20px !important;
+    font-size: 25px !important;
     text-wrap: nowrap;
   }
 
@@ -123,16 +123,21 @@
 
   .profile-card {
     width: 80% !important;
-    height: 100% !important;
+    overflow-y: scroll;
   }
 
   .label {
-    font-size: 18px !important;
+    font-size: 20px !important;
   }
 
   .editable {
     min-width: 250px;
     font-size: 20px;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
   }
 
   .container-hamburguer-menu {
