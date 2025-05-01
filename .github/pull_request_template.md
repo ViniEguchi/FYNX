@@ -8,6 +8,7 @@
 
 ### Tipo de Mudanças
 <!-- Marque abaixo os tipos de mudança feitos nessa PR -->
+<!-- exemplo de campo marcado: [x] Feat -->
 - [ ] Feat
 - [ ] Fix
 - [ ] Style
