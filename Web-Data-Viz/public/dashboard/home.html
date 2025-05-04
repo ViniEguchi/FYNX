@@ -93,16 +93,16 @@
         <div class="caixa-principal">
             <div class="linha-setores">
               <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
+                <p>Setor c/ maior operação</p>
+                <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Varejo - 90.000</div>
               </div>
               <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
+                <p>Menor taxa de juros</p>
+                <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Industria extrativa - 3% a.a</div>
               </div>
               <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
+                <p>Valor Total Concedido</p>
+                <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 1.530.000</div>
               </div>
             </div>
           </div>
@@ -171,58 +171,117 @@
       new Chart(document.getElementById("grafico2"), {
         type: 'bar',
         data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
+          labels: ['Comércio', 'Agropecuária', 'Industria extrativa'],
           datasets: [{
-            label: 'Valor',
-            data: [50, 60, 70],
+            label: 'Juros médio por setor',
+            data: [5.3, 4.7, 3],
             backgroundColor: ['#04251F', '#04251F', '#04251F']
           }]
         },
         options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } },
+          plugins: { legend: { display: true } },
           responsive: true,
           maintainAspectRatio: false,
         }
       });
 
       // Gráfico 3 - Setores A, B, C
-      new Chart(document.getElementById("grafico3"), {
-        type: 'bar',
+        new Chart(document.getElementById("grafico3"), {
+          type: 'bar',
+          data: {
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'], // Meses no eixo X
+            datasets: [
+              {
+                label: 'Agropecuária',
+                data: [8, 7, 6, 9], // Prazo em meses
+                backgroundColor: '#04251F'
+              },
+              {
+                label: 'Comércio',
+                data: [6, 5, 5, 7],
+                backgroundColor: '#065143'
+              },
+              {
+                label: 'Indústria extrativa',
+                data: [10, 9, 8, 11],
+                backgroundColor: '#0A7E69'
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: { display: true }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Prazo (meses)'
+                }
+              },
+              x: {
+                stacked: false
+              }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+      
+        new Chart(document.getElementById("graficoPrincipal"), {
+          type: 'line',
         data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [80, 60, 100],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
+          labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'], // Meses no eixo X
+          datasets: [
+            {
+              label: 'Comércio',
+              data: [50000, 52000, 51000, 53000, 54000, 55000],
+              borderColor: '#04251F',
+              tension: 0.3,
+              fill: false
+            },
+            {
+              label: 'Indústria',
+              data: [40000, 42000, 41000, 43000, 44000, 45000],
+              borderColor: '#065143',
+              tension: 0.3,
+              fill: false
+            },
+            {
+              label: 'Serviços',
+              data: [60000, 62000, 61000, 63000, 64000, 65000],
+              borderColor: '#388E3C',
+              tension: 0.3,
+              fill: false
+            },
+            {
+              label: 'Agropecuária',
+              data: [30000, 32000, 31000, 33000, 34000, 35000],
+              borderColor: '#0A7E69',
+              tension: 0.3,
+              fill: false
+            }
+          ]
         },
         options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } },
-          responsive: true,
-          maintainAspectRatio: false,
-        }
-      });
-
-      new Chart(document.getElementById("graficoPrincipal"), {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-          datasets: [{
-            label: 'Total Produzido',
-            data: [100, 120, 90, 130],
-            backgroundColor: 'rgba(33,150,243,0.2)',
-            borderColor: '#04251F',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          plugins: { legend: { display: true } },
+          plugins: {
+            legend: { display: true }
+          },
           scales: {
-            y: { beginAtZero: true }
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Valor concedido (R$)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Mês'
+              }
+            }
           },
           responsive: true,
           maintainAspectRatio: false,

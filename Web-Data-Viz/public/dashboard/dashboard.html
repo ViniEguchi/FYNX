@@ -56,26 +56,26 @@
     <div class="dashboard-content">
       <div class="dashboard-filters">
         <select>
-          <option></option>
+          <option>Setores</option>
         </select>
         <select>
-          <option></option>
+          <option>Período</option>
         </select>
       </div>
             
       <div class="caixa-principal">
         <div class="linha-setores">
           <div class="caixa-setor">
-            <p>KPI</p>
-            <div class="caixa-branca"></div>
+            <p>Média operações no mês</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 20.000</div>
           </div>
           <div class="caixa-setor">
-            <p>KPI</p>
-            <div class="caixa-branca"></div>
+            <p>Soma crédito concedido</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 515.000</div>
           </div>
           <div class="caixa-setor">
-            <p>KPI</p>
-            <div class="caixa-branca"></div>
+            <p>Variação crédito p/ mês</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">+12%</div>
           </div>
         </div>
       </div>
@@ -149,13 +149,15 @@
             });
           
             new Chart(ctx2, {
-              type: 'bar',
+              type: 'line',
               data: {
-                labels: ['Transporte', 'Comércio', 'Alimentação', 'Varejo'],
+                labels: ['Jan', 'Fev', 'Mar', 'Abr'],
                 datasets: [{
-                  label: 'Total de operações por setor',
-                  data: [50000, 30000, 70000, 90000],
-                  backgroundColor: '#04251F'
+                  label: 'Valor de crédito concedido',
+                  data: [120000, 130000, 125000, 140000],
+                  borderColor: '#04251F',
+                  backgroundColor: 'rgba(4, 37, 31, 0.2)',
+                  fill: true
                 }]
               },
               options: {
