@@ -1,11 +1,10 @@
 var express = require("express");
 var router = express.Router();
 
-var usuarioController = require("../controllers/usuarioController");
+var usuarioController = require("../controllers/formularioController");
 
-//Recebendo os dados do html e direcionando para a função cadastrar de usuarioController.js
-router.post("/enviar", function (req, res) {
-    usuarioController.enviar(req, res);
+router.post("/enviar_formulario", function (req, res) {
+    usuarioController.enviar_formulario(req, res);
 })
 
 module.exports = router;
