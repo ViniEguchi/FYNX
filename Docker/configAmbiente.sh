@@ -17,6 +17,11 @@ if ! command -v docker &> /dev/null; then
   newgrp docker
 fi
 
+if ! command -v docker-compose &> /dev/null; then
+  read -p "Docker-compose não está instalado. Deseja instalar? [s/n]: " opt
+  [ "$opt" = "s" ] && sudo apt update && sudo apt install -y docker-compose
+fi
+
 if ! command -v node &> /dev/null; then
   read -p "Node.js não está instalado. Deseja instalar? [s/n]: " opt
   [ "$opt" = "s" ] && curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs
