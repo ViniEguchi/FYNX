@@ -243,10 +243,4 @@ fi
 echo "Subindo containers com docker-compose..."
 docker-compose up -d
 
-echo "Colocando o docker no grupo sudo"
-sudo usermod -aG docker $USER
-echo "Reinicie a sessão ou execute 'newgrp docker' para usar Docker sem sudo."
-# Atualiza o grupo imediatamente
-newgrp docker
-
 echo "Ambiente configurado com sucesso!"
