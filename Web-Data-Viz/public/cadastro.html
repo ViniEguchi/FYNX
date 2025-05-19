@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
     <link rel="stylesheet" href="css/cadastro.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
-<style>
+<body>
+
+    <style>
         #div_mensagem {
             text-align: center;
             margin-bottom: 10px;
@@ -25,18 +21,18 @@
             margin-bottom: 10px;
             color: red;
         }
-</style>
-<body>
+    </style>
     <div class="container">
         <div class="form-container">
 
             <div class="form-tela" id="tela1">
-                <!-- <div class="alinhar_btn_voltar"> -->
-                    <h1>Cadastro</h1>
-                    <!-- <a href="index.html">
+
+                <div class="alinhar_btn_voltar">
+                    <h1 id="cadastro">Cadastro</h1>
+                    <a href="index.html">
                         <img src="assets/btn_voltar.png" alt="Voltar">
                     </a>
-                </div> -->
+                </div>
 
                 <div class="input-container">
                     <i class="fa-solid fa-building"></i>
@@ -75,7 +71,7 @@
             <div class="form-tela" id="tela2" style="display: none;">
                 <div class="alinhar_btn_voltar">
                     <a href="javascript:void(0);" onclick="voltarTela()">
-                        <i class="fa-solid fa-arrow-left-long"></i>
+                        <img src="assets/btn_voltar.png" alt="Voltar">
                     </a>
                 </div>
 
@@ -112,9 +108,6 @@
                 </div>
             </div>
         </div>
-        <button class="btn_voltar" onclick="voltar()">
-            <i class="fa-solid fa-arrow-left-long"></i>
-        </button>
     </div>
 
 </body>
@@ -123,27 +116,14 @@
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
-    function voltar() {
-            window.location.href = "index.html";
-        }
-
     function nextScreen() {
-        if (input_cnpj.value.length == 0 
-            || input_razao_social.value.length == 0 
-            || input_nome_fantasia.value.length == 0
-            || input_responsavel.value.length == 0
-            || input_email.value.length == 0
-            || input_senha.value.length == 0) {
-                div_mensagem.innerHTML = "<span style='color: red;'>Preencha todos os campos!</span>";
-                return;
-            }
 
-        if (correto == false) {
-                document.getElementById('tela1').style.display = 'none';
-                document.getElementById('tela2').style.display = 'block';
-            } else {
-                alert("Por favor, corrija os erros antes de prosseguir.");
-            }
+    if (correto == false) {
+            document.getElementById('tela1').style.display = 'none';
+            document.getElementById('tela2').style.display = 'block';
+        } else {
+            alert("Por favor, corrija os erros antes de prosseguir.");
+        }
     }
 
         function voltarTela() {
