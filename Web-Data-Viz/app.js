@@ -24,6 +24,7 @@ var empresasRouter = require("./src/routes/empresas");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var adminRouter = require("./src/routes/admin");
 var formularioRouter = require("./src/routes/formulario")
+var GraficoRouter = require("./src/routes/grafico")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,6 +41,7 @@ app.use("/empresas", empresasRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/admin", adminRouter);
 app.use("/formulario", formularioRouter)
+app.use("/grafico", GraficoRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`
