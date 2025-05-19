@@ -205,9 +205,9 @@ EOF
 fi
 
 # Dockerfile java
-if [ ! -f java-app/Dockerfile ]; then
-  mkdir -p java-app  # cria pasta antes
-  cat <<EOF > java-app/Dockerfile
+if [ ! -f log/Dockerfile ]; then
+  mkdir -p log
+  cat <<EOF > log/Dockerfile
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
@@ -215,9 +215,8 @@ WORKDIR /app
 COPY Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar .
 
 ENTRYPOINT ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
-
 EOF
-  echo "Criado: java-app/Dockerfile"
+  echo "Criado: log/Dockerfile"
 fi
 
 # docker-compose.yml
