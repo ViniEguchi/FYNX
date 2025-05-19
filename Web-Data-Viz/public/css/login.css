@@ -5,18 +5,42 @@
 }
 
 body {
+    position: relative;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: url('../assets/blob-scene-haikei\(1\).svg') no-repeat center center fixed;
     background-size: cover;
-    font-family: Arial, sans-serif;
+    font-family: Poppins, sans-serif;
     padding: 10px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* fundo escuro semitransparente */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* acima de tudo */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid ;
+  border-top: 6px solid rgb(4, 37, 31);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 90%;
@@ -40,7 +64,7 @@ a {
 
 h1 {
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 30px !important;
     text-align: center; 
     color: #333;
     width: 100%; 
@@ -114,6 +138,11 @@ button {
     width: 100%;
 }
 
+.card_erro {
+    display: flex;
+    justify-content: center;
+}
+
 button:hover {
     background-color: #073f33;
 }
@@ -124,12 +153,17 @@ p {
     font-size: 20px;
 }
 
-p a {
+a {
+    color: #04251F;
+}
+
+p, a {
     color: #021814;
     text-decoration: none;
 }
 
-p a:hover {
+a:hover {
+    color: #073f33;
     text-decoration: underline;
 }
 
@@ -141,14 +175,14 @@ p a:hover {
 
 .forgot-password a {
     font-size: 14px;
-    color: #d9534f;
+    color: #073f33;
     font-weight: bold;
     text-decoration: none;
 }
 
 .forgot-password a:hover {
     text-decoration: underline;
-    color: #c9302c; 
+    color: #021814; 
 }
 
 .align-left {
@@ -158,19 +192,43 @@ p a:hover {
     font-size: 18px; 
 }
 
-.alinhar_btn_voltar {
+.btn_voltar {
+    position: absolute;
+    top: 10px;
+    left: 5%;
+    width: 50px;
+    height: 50px;
+    background-color: #04251F;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    cursor: pointer;
     display: flex;
-    justify-content: space-between; 
-    width: 100%;
-    align-items: center; 
-    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s;
+    animation: float-to-left 2s infinite;
 }
 
-.alinhar_btn_voltar img {
-    margin-left: auto; 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-
+@keyframes float-to-left {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+ }
 
 @media (max-width: 768px) {
     .container {
