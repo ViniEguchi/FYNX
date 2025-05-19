@@ -226,7 +226,7 @@ a:hover {
     100% {
         transform: translateX(0);
     }
-}
+ }
 
 @media (max-width: 768px) {
     .container {
