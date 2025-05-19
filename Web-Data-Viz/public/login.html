@@ -11,6 +11,9 @@
 </head>
 
 <body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+      </div> 
     <div class="container">
         <div class="alerta_erro">
             <div class="card_erro" id="cardErro">
@@ -41,9 +44,6 @@
                     <a href="#">Esqueci a senha</a>
                 </div>
                 <button class="btn_entrar" onclick="entrar()">Entrar</button>
-                <div id="loading" style="display: none;">
-                    <img src="assets/circle-loading.gif" alt="Carregando..." width="50">
-                </div>
                 <p>Ainda não possui uma conta?</p>
                 <h3><a href="cadastro.html">Registre-se agora</a></h3>
             </div>
@@ -132,7 +132,7 @@
     
         function entrar() {
 
-            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading-overlay').style.display = 'flex';
     
             var emailVar = document.getElementById("ipt_email").value;
             var senhaVar = document.getElementById("ipt_senha").value;
@@ -142,7 +142,6 @@
                 document.getElementById("cardErro").style.display = "block";
                 alert("Corrija os campos em branco")
 
-                document.getElementById('loading').style.display = 'none';
                 setTimeout(sumirMensagem, 5000);
                 return false;
             }
@@ -158,8 +157,6 @@
                     senhaServer: senhaVar
                 })
             }).then(function (resposta) {
-                document.getElementById('loading').style.display = 'none'; 
-
                 if (resposta.ok) {
                     resposta.json().then(json => {
                         sessionStorage.NOME_USUARIO = json.nome;
@@ -178,18 +175,19 @@
                             // } else {
                             //     window.location = "./dashboard/dash.html";
                             // }
+                            document.getElementById('loading-overlay').style.display = 'none'; 
                         }, 1000);
                     });
                 } else {
                     resposta.text().then(texto => {
                         console.error(texto);
 
-                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('loading-overlay').style.display = 'none';
                         finalizarAguardar(texto);
                     });
                 }
             }).catch(function (erro) {
-                document.getElementById('loading').style.display = 'none'; 
+                document.getElementById('loading-overlay').style.display = 'none'; 
                 console.log(erro);
             });
     

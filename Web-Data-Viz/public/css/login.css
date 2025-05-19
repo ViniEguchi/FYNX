@@ -5,6 +5,7 @@
 }
 
 body {
+    position: relative;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -13,6 +14,28 @@ body {
     background-size: cover;
     font-family: Arial, sans-serif;
     padding: 10px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* fundo escuro semitransparente */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* acima de tudo */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid ;
+  border-top: 6px solid rgb(4, 37, 31);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 .container {
@@ -169,7 +192,11 @@ p a:hover {
     margin-left: auto; 
 }
 
-
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (max-width: 768px) {
     .container {
