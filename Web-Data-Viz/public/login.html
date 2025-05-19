@@ -142,6 +142,8 @@
                 document.getElementById("cardErro").style.display = "block";
                 alert("Corrija os campos em branco")
 
+                document.getElementById('loading-overlay').style.display = 'none'; 
+
                 setTimeout(sumirMensagem, 5000);
                 return false;
             }
