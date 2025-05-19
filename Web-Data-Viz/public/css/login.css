@@ -10,7 +10,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../assets/blob-scene-haikei\(1\).svg') no-repeat center center fixed;
+    background: url('../assets/background_cadastro.png') no-repeat center center fixed;
     background-size: cover;
     font-family: Poppins, sans-serif;
     padding: 10px;
@@ -47,7 +47,6 @@ body {
     max-width: 450px;
     background: #fff;
     border-radius: 10px;
-    border: 1px solid #000;
     padding: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
