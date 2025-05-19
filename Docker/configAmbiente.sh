@@ -191,7 +191,7 @@ if [ ! -f node-app/Dockerfile ]; then
 FROM node:18
 
 # Clona o repositório no container
-RUN git clone https://github.com/ViniEguchi/FYNX.git /FYNX
+RUN git clone -b dev https://github.com/ViniEguchi/FYNX.git /FYNX
 
 WORKDIR /FYNX/Web-Data-Viz
 
@@ -210,11 +210,12 @@ if [ ! -f java-app/Dockerfile ]; then
   cat <<EOF > java-app/Dockerfile
 FROM openjdk:17-jdk-slim
 
-WORKDIR /FYNX/log
+WORKDIR /app
 
-COPY Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar app.jar
+COPY Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar .
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+
 EOF
   echo "Criado: java-app/Dockerfile"
 fi
@@ -254,7 +255,7 @@ services:
   java:
     container_name: java_container
     build:
-      context: ./java-app
+      context: ./log
       dockerfile: Dockerfile
     env_file:
       - .env
