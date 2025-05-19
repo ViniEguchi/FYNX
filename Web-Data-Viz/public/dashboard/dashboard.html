@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/dashboard-css/global.css">
 </head>
 
-<body>
+<body onload="preencherSetores()">
 
   <main>
     <div class="side-menu">
@@ -55,11 +55,17 @@
 
     <div class="dashboard-content">
       <div class="dashboard-filters">
-        <select>
-          <option>Setores</option>
-        </select>
+        <div id="select_option_setor">
+          <!-- <select>
+            <option>Setores</option>
+          </select> -->
+        </div>
         <select>
           <option>Período</option>
+          <option>Último Mês</option>
+          <option>Últimos Três Meses</option>
+          <option>Últimos Seis Meses</option>
+          <option>Último Ano</option>
         </select>
       </div>
             
@@ -121,6 +127,40 @@
         <a href="../index.html">SAIR</a>
       </div>
     `;
+
+    function preencherSetores() {
+      fetch("/grafico/preencherSetores", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("sucesso!");
+          resposta.json().then(json => {
+            console.log(JSON.stringify(json));
+
+            var opt = '<option>Setores</option>';
+
+            for (let i = 0; i < json.length; i++) {
+              opt += `<option>${json[i]}</option>`;
+            }
+
+            select_option_setor.innerHTML = `
+              <select>
+                ${opt}
+              </select>
+            `;
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+    }
           </script>
           <script>
             const ctx1 = document.getElementById('grafico1').getContext('2d');

@@ -1,22 +1,24 @@
-
 #!/bin/bash
 
 echo "Iniciando configuração do ambiente..."
 
+# Atualizar só uma vez no começo
+sudo apt update
+
 # === Instalações ===
 if ! command -v java &> /dev/null; then
   read -p "Java não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && sudo apt update && sudo apt install -y openjdk-17-jre
+  [ "$opt" = "s" ] && sudo apt install -y openjdk-17-jre
 fi
 
 if ! command -v docker &> /dev/null; then
   read -p "Docker não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && sudo apt update && sudo apt install -y docker.io 
+  [ "$opt" = "s" ] && sudo apt install -y docker.io 
 fi
 
 if ! command -v docker-compose &> /dev/null; then
   read -p "Docker-compose não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && sudo apt update && sudo apt install -y docker-compose
+  [ "$opt" = "s" ] && sudo apt install -y docker-compose
 fi
 
 if ! command -v node &> /dev/null; then
@@ -25,7 +27,7 @@ if ! command -v node &> /dev/null; then
 fi
 
 # === Estrutura do projeto ===
-mkdir -p db-init node-app
+mkdir -p db-init node-app java-app
 
 # .env
 if [ ! -f .env ]; then
@@ -81,7 +83,7 @@ CREATE TABLE IF NOT EXISTS endereco (
     logradouro VARCHAR(45),
     numero CHAR(5),
     complemento VARCHAR(45),
-    
+
     CONSTRAINT PRIMARY KEY (idEndereco, fkEmpresa),
     CONSTRAINT fk_endereco_empresa FOREIGN KEY (fkEmpresa)
         REFERENCES empresa (idEmpresa)
@@ -183,12 +185,13 @@ EOF
   echo "Criado: db-init/init.sql"
 fi
 
-# Dockerfile
+# Dockerfile node
 if [ ! -f node-app/Dockerfile ]; then
   cat <<EOF > node-app/Dockerfile
 FROM node:18
 
-RUN git clone https://github.com/ViniEguchi/FYNX.git
+# Clona o repositório no container
+RUN git clone https://github.com/ViniEguchi/FYNX.git /FYNX
 
 WORKDIR /FYNX/Web-Data-Viz
 
@@ -199,6 +202,21 @@ EXPOSE 3333
 CMD ["npm", "start"]
 EOF
   echo "Criado: node-app/Dockerfile"
+fi
+
+# Dockerfile java
+if [ ! -f java-app/Dockerfile ]; then
+  mkdir -p java-app  # cria pasta antes
+  cat <<EOF > java-app/Dockerfile
+FROM openjdk:17-jdk-slim
+
+WORKDIR /FYNX/log
+
+COPY Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+EOF
+  echo "Criado: java-app/Dockerfile"
 fi
 
 # docker-compose.yml
@@ -232,6 +250,19 @@ services:
       - "3333:3333"
     depends_on:
       - mysql
+
+  java:
+    container_name: java_container
+    build:
+      context: ./java-app
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
 
 volumes:
   mysql_data:
