@@ -224,26 +224,20 @@
         <div class="formulario">
           <div class="form-group">
             <label for="name">Nome:</label>
-            <input class="inputs" type="text" id="ipt_name" placeholder="Digite seu nome">
+            <input type="text" id="ipt_name" placeholder="Digite seu nome">
           </div>
 
           <div class="form-group">
             <label for="email">E-mail:</label>
-            <input class="inputs" type="email" id="ipt_email" placeholder="Digite seu e-mail">
+            <input type="ipt_email" id="ipt_email" placeholder="Digite seu e-mail">
           </div>
 
           <div class="form-group">
             <label for="message">Mensagem:</label>
-            <textarea class="inputs" id="ipt_message" placeholder="Digite sua mensagem" maxlength="300"></textarea>
+            <textarea id="ipt_message" placeholder="Digite sua mensagem"></textarea>
           </div>
-
-          <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-              <span id="mensagem_erro"></span>
-            </div>
-          </div>
-
           <div class="form-group">
+            <div id="submit-btn" class="secondary_button button">Enviar</div>
             <div id="submit-btn" class="primary_button button" onclick="enviar_formulario()">Enviar</div>
           </div>
         </div>
@@ -311,27 +305,6 @@
     var emailVar = ipt_email.value;
     var mensagemVar = ipt_message.value;
 
-    inputs = document.querySelectorAll('.inputs');
-
-    var correto = true;
-
-    for (i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == "") {
-            inputs[i].style.border = '1px solid red';
-            document.getElementById("cardErro").style.display = "flex";
-            document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Preencha todos os campos!</span>";
-
-            setTimeout(sumirMensagem, 5000);
-            correto = false;
-        } else {
-            inputs[i].style.border = 'none';
-        }     
-    }
-
-    if (!correto) {
-        return;
-    }
-
     fetch("/formulario/enviar_formulario", {
       method: "POST",
       headers: {
@@ -365,10 +338,6 @@
         // div_mensagem.innerHTML = "<span style='color: red;'>Erro ao conectar ao servidor.</span>";
       });
   }
-
-  function sumirMensagem() {
-            document.getElementById("cardErro").style.display = "none";
-        }
 </script>
 
 </html>

@@ -466,10 +466,6 @@ section .content {
     width: 100%;
 }
 
-.card_erro {
-    display: none;
-    justify-content: center;
-}
 
 .form-group .primary_button{
     display: none;
