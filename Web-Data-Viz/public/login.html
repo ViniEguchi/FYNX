@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="js/sessao.js"></script>
 </head>
@@ -13,22 +19,16 @@
 <body>
     <div class="loading-overlay" id="loading-overlay">
         <div class="spinner"></div>
-      </div> 
+    </div> 
     <div class="container">
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
-            </div>
-        </div>
         <div class="form-container">
             <div class="form-tela" id="tela1">
-                <div class="alinhar_btn_voltar">
+                <!-- <div class="alinhar_btn_voltar"> -->
                     <h1 id="login">Olá, de novo!</h1>
-                    <a href="index.html">
+                    <!-- <a href="index.html">
                         <img src="assets/btn_voltar.png" alt="">
                     </a>
-                </div>
-                <h3 class="align-left">Faça o seu login:</h3>
+                </div> -->
 
                 <div class="input-container" id="div_email">
                     <i class="fa-solid fa-envelope"></i>
@@ -43,11 +43,21 @@
                 <div class="forgot-password">
                     <a href="#">Esqueci a senha</a>
                 </div>
+
+                <div class="alerta_erro">
+                    <div class="card_erro" id="cardErro">
+                        <span id="mensagem_erro"></span>
+                    </div>
+                </div>
+
                 <button class="btn_entrar" onclick="entrar()">Entrar</button>
                 <p>Ainda não possui uma conta?</p>
                 <h3><a href="cadastro.html">Registre-se agora</a></h3>
             </div>
         </div>
+        <button class="btn_voltar" onclick="voltar()">
+            <i class="fa-solid fa-arrow-left-long"></i>
+        </button>
     </div>
 
     <script>
@@ -130,24 +140,24 @@
             document.getElementById("ul_erro").innerHTML = mensagem_error_email;
         }
     
-        function entrar() {
-
-            document.getElementById('loading-overlay').style.display = 'flex';
-    
+        function entrar() {    
             var emailVar = document.getElementById("ipt_email").value;
             var senhaVar = document.getElementById("ipt_senha").value;
     
             if (emailVar === "" || senhaVar === "") {
 
-                document.getElementById("cardErro").style.display = "block";
-                alert("Corrija os campos em branco")
+                document.getElementById("cardErro").style.display = "flex";
+
+                document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Preencha todos os campos!</span>";
+
+                ipt_email.style.border = '1px solid red';
+                ipt_senha.style.border = '1px solid red';
 
                 document.getElementById('loading-overlay').style.display = 'none'; 
 
                 setTimeout(sumirMensagem, 5000);
                 return false;
             }
-    
 
             fetch("/usuarios/autenticar", {
                 method: "POST",
@@ -170,6 +180,8 @@
 
                         console.log("====================== nome: " + sessionStorage.NOME_USUARIO);
 
+                        document.getElementById('loading-overlay').style.display = 'flex';
+
                         setTimeout(function () {
                             window.location = "./dashboard/home.html";
                             // if (json.isGerente) {
@@ -184,7 +196,16 @@
                     resposta.text().then(texto => {
                         console.error(texto);
 
+                        document.getElementById("cardErro").style.display = "flex";
+
+                        document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Email ou senha inválidos!</span>";
+
+                        setTimeout(function () {
+                            document.getElementById("cardErro").style.display = "none";
+                        }, 5000);
+
                         document.getElementById('loading-overlay').style.display = 'none';
+
                         finalizarAguardar(texto);
                     });
                 }
