@@ -18,7 +18,7 @@ fi
 
 if ! command -v docker-compose &> /dev/null; then
   read -p "Docker-compose não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && sudo apt install -y docker-compose
+  [ "$opt" = "s" ]  && sudo apt install -y docker-compose
 fi
 
 if ! command -v node &> /dev/null; then
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS endereco (
     logradouro VARCHAR(45),
     numero CHAR(5),
     complemento VARCHAR(45),
-
+    
     CONSTRAINT PRIMARY KEY (idEndereco, fkEmpresa),
     CONSTRAINT fk_endereco_empresa FOREIGN KEY (fkEmpresa)
         REFERENCES empresa (idEmpresa)
@@ -185,13 +185,12 @@ EOF
   echo "Criado: db-init/init.sql"
 fi
 
-# Dockerfile node
+# Dockerfile
 if [ ! -f node-app/Dockerfile ]; then
   cat <<EOF > node-app/Dockerfile
 FROM node:18
 
-# Clona o repositório no container
-RUN git clone -b dev https://github.com/ViniEguchi/FYNX.git /FYNX
+RUN git clone https://github.com/ViniEguchi/FYNX.git
 
 WORKDIR /FYNX/Web-Data-Viz
 
@@ -204,24 +203,28 @@ EOF
   echo "Criado: node-app/Dockerfile"
 fi
 
-# Dockerfile java
-if [ ! -f log/Dockerfile ]; then
-  mkdir -p log
-  cat <<EOF > log/Dockerfile
-FROM openjdk:17-jdk-slim
+# === Dockerfile Java ===
+if [ ! -f java-app/Dockerfile ]; then
+cat <<EOF > java-app/Dockerfile
+FROM openjdk:21-jdk-slim
 
-WORKDIR /app
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
-COPY Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar .
+RUN git clone https://github.com/ViniEguchi/FYNX.git
 
-ENTRYPOINT ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+WORKDIR /FYNX/log
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
 EOF
-  echo "Criado: log/Dockerfile"
+echo "Criado: java-app/log/Dockerfile"
 fi
 
-# docker-compose.yml
+# === docker-compose.yml ===
 if [ ! -f docker-compose.yml ]; then
-  cat <<EOF > docker-compose.yml
+cat <<EOF > docker-compose.yml
+version: '3.8'
 services:
   mysql:
     container_name: mysql_container
@@ -252,22 +255,20 @@ services:
       - mysql
 
   java:
-    container_name: java_container
-    build:
-      context: ./log
-      dockerfile: Dockerfile
+    container_name: java_container  
     env_file:
       - .env
     restart: always
-    depends_on:
-      - mysql
+    build: ./java-app
     ports:
       - "8080:8080"
+    depends_on:
+      - mysql
 
 volumes:
   mysql_data:
 EOF
-  echo "Criado: docker-compose.yml"
+echo "Criado: docker-compose.yml"
 fi
 
 # === Iniciar containers ===
