@@ -206,7 +206,7 @@
             resposta.json().then(json => {
               console.log(JSON.stringify(json));
 
-              var variacao_credito = (json[0].maximo / json[0].minimo) * 100;
+              var variacao_credito = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
 
               kpi_media_operacoes.innerHTML = `${json[0].mediaOperacoes}`;
               kpi_soma_credito.innerHTML = `${json[0].somaCredito}`
