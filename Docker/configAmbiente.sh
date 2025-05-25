@@ -212,13 +212,13 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/ViniEguchi/FYNX.git
 
-WORKDIR /FYNX/log
+WORKDIR /FYNX/java
 
 EXPOSE 8080
 
 CMD ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
 EOF
-echo "Criado: java-app/log/Dockerfile"
+echo "Criado: java-app/java/Dockerfile"
 fi
 
 # === docker-compose.yml ===
