@@ -62,7 +62,7 @@
             <option>Setores</option>
           </select> -->
           </div>
-          <select>
+          <select id="select_periodo" onchange="exibirKpiDash()">
             <option>Período</option>
             <option>Último Mês</option>
             <option>Últimos Três Meses</option>
@@ -75,17 +75,20 @@
           <div class="linha-setores">
             <div class="caixa-setor">
               <p>Média operações no mês</p>
-              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 20.000
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_media_operacoes">R$ 20.000
               </div>
             </div>
             <div class="caixa-setor">
               <p>Soma crédito concedido</p>
-              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 515.000
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_soma_credito">R$ 515.000
               </div>
             </div>
             <div class="caixa-setor">
               <p>Variação crédito p/ mês</p>
-              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">+12%</div>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_variacao_credito">+12%</div>
             </div>
           </div>
         </div>
@@ -144,7 +147,7 @@
       })
         .then(function (resposta) {
           if (resposta.ok) {
-            console.log("sucesso!");
+            // console.log("sucesso!");
             resposta.json().then(json => {
               console.log(JSON.stringify(json));
 
@@ -155,10 +158,54 @@
               }
 
               select_option_setor.innerHTML = `
-              <select>
+              <select id="select_setor" onchange="exibirKpiDash()">
                 ${opt}
               </select>
             `;
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function exibirKpiDash() {
+      var periodo = select_periodo.value;
+      var setor = select_setor.value;
+      console.log(`setor: ${setor}`);
+
+      if (setor == "Setores") {
+        kpi_media_operacoes.innerHTML = `Favor selecionar um setor`;
+        kpi_soma_credito.innerHTML = `Favor selecionar um setor`;
+        kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
+        return;
+      }
+
+      if (periodo == "Último Ano") {
+        periodo = 12;
+      } else if (periodo == "Últimos Três Meses") {
+        periodo = 3;
+      } else if (periodo == "Últimos Seis Meses") {
+        periodo = 6;
+      } else {
+        periodo = 1;
+      }
+
+      fetch(`/grafico/exibirKpiDash/${periodo}/${setor}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
+
             })
           } else {
             console.log(resposta)
