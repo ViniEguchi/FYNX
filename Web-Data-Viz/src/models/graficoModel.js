@@ -13,9 +13,9 @@ function preencherSetores() {
 function exibirKpiDash(periodo, setor) {
     var instrucaoSql = `
         SELECT
-        (SELECT * FROM historico WHERE data_venda >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS mediaOperacoes,
-        (SELECT SUM(valor_operacao * (1 + juros)) FROM historico WHERE data_venda >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS somaCredito,
-        (SELECT * FROM historico WHERE data_venda >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS variacaoCredito,
+        (SELECT AVG(valor_operacao * (1 + juros)) FROM historico WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS mediaOperacoes,
+        (SELECT SUM(valor_operacao * (1 + juros)) FROM historico WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS somaCredito,
+        (SELECT * FROM historico WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) AND WHERE subsetor_cnae = ${setor}) AS variacaoCredito,
         FROM historico;
     `;
 
