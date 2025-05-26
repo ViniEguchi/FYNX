@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Perfil Editável</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="stylesheet" href="../css/dashboard-css/perfil.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body onload="carregarPerfil()">
+
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+      <div class="options">
+        <div class="option">
+          <img src="../assets/icon/home 3.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option selected">
+          <img src="../assets/icon/edit (1) 1.png" alt="">
+          <a href="../dashboard/perfil.html">EDITAR</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="../index.html">SAIR</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>EDITAR INFORMAÇÕES</p>
+          <p>BEM VINDO, <span id="usuario"></span>!</p>
+
+          <div class="container-hamburguer-menu" style="display: none;">
+            <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+            <ul class="navbar sidebar" id="sidebar">
+              <button class="close-btn" onclick="toggleMenu()">✖</button>
+              <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+              <div class="options">
+                <div class="option">
+                  <img src="../assets/icon/home 3.png" alt="">
+                  <a href="../dashboard/home.html">HOME</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/bar-chart 4.png" alt="">
+                  <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/user (1) 2.png" alt="">
+                  <a href="../dashboard/users.html">USUÁRIOS</a>
+                </div>
+                <div class="option selected">
+                  <img src="../assets/icon/edit (1) 1.png" alt="">
+                  <a href="../dashboard/perfil.html">EDITAR</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/logout 2.png" alt="">
+                  <a href="../index.html">SAIR</a>
+                </div>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container-profile-card">
+        <div class="profile-card" id="profile-card">
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="./js/perfil.js"></script>
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      const menuButton = document.getElementById("menuButton");
+
+      sidebar.classList.toggle("active");
+      menuButton.classList.toggle("hidden");
+    }
+  </script>
+</body>
+
+</html>

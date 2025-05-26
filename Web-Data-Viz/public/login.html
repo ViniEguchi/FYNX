@@ -6,26 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="js/sessao.js"></script>
 </head>
 
 <body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+    </div> 
     <div class="container">
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
-            </div>
-        </div>
         <div class="form-container">
             <div class="form-tela" id="tela1">
-                <div class="alinhar_btn_voltar">
+                <!-- <div class="alinhar_btn_voltar"> -->
                     <h1 id="login">Olá, de novo!</h1>
-                    <a href="index.html">
+                    <!-- <a href="index.html">
                         <img src="assets/btn_voltar.png" alt="">
                     </a>
-                </div>
-                <h3 class="align-left">Faça o seu login:</h3>
+                </div> -->
 
                 <div class="input-container" id="div_email">
                     <i class="fa-solid fa-envelope"></i>
@@ -41,26 +44,37 @@
                     <a href="#">Esqueci a senha</a>
                 </div>
 
+                <div class="alerta_erro">
+                    <div class="card_erro" id="cardErro">
+                        <span id="mensagem_erro"></span>
+                    </div>
+                </div>
+          
                 <button class="btn_entrar" onclick="entrar()">Entrar</button>
                 <p>Ainda não possui uma conta?</p>
                 <h3><a href="cadastro.html">Registre-se agora</a></h3>
             </div>
         </div>
+        <button class="btn_voltar" onclick="voltar()">
+            <i class="fa-solid fa-arrow-left-long"></i>
+        </button>
     </div>
-
-
 
     <script>
         var isEmail = false;
         var isSenha = false;
         var mensagem_error_email = "";
 
+        function voltar() {
+            window.location.href = "index.html";
+        }
+
         function validarEmail() {
             var email = document.getElementById("ipt_email").value;
             email = email.toLowerCase();
             isEmail = true;
             mensagem_error_email = "";
-
+    
             var comeca_ponto = email.startsWith('.');
             var ponto_ponto = email.includes('..');
             var arroba_ponto = email.includes('@.');
@@ -71,7 +85,7 @@
             var possui_barra = email.includes('\\');
             var possui_barra_direita = email.includes('/');
             var possui_aspas = email.includes('"');
-
+    
             if (ponto_ponto) {
                 isEmail = false;
                 mensagem_error_email += "<li>Não pode ter .. no email</li>";
@@ -104,21 +118,21 @@
                 isEmail = false;
                 mensagem_error_email += "<li>Inclua '@' no e-mail.</li>";
             }
-
+    
             if (isEmail) {
                 document.getElementById("div_email").style.border = 'none';
             } else {
                 document.getElementById("div_email").style.border = '1px solid red';
             }
-
+    
             document.getElementById("ul_erro").innerHTML = mensagem_error_email;
         }
-
+    
         function validarSenha() {
             var senha = document.getElementById("ipt_senha").value;
             mensagem_error_email = "";
             isSenha = true;
-
+    
             if (senha.length < 6) {
                 mensagem_error_email = "<li>A senha precisa de ao menos 6 caracteres.</li>";
                 document.getElementById("div_senha").style.border = '1px solid red';
@@ -126,20 +140,26 @@
             } else {
                 document.getElementById("div_senha").style.border = 'none';
             }
-
+    
             document.getElementById("ul_erro").innerHTML = mensagem_error_email;
         }
-
-        function entrar() {
-            aguardar();
+    
+        function entrar() {    
 
             var emailVar = document.getElementById("ipt_email").value;
             var senhaVar = document.getElementById("ipt_senha").value;
-
+    
             if (emailVar === "" || senhaVar === "") {
-                document.getElementById("cardErro").style.display = "block";
-                document.getElementById("mensagem_erro").innerHTML = "(Mensagem de erro para todos os campos em branco)";
-                finalizarAguardar();
+
+                document.getElementById("cardErro").style.display = "flex";
+
+                document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Preencha todos os campos!</span>";
+
+                ipt_email.style.border = '1px solid red';
+                ipt_senha.style.border = '1px solid red';
+
+                document.getElementById('loading-overlay').style.display = 'none'; 
+
                 setTimeout(sumirMensagem, 5000);
                 return false;
             }
@@ -156,38 +176,57 @@
             }).then(function (resposta) {
                 if (resposta.ok) {
                     resposta.json().then(json => {
+                        sessionStorage.NOME_USUARIO = json.nome;
                         sessionStorage.EMAIL_USUARIO = json.email;
                         sessionStorage.NOME_RESPONSAVEL = json.responsavel;
-                        sessionStorage.ID_USUARIO = json.idUsuario;
+                        sessionStorage.ID_USUARIO = json.id;
                         sessionStorage.ID_EMPRESA = json.idEmpresa;
+                        sessionStorage.IS_GERENTE = json.isGerente
+
+                        console.log("====================== nome: " + sessionStorage.NOME_USUARIO);
+
+                        document.getElementById('loading-overlay').style.display = 'flex';
 
                         setTimeout(function () {
-                            if (sessionStorage.TIPO_USUARIO === 'suporte') {
-                                window.location = "./dashboard/dash_suporte.html";
-                            } else {
-                                window.location = "./dashboard/index.html";
-                            }
+                            window.location = "./dashboard/home.html";
+                            // if (json.isGerente) {
+                            //     window.location = "./dashboard/home.html";
+                            // } else {
+                            //     window.location = "./dashboard/dash.html";
+                            // }
+                            document.getElementById('loading-overlay').style.display = 'none'; 
                         }, 1000);
                     });
                 } else {
                     resposta.text().then(texto => {
                         console.error(texto);
+
+                        document.getElementById("cardErro").style.display = "flex";
+
+                        document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Email ou senha inválidos!</span>";
+
+                        setTimeout(function () {
+                            document.getElementById("cardErro").style.display = "none";
+                        }, 5000);
+
+                        document.getElementById('loading-overlay').style.display = 'none';
+
                         finalizarAguardar(texto);
                     });
                 }
             }).catch(function (erro) {
+                document.getElementById('loading-overlay').style.display = 'none'; 
                 console.log(erro);
             });
-
+    
             return false;
         }
-
-
-
+    
         function sumirMensagem() {
             document.getElementById("cardErro").style.display = "none";
         }
     </script>
+    
 </body>
 
 </html>

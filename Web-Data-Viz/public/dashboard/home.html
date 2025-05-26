@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Home - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="../css/dashboard-css/home.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
+</head>
+
+<body onload="carregarGraficos()">
+
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+      <div class="options">
+        <div class="option selected">
+          <img src="../assets/icon/home (1) 2.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
+
+        </div>
+        <div class="option">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/edit 2.png" alt="">
+          <a href="../dashboard/perfil.html">EDITAR</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="../index.html">SAIR</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>INICIO</p>
+          <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+
+          <div class="container-hamburguer-menu" style="display: none;">
+            <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+            <ul class="navbar sidebar" id="sidebar">
+              <button class="close-btn" onclick="toggleMenu()">✖</button>
+              <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+              <div class="options">
+                <div class="option selected">
+                  <img src="../assets/icon/home (1) 2.png" alt="">
+                  <a href="../dashboard/home.html">HOME</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/bar-chart 4.png" alt="">
+                  <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/user (1) 2.png" alt="">
+                  <a href="../dashboard/users.html">USUÁRIOS</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/edit 2.png" alt="">
+                  <a href="../dashboard/perfil.html">EDITAR</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/logout 2.png" alt="">
+                  <a href="../index.html">SAIR</a>
+                </div>
+              </div>
+            </ul>
+          </div>
+
+          <!-- <button class="menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; margin-right: 30px; cursor: pointer;">
+                <img src="../assets/icon/Header.png" alt="Menu" style="width: 30px; height: 30px;">
+              </button> -->
+        </div>
+      </div>
+
+      <div class="caixa-principal">
+        <div class="linha-setores">
+          <div class="caixa-setor">
+            <p>Setor c/ maior operação</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Varejo -
+              90.000</div>
+          </div>
+          <div class="caixa-setor">
+            <p>Menor taxa de juros</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Industria
+              extrativa - 3% a.a</div>
+          </div>
+          <div class="caixa-setor">
+            <p>Valor Total Concedido</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 1.530.000
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="graficos-superiores">
+        <div class="grafico-box"><canvas id="grafico1"></canvas></div>
+        <div class="grafico-box"><canvas id="grafico2"></canvas></div>
+        <div class="grafico-box"><canvas id="grafico3"></canvas></div>
+      </div>
+
+      <div class="grafico-maior">
+        <canvas id="graficoPrincipal"></canvas>
+      </div>
+    </div>
+    </div>
+
+
+    </div>
+  </main>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+async function carregarGraficos() {
+  await totalOperacoes();
+  await jurosMedioSetor();
+  await prazoAmortizacaoMes();
+  await valorOperacoesMes();
+}
+  
+
+  function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const menuButton = document.getElementById("menuButton");
+
+    sidebar.classList.toggle("active");
+    menuButton.classList.toggle("hidden");
+  }
+
+  usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+  // function toggleSidebar() {
+  //   const menu = document.getElementById('sideMenu');
+  //   const isHidden = menu.style.display === 'none';
+
+  //   if (isHidden) {
+  //     menu.style.display = 'flex';  // Torna o menu visível
+  //   } else {
+  //     menu.style.display = 'none';  // Esconde o menu
+  //   }
+  // }
+  // Gráfico 1 - Setores A, B, C
+  async function totalOperacoes() {
+    fetch("/grafico/totalOperacoes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          // console.log("totalOperacoes sucesso!");
+          resposta.json().then(json => {
+            graficoTotalOperacoes(json)
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  function graficoTotalOperacoes(dados) {
+    console.log(dados)
+    let label = [];
+    let data = [];
+    dados.forEach(element => {
+      label.push(element.setor_cnae)
+      data.push(element.total_valor)
+    });
+
+    new Chart(document.getElementById("grafico1"), {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Total de operações por setor',
+          data: data,
+          backgroundColor: '#04251F'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+  }
+
+  async function jurosMedioSetor() {
+    fetch("/grafico/jurosMedioSetor", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("jurosMedioSetor sucesso!");
+          resposta.json().then(json => {
+            graficoJurosMedioSetor(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  // Gráfico 2 - Setores A, B, C
+  function graficoJurosMedioSetor(dados) {
+    let label = [];
+    let data = [];
+    dados.forEach(element => {
+      label.push(element.setor_cnae)
+      data.push(element.media)
+    });
+    new Chart(document.getElementById("grafico2"), {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Juros médio por setor',
+          data: data,
+          backgroundColor: ['#04251F', '#04251F', '#04251F']
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  }
+
+  async function prazoAmortizacaoMes() {
+    fetch("/grafico/prazoAmortizacaoMes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("prazoAmortizacaoMes sucesso!");
+          resposta.json().then(json => {
+            graficoPrazoAmortizacaoMes(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  // Gráfico 3 - Setores A, B, C
+  function graficoPrazoAmortizacaoMes(dados) {
+  const meses = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  // Gerar labels dos meses no formato "Mês/Ano"
+  const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+
+  // Gerar todos os setores únicos
+  const setores = [...new Set(dados.map(e => e.setor_cnae))];
+
+  // Paleta de cores
+  const cores = ['#04251F', '#065143', '#0A7E69', '#A1C181', '#FF7F50', '#6A5ACD'];
+
+  // Construir os datasets dinamicamente
+  const datasets = setores.map((setor, index) => {
+    const data = labelMes.map(label => {
+      const [mesNome, ano] = label.split('/');
+      const mesNumero = meses.indexOf(mesNome) + 1;
+
+      const item = dados.find(
+        d => d.ano == ano && d.mes == mesNumero && d.setor_cnae == setor
+      );
+
+      return item ? Number(item.media_prazo) : null; // ou 0 se quiser mostrar 0 quando não tem
+    });
+
+    return {
+      label: setor,
+      data: data,
+      backgroundColor: cores[index % cores.length]
+    };
+  });
+
+  // Criar o gráfico
+  new Chart(document.getElementById("grafico3"), {
+    type: 'bar',
+    data: {
+      labels: labelMes, // Eixo X: meses
+      datasets: datasets
+    },
+    options: {
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Prazo (meses)'
+          }
+        },
+        x: {
+          stacked: false
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
+
+async function valorOperacoesMes(dados){
+  fetch("/grafico/valorOperacoesMes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("valorOperacoesMes sucesso!");
+          resposta.json().then(json => {
+            graficoValorOperacoesMes(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+}
+
+function graficoValorOperacoesMes(dados){
+  const mesesNomes = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  // Obter lista única de meses ordenados
+  const meses = [...new Set(dados.map(d => d.mes))].sort((a, b) => a - b);
+  const labels = meses.map(m => mesesNomes[m - 1]);
+
+  // Obter lista única de setores
+  const setores = [...new Set(dados.map(d => d.setor_cnae))];
+
+  // Cores para cada setor
+  const cores = ['#04251F', '#065143', '#388E3C', '#0A7E69', '#F39C12', '#E74C3C'];
+
+  // Montar os datasets
+  const datasets = setores.map((setor, index) => {
+    const dataSetPorSetor = meses.map(mes => {
+      const dadoEncontrado = dados.find(d => d.mes === mes && d.setor_cnae === setor);
+      return dadoEncontrado ? dadoEncontrado.media_valor_operacao : 0;
+    });
+
+    return {
+      label: setor,
+      data: dataSetPorSetor,
+      borderColor: cores[index % cores.length],
+      tension: 0.3,
+      fill: false
+    };
+  });
+
+  // Gerar o gráfico
+  new Chart(document.getElementById("graficoPrincipal"), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: datasets
+    },
+    options: {
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Valor concedido (R$)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Mês'
+          }
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
+
+  // new Chart(document.getElementById("graficoPrincipal"), {
+  //   type: 'line',
+  //   data: {
+  //     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'], // Meses no eixo X
+  //     datasets: [
+  //       {
+  //         label: 'Comércio',
+  //         data: [50000, 52000, 51000, 53000, 54000, 55000],
+  //         borderColor: '#04251F',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Indústria',
+  //         data: [40000, 42000, 41000, 43000, 44000, 45000],
+  //         borderColor: '#065143',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Serviços',
+  //         data: [60000, 62000, 61000, 63000, 64000, 65000],
+  //         borderColor: '#388E3C',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Agropecuária',
+  //         data: [30000, 32000, 31000, 33000, 34000, 35000],
+  //         borderColor: '#0A7E69',
+  //         tension: 0.3,
+  //         fill: false
+  //       }
+  //     ]
+  //   },
+  //   options: {
+  //     plugins: {
+  //       legend: { display: true }
+  //     },
+  //     scales: {
+  //       y: {
+  //         beginAtZero: true,
+  //         title: {
+  //           display: true,
+  //           text: 'Valor concedido (R$)'
+  //         }
+  //       },
+  //       x: {
+  //         title: {
+  //           display: true,
+  //           text: 'Mês'
+  //         }
+  //       }
+  //     },
+  //     responsive: true,
+  //     maintainAspectRatio: false,
+  //   }
+  // });
+</script>
+
+<script>
+  const tipoUsuario = sessionStorage.IS_GERENTE;
+  const paginaAtual = window.location.pathname;
+
+  const optionsContainer = document.querySelector('.options');
+
+  optionsContainer.innerHTML = `
+      <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
+        <img src="../assets/icon/home (1) 2.png" alt="">
+        <a href="../dashboard/home.html">HOME</a>
+      </div>
+      <div class="option ${paginaAtual.includes('dashboard.html') ? 'selected' : ''}">
+        <img src="../assets/icon/bar-chart 4.png" alt="">
+        <a href="../dashboard/dashboard.html">DASHBOARD</a>
+      </div>
+      ${tipoUsuario == 1 ? `
+        <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+      ` : ''}
+      <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
+        <img src="../assets/icon/edit 2.png" alt="">
+        <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option">
+        <img src="../assets/icon/logout 2.png" alt="">
+        <a href="../index.html">SAIR</a>
+      </div>
+    `;
+</script>
+
+</html>

@@ -9,9 +9,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../assets/background_cadastro.png') no-repeat center center fixed;
+    background: url('../assets/layered-waves-haikei\(1\).svg') no-repeat center center fixed;
     background-size: cover;
-    font-family: Arial, sans-serif;
+    font-family: Poppins, sans-serif;
 }
 
 .container {
@@ -21,6 +21,7 @@ body {
     width: 90%;
     max-width: 450px;
     background: #fff;
+    border: 1px solid #000;
     border-radius: 10px;
     padding: 20px;
 }
@@ -28,6 +29,8 @@ body {
 .form-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
 }
 
@@ -41,10 +44,9 @@ a {
 
 h1 {
     font-weight: bold;
-    margin-bottom: 20px;
     text-align: center;
     color: #333;
-    text-decoration: none !important;
+    margin-bottom: 20px;
 }
 
 .input-container {
@@ -52,6 +54,8 @@ h1 {
     width: 100%;
     margin-bottom: 20px;
 }
+
+
 
 .input-container i {
     position: absolute;
@@ -123,7 +127,7 @@ p a:hover {
 }
 
 .input-container #input_cep {
-    width: 70%;
+    width: 100%;
 }
 
 .input-container #uf {
@@ -152,6 +156,8 @@ p a:hover {
     position: relative;
     margin-bottom: 30px;
 }
+
+
 
 .header-tela2 h1 {
     font-size: 24px;
@@ -195,6 +201,43 @@ p a:hover {
     margin-right: 0;
 }
 
+.btn_voltar {
+    position: absolute;
+    top: 10px;
+    left: 5%;
+    width: 50px;
+    height: 50px;
+    background-color: #04251F;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s;
+    animation: float-to-left 2s infinite;
+}
+
+.alinhar_btn_voltar i.fa-arrow-left-long:first-of-type {
+    font-size: 20px;
+    color: #000;
+}
+
+@keyframes float-to-left {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+ }
+
 /* Responsividade */
 @media (max-width: 768px) {
     .container {
@@ -227,11 +270,6 @@ p a:hover {
     justify-content: space-between;
     align-items: center;
 
-}
-
-#cadastro{
-    align-self: center;
-    margin-left: 137px;
 }
 
 .alinhar_btn_voltar img {
