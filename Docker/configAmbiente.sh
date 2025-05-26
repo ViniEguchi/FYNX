@@ -50,8 +50,14 @@ APP_HOST=localhost
 JAVA_PORT=8080
 
 # AWS (Exemplo de credenciais fictícias)
-AWS_ACCESS_KEY_ID=AKIAXXXXX
-AWS_SECRET_ACCESS_KEY=abc123secretkey
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_SESSION_TOKEN=
+
+BUCKET_NAME=
+ARCHIEVE_NAME=
+AWS_REGION=us-east-1
+
 EOF
   echo "Criado: .env"
 fi
@@ -228,7 +234,7 @@ version: '3.8'
 services:
   mysql:
     container_name: mysql_container
-    image: mysql:5.7
+    image: mysql:8.0
     restart: always
     env_file:
       - .env
