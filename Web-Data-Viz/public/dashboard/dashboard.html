@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,10 @@
   <title>Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
+
   <link rel="stylesheet" href="../css/dashboard-css/dash.css">
   <link rel="stylesheet" href="../css/dashboard-css/global.css">
 </head>
@@ -45,61 +47,69 @@
       </div>
     </div>
 
-  <div class="container">
-    <div class="header">
-      <div class="container-textos-header">
-        <p>DASHBOARD</p>
-        <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>DASHBOARD</p>
+          <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+        </div>
       </div>
-    </div>
 
-    <div class="dashboard-content">
-      <div class="dashboard-filters">
-        <div id="select_option_setor">
-          <!-- <select>
+      <div class="dashboard-content">
+        <div class="dashboard-filters">
+          <div id="select_option_setor">
+            <!-- <select>
             <option>Setores</option>
           </select> -->
-        </div>
-        <select>
-          <option>Período</option>
-          <option>Último Mês</option>
-          <option>Últimos Três Meses</option>
-          <option>Últimos Seis Meses</option>
-          <option>Último Ano</option>
-        </select>
-      </div>
-            
-      <div class="caixa-principal">
-        <div class="linha-setores">
-          <div class="caixa-setor">
-            <p>Média operações no mês</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 20.000</div>
           </div>
-          <div class="caixa-setor">
-            <p>Soma crédito concedido</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 515.000</div>
+          <select id="select_periodo" onchange="exibirKpiDash()">
+            <option>Período</option>
+            <option>Último Mês</option>
+            <option>Últimos Três Meses</option>
+            <option>Últimos Seis Meses</option>
+            <option>Último Ano</option>
+          </select>
+        </div>
+
+        <div class="caixa-principal">
+          <div class="linha-setores">
+            <div class="caixa-setor">
+              <p>Média operações no mês</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_media_operacoes">R$ 20.000
+              </div>
+            </div>
+            <div class="caixa-setor">
+              <p>Soma crédito concedido</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_soma_credito">R$ 515.000
+              </div>
+            </div>
+            <div class="caixa-setor">
+              <p>Variação crédito p/ mês</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_variacao_credito">+12%</div>
+            </div>
           </div>
-          <div class="caixa-setor">
-            <p>Variação crédito p/ mês</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">+12%</div>
+        </div>
+
+        <div class="charts-container">
+          <div class="chart-box">
+            <canvas id="grafico1"></canvas>
+          </div>
+          <div class="chart-box">
+            <canvas id="grafico2"></canvas>
           </div>
         </div>
       </div>
-            
-      <div class="charts-container">
-        <div class="chart-box">
-          <canvas id="grafico1"></canvas>
-        </div>
-        <div class="chart-box">
-          <canvas id="grafico2"></canvas>
-        </div>
-      </div>
+    </div>
+  </main>
 
   <script>
     usuario.innerHTML = sessionStorage.NOME_USUARIO;
-            
-    const tipoUsuario = sessionStorage.IS_GERENTE; 
-    const paginaAtual = window.location.pathname;  
+
+    const tipoUsuario = sessionStorage.IS_GERENTE;
+    const paginaAtual = window.location.pathname;
 
     const optionsContainer = document.querySelector('.options');
 
@@ -130,85 +140,134 @@
 
     function preencherSetores() {
       fetch("/grafico/preencherSetores", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          console.log("sucesso!");
-          resposta.json().then(json => {
-            console.log(JSON.stringify(json));
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            // console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
 
-            var opt = '<option>Setores</option>';
+              var opt = '<option>Setores</option>';
 
-            for (let i = 0; i < json.length; i++) {
-              opt += `<option>${json[i]}</option>`;
-            }
+              for (let i = 0; i < json.length; i++) {
+                opt += `<option>${json[i]}</option>`;
+              }
 
-            select_option_setor.innerHTML = `
-              <select>
+              select_option_setor.innerHTML = `
+              <select id="select_setor" onchange="exibirKpiDash()">
                 ${opt}
               </select>
             `;
-          })
-        } else {
-          console.log(resposta)
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function exibirKpiDash() {
+      var periodo = select_periodo.value;
+      var setor = select_setor.value;
+      console.log(`setor: ${setor}`);
+
+      if (setor == "Setores") {
+        kpi_media_operacoes.innerHTML = `Favor selecionar um setor`;
+        kpi_soma_credito.innerHTML = `Favor selecionar um setor`;
+        kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
+        return;
+      }
+
+      if (periodo == "Último Ano") {
+        periodo = 12;
+      } else if (periodo == "Últimos Três Meses") {
+        periodo = 3;
+      } else if (periodo == "Últimos Seis Meses") {
+        periodo = 6;
+      } else {
+        periodo = 1;
+      }
+
+      fetch(`/grafico/exibirKpiDash/${periodo}/${setor}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         }
       })
-      .catch(function (erro) {
-        console.error("Erro:", erro);
-      });
+        .then(function (resposta) {
+          if (resposta.ok) {
+            console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
+
+              var variacao_credito = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+
+              kpi_media_operacoes.innerHTML = `${json[0].mediaOperacoes}`;
+              kpi_soma_credito.innerHTML = `${json[0].somaCredito}`
+              kpi_variacao_credito.innerHTML = `${variacao_credito}%`;
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
     }
-          </script>
-          <script>
-            const ctx1 = document.getElementById('grafico1').getContext('2d');
-            const ctx2 = document.getElementById('grafico2').getContext('2d');
-          
-            new Chart(ctx1, {
-              type: 'line',
-              data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-                datasets: [{
-                  label: 'Valor médio de operações por mês',
-                  data: [5000, 500, 7000, 2000],
-                  borderColor: '#04251F',
-                  backgroundColor: 'rgba(4, 37, 31, 0.2)',
-                  fill: true
-                }]
-              },
-              options: {
-              plugins: { legend: { display: true } },
-              scales: {
-                y: { beginAtZero: true }
-              },
-              responsive: true,
-              maintainAspectRatio: false,
-             }
-            });
-          
-            new Chart(ctx2, {
-              type: 'line',
-              data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-                datasets: [{
-                  label: 'Valor de crédito concedido',
-                  data: [120000, 130000, 125000, 140000],
-                  borderColor: '#04251F',
-                  backgroundColor: 'rgba(4, 37, 31, 0.2)',
-                  fill: true
-                }]
-              },
-              options: {
-              plugins: { legend: { display: true } },
-              scales: {
-                y: { beginAtZero: true }
-              },
-              responsive: true,
-              maintainAspectRatio: false,
-             }
-            });
-          </script>
-  </body>
-  </html>
+
+    const ctx1 = document.getElementById('grafico1').getContext('2d');
+    const ctx2 = document.getElementById('grafico2').getContext('2d');
+
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+        datasets: [{
+          label: 'Valor médio de operações por mês',
+          data: [5000, 500, 7000, 2000],
+          borderColor: '#04251F',
+          backgroundColor: 'rgba(4, 37, 31, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+        datasets: [{
+          label: 'Valor de crédito concedido',
+          data: [120000, 130000, 125000, 140000],
+          borderColor: '#04251F',
+          backgroundColor: 'rgba(4, 37, 31, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  </script>
+</body>
+
+</html>
