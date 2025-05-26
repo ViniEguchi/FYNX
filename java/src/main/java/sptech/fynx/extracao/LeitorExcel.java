@@ -3,6 +3,7 @@ package sptech.fynx.extracao;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -143,24 +144,11 @@ public class LeitorExcel {
     // ===== CLIENTE S3 =====
     // Método para criar o cliente S3 usando credenciais da AWS
     private S3Client criarClienteS3() {
-        // Obtém as credenciais de acesso da AWS a partir das variáveis de ambiente
-        String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
-        String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
-        String sessionToken = System.getenv("AWS_SESSION_TOKEN");
-        String region = System.getenv("AWS_REGION");
-
-        // Verifica se as variáveis de ambiente estão configuradas corretamente
-        if (accessKey == null || secretKey == null || sessionToken == null || region == null) {
-            throw new IllegalArgumentException("As variáveis de ambiente AWS não foram configuradas corretamente.");
-        }
-
-        // Cria as credenciais da sessão
-        AwsSessionCredentials credentials = AwsSessionCredentials.create(accessKey, secretKey, sessionToken);
 
         // Retorna o cliente S3 configurado
         return S3Client.builder()
-                .region(Region.of(region)) // Define a região AWS
-                .credentialsProvider(StaticCredentialsProvider.create(credentials)) // Fornece as credenciais
+                .region(Region.of(System.getenv("AWS_REGION"))) // Define a região AWS
+                .credentialsProvider(DefaultCredentialsProvider.create()) // Fornece as credenciais
                 .build();
     }
 
