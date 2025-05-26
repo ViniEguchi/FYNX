@@ -23,4 +23,9 @@ router.get("/valorOperacoesMes", function (req, res) {
   graficoController.valorOperacoesMes(req, res);
 });
 
+router.get("/exibirKpiDash/:periodo/:setor", function (req, res) {
+  graficoController.exibirKpiDash(req, res);
+});
+
+
 module.exports = router;
