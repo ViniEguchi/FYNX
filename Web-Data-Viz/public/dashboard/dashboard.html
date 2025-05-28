@@ -1,263 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
-    a {
-      text-decoration: none;
-      color: #fff;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #F2F2F2;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    .profile-card {
-      display: flex;
-      flex-wrap: wrap;
-      background-color: #fff;
-      padding: 20px 0;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 1000px;
-      height: 550px;
-      text-align: center;
-    }
-
-    .campos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 0 20px;
-      width: 100%;    
-      height: 100%;
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 24px;
-      color: #333;
-    }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      margin: 15px;
-      margin-bottom: 5px;
-      text-align: left;
-    }
-
-    .label {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    .editable,
-    .input-edit {
-      font-size: 16px;
-      padding: 10px;
-      min-width: 170px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: #f8f9fa;
-      transition: all 0.3s ease-in-out;
-      display: block;
-    }
-
-    .editable {
-      cursor: pointer;
-    }
-
-    .editable:hover {
-      background-color: #e9ecef;
-    }
-
-    .input-edit {
-      display: none;
-      background-color: #fff;
-    }
-
-    .input-edit:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      width: 100px;
-    }
-
-    .save-btn {
-      display: none;
-      width: 100%;
-      height: 40px;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .save-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 150px;
-    }
-
-    .options .option {
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      width: 230px;
-      gap: 20px;
-      border-radius: 8px;
-    }
-
-    .options .option.selected {
-      background-color: #fff;
-    }
-
-    .options .option.selected a {
-      color: #000;
-    }
-
-    .option img {
-      width: 30px;
-      height: 30px;
-    }
-
-    .side_menu {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-
-    .logo {
-      margin: 20px 0;
-    }
-
-    .dashboard-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: calc(100% - 60px); 
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.dashboard-filters {
-  display: flex;
-  gap: 10px;
-}
-
-.dashboard-filters select {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.caixa-principal {
-  background-color: #04251F;
-  padding: 20px;
-  border-radius: 8px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 10px;
-  border: 3px solid #FFFFFF;
-  height: 150px;
-}
-
-.linha-setores {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-}
-
-.caixa-setor {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-}
-
-.caixa-setor p {
-  margin-bottom: 10px;
-}
-
-.caixa-branca {
-  background-color: transparent;
-  border: 3px solid white;
-  border-radius: 6px;
-  width: 80%;
-  height: 50px;
-}
-
-.charts-container {
-  display: flex;
-  gap: 20px;
-  flex: 1;
-}
-
-.chart-box {
-  flex: 1;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  height: 300px;
-    }
-  </style>
+  <link rel="stylesheet" href="../css/dashboard-css/dash.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
 </head>
 
-<body onload="carregarPerfil()">
+<body onload="preencherSetores()">
 
-  <main style="display: flex; justify-content: space-between; width: 100vw; height: 100%;  ">
-    <div class="side_menu" style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
-      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
-        <div class="option">
+        <!-- <div class="option">
           <img src="../assets/icon/home 3.png" alt="">
           <a href="../dashboard/home.html">HOME</a>
         </div>
         <div class="option selected">
           <img src="../assets/icon/bar-chart (1) 2.png" alt="">
-          <a href="#">DASHBOARD</a>
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
         </div>
         <div class="option">
           <img src="../assets/icon/user (1) 2.png" alt="">
-          <a href="../dashboard/user.html">USUÁRIOS</a>
+          <a href="../dashboard/users.html">USUÁRIOS</a>
         </div>
         <div class="option">
           <img src="../assets/icon/edit 2.png" alt="">
@@ -265,84 +42,232 @@
         </div>
         <div class="option">
           <img src="../assets/icon/logout 2.png" alt="">
-          <a href="#">SAIR</a>
-        </div>
+          <a href="../index.html">SAIR</a>
+        </div> -->
       </div>
     </div>
 
-    <div class="container" style="width: 100%; height: 100%;">
-        <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
-          <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
-            <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">DASHBOARD</p>
-            <p style="margin-right: 30px; font-weight: 600; font-size: 23px;">BEM VINDO, <span id="usuario"></span>!</p>
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>DASHBOARD</p>
+          <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
+        </div>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="dashboard-filters">
+          <div id="select_option_setor">
+            <!-- <select>
+            <option>Setores</option>
+          </select> -->
+          </div>
+          <select id="select_periodo" onchange="exibirKpiDash()">
+            <option>Período</option>
+            <option>Último Mês</option>
+            <option>Últimos Três Meses</option>
+            <option>Últimos Seis Meses</option>
+            <option>Último Ano</option>
+          </select>
+        </div>
+
+        <div class="caixa-principal">
+          <div class="linha-setores">
+            <div class="caixa-setor">
+              <p>Média operações no mês</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_media_operacoes">R$ 20.000
+              </div>
+            </div>
+            <div class="caixa-setor">
+              <p>Soma crédito concedido</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_soma_credito">R$ 515.000
+              </div>
+            </div>
+            <div class="caixa-setor">
+              <p>Variação crédito p/ mês</p>
+              <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
+                id="kpi_variacao_credito">+12%</div>
+            </div>
           </div>
         </div>
 
-        <div class="dashboard-content">
-            <div class="dashboard-filters">
-              <select>
-                <option></option>
-              </select>
-              <select>
-                <option></option>
-              </select>
-            </div>
-          
-            <div class="caixa-principal">
-                <div class="linha-setores">
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                  <div class="caixa-setor">
-                    <p>KPI</p>
-                    <div class="caixa-branca"></div>
-                  </div>
-                </div>
-              </div>
-          
-              <div class="charts-container">
-                <div class="chart-box">
-                  <canvas id="grafico1"></canvas>
-                </div>
-                <div class="chart-box">
-                  <canvas id="grafico2"></canvas>
-                </div>
-              </div>
+        <div class="charts-container">
+          <div class="chart-box">
+            <canvas id="grafico1"></canvas>
+          </div>
+          <div class="chart-box">
+            <canvas id="grafico2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
-          <script  src="./js/perfil.js"></script>
+  <script>
+    usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-          <script>
-            const ctx1 = document.getElementById('grafico1').getContext('2d');
-            const ctx2 = document.getElementById('grafico2').getContext('2d');
-          
-            new Chart(ctx1, {
-              type: 'bar',
-              data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-                datasets: [{
-                  label: 'LALALA',
-                  data: [100, 200, 150, 300],
-                  backgroundColor: '#04251F'
-                }]
+    const tipoUsuario = sessionStorage.IS_GERENTE;
+    const paginaAtual = window.location.pathname;
+
+    const optionsContainer = document.querySelector('.options');
+
+    optionsContainer.innerHTML = `
+      <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
+        <img src="../assets/icon/home 3.png" alt="">
+        <a href="../dashboard/home.html">HOME</a>
+      </div>
+      <div class="option ${paginaAtual.includes('dashboard.html') ? 'selected' : ''}">
+        <img src="../assets/icon/bar-chart (1) 2.png" alt="">
+        <a href="../dashboard/dashboard.html">DASHBOARD</a>
+      </div>
+      ${tipoUsuario == 1 ? `
+        <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+      ` : ''}
+      <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
+        <img src="../assets/icon/edit 2.png" alt="">
+        <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option">
+        <img src="../assets/icon/logout 2.png" alt="">
+        <a href="../index.html">SAIR</a>
+      </div>
+    `;
+
+    function preencherSetores() {
+      fetch("/grafico/preencherSetores", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            // console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
+
+              var opt = '<option>Setores</option>';
+
+              for (let i = 0; i < json.length; i++) {
+                opt += `<option>${json[i].subsetor_cnae}</option>`;
               }
-            });
-          
-            new Chart(ctx2, {
-              type: 'bar',
-              data: {
-                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-                datasets: [{
-                  label: 'LALALA',
-                  data: [400, 300, 500, 600],
-                  backgroundColor: '#04251F'
-                }]
-              }
-            });
-          </script>
-  </body>
-  </html>
+
+              select_option_setor.innerHTML = `
+              <select id="select_setor" onchange="exibirKpiDash()">
+                ${opt}
+              </select>
+            `;
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function exibirKpiDash() {
+      var periodo = select_periodo.value;
+      var setor = select_setor.value;
+      console.log(`setor: ${setor}`);
+
+      if (setor == "Setores") {
+        kpi_media_operacoes.innerHTML = `Favor selecionar um setor`;
+        kpi_soma_credito.innerHTML = `Favor selecionar um setor`;
+        kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
+        return;
+      }
+
+      if (periodo == "Último Ano") {
+        periodo = 12;
+      } else if (periodo == "Últimos Três Meses") {
+        periodo = 3;
+      } else if (periodo == "Últimos Seis Meses") {
+        periodo = 6;
+      } else {
+        periodo = 1;
+      }
+
+      fetch(`/grafico/exibirKpiDash/${periodo}/${setor}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
+
+              var variacao_credito = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+
+              kpi_media_operacoes.innerHTML = `${json[0].mediaOperacoes}`;
+              kpi_soma_credito.innerHTML = `${json[0].somaCredito}`
+              kpi_variacao_credito.innerHTML = `${variacao_credito}%`;
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    const ctx1 = document.getElementById('grafico1').getContext('2d');
+    const ctx2 = document.getElementById('grafico2').getContext('2d');
+
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+        datasets: [{
+          label: 'Valor médio de operações por mês',
+          data: [5000, 500, 7000, 2000],
+          borderColor: '#04251F',
+          backgroundColor: 'rgba(4, 37, 31, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+        datasets: [{
+          label: 'Valor de crédito concedido',
+          data: [120000, 130000, 125000, 140000],
+          borderColor: '#04251F',
+          backgroundColor: 'rgba(4, 37, 31, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  </script>
+</body>
+
+</html>

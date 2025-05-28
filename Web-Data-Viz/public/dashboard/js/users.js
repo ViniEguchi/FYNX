@@ -8,45 +8,82 @@ window.onload = () => {
     }
 };
 
-function makeEditable(fieldId, idSufixo) {
-    setTimeout(() => {
-        const span = document.getElementById(fieldId);
-        const input = document.getElementById(fieldId + 'Input');
-        const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
+usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-        if (!span || !input || !saveBtn) {
-            console.warn(`Elementos não encontrados para: ${fieldId}`);
-            return;
+function carregarPerfil() {
+    fetch(`/funcionarios/listar/${sessionStorage.ID_EMPRESA}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status === 204) {
+                const feed = document.getElementById("tabelaUsuariosBody");
+                const mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado.";
+                feed.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!";
+            }
+
+            resposta.json().then(function (funcionarios) {
+                const container = document.getElementById("tabelaUsuariosBody");
+                container.innerHTML = "";
+
+                funcionarios.forEach(func => criarCardPerfil(func));
+            });
         }
-
-        span.addEventListener('click', () => {
-            span.style.display = 'none';
-            input.style.display = 'block';
-            input.focus();
-        });
-
-        input.addEventListener('input', () => {
-            saveBtn.style.display = 'block';
-        });
-
-        input.addEventListener('blur', () => {
-            span.textContent = input.value;
-            span.style.display = 'block';
-            input.style.display = 'none';
-
-            if (fieldId.startsWith(`senha_`)) {
-                span.textContent = '•'.repeat(input.value.length);
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                input.blur();
-            }
-        });
-    }, 0); // delay pra garantir que os elementos existam
+    });
 }
 
+function criarCardPerfil(func) {
+    const id = func.idFuncionario;
+    const tbody = document.getElementById("tabelaUsuariosBody");
+
+    const linhaHTML = `
+        <tr id="linha_${id}">
+            <td>
+                <span id="nome_${id}" class="editable">${func.nome}</span>
+                <input type="text" id="nome_${id}Input" class="input-edit" value="${func.nome}" style="display:none;">
+            </td>
+            <td>
+                <span id="cpf_${id}" class="editable">${func.cpf}</span>
+                <input type="text" id="cpf_${id}Input" class="input-edit" value="${func.cpf}" style="display:none;">
+            </td>
+            <td>
+                <span id="celular_${id}" class="editable">${func.celular}</span>
+                <input type="text" id="celular_${id}Input" class="input-edit" value="${func.celular}" style="display:none;">
+            </td>
+            <td>
+                <span id="email_${id}" class="editable">${func.email}</span>
+                <input type="email" id="email_${id}Input" class="input-edit" value="${func.email}" style="display:none;">
+            </td>
+            <td>
+                <span id="senha_${id}" class="editable">${'•'.repeat(func.senha.length)}</span>
+                <input type="password" id="senha_${id}Input" class="input-edit" value="${func.senha}" style="display:none;">
+            </td>
+            <td>
+                <span id="gerente_${id}" class="editable">${func.isGerente == 0 ? 'Não' : 'Sim'}</span>
+                <select id="gerente_${id}Input" class="input-edit">
+                    <option value="0" ${func.isGerente == 0 ? 'selected' : ''}>Não</option>
+                    <option value="1" ${func.isGerente == 1 ? 'selected' : ''}>Sim</option>
+                </select>
+            </td>
+            <td class="acoes-coluna">
+                <div class="acoes-wrapper">
+                    <img src="../assets/icon/recycle-bin 1.png" alt="excluir" class="icon" onclick="excluirPerfil(${id})">
+                    <button id="saveBtn_${id}" class="save-btn" onclick="salvarPerfil(${id})">Salvar</button>
+                </div>
+            </td>
+        </tr>
+    `;
+
+    tbody.innerHTML += linhaHTML;
+
+    setTimeout(() => {
+        ["nome", "cpf", "celular", "email", "senha","gerente"].forEach(campo => {
+            makeEditable(`${campo}_${id}`, id);
+        });
+    }, 0);
+
+    const select = document.getElementById(`gerente_${id}Input`);
+    select.addEventListener("change", () => salvarPerfil(id));
+}
 
 function criarCampoUsuario(label, id, tipo = "text", valor = "", mascarar = false) {
     const valorSpan = mascarar ? '•'.repeat(valor.length) : valor;
@@ -71,62 +108,59 @@ function criarCampoSelect(label, id, valorAtual) {
     `;
 }
 
-function criarCardPerfil(func) {
-    const idSufixo = func.idFuncionario;
-    const container = document.getElementById("profile-card-row");
+function makeEditable(fieldId, idSufixo) {
+    setTimeout(() => {
+        const span = document.getElementById(fieldId);
+        const input = document.getElementById(fieldId + 'Input');
+        const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
 
-    const cardHTML = `
-        <div class="profile-card">
-            ${criarCampoUsuario("Nome", `nome_${idSufixo}`, "text", func.nome)}
-            ${criarCampoUsuario("CPF", `cpf_${idSufixo}`, "text", func.cpf)}
-            ${criarCampoUsuario("Celular", `celular_${idSufixo}`, "text", func.celular)}
-            ${criarCampoUsuario("Email", `email_${idSufixo}`, "email", func.email)}
-            ${criarCampoUsuario("Senha", `senha_${idSufixo}`, "password", func.senha, true)}
-            ${criarCampoSelect("Gerente", `gerente_${idSufixo}`, func.isGerente)}
-            <button id="saveBtn_${idSufixo}" class="save-btn" onclick="salvarPerfil(${func.idFuncionario})" style="display:none;">Salvar</button>
-            <button class="delete-btn" onclick="excluirPerfil(${func.idFuncionario})">Excluir Perfil</button>
-        </div>
-    `;
+        if (!span || !input || !saveBtn) {
+            console.warn(`Elementos não encontrados para: ${fieldId}`);
+            return;
+        }
 
-    container.innerHTML += cardHTML;
+        // const isSelect = input.tagName === 'SELECT';
+        // if (isSelect) {
+        //     input.addEventListener('change', () => {
+        //         const selectedText = input.options[input.selectedIndex].text;
+        //         span.textContent = selectedText;
+        //         span.style.display = 'block';
+        //         input.style.display = 'none';
+        //         saveBtn.style.display = 'block';
+        //     });
+        // }
 
-    // Ativa edição nos campos
-    ["nome", "cpf", "celular", "email", "senha"].forEach(campo => {
-        makeEditable(`${campo}_${idSufixo}`, idSufixo);
-    });
 
-    const selectGerente = document.getElementById(`gerente_${idSufixo}Input`);
-    const saveBtn = document.getElementById(`saveBtn_${idSufixo}`);
+        span.addEventListener('click', () => {
+            span.style.display = 'none';
+            input.style.display = 'block';
+            input.focus();
+        });
 
-    selectGerente.addEventListener('change', () => {
-        saveBtn.style.display = 'block';
-    });
-}
+        input.addEventListener('input', () => {
+            saveBtn.style.display = 'block';
+        });
 
-// FUNÇÃO PRINCIPAL
-
-function carregarPerfil() {
-    fetch(`/funcionarios/listar/${sessionStorage.ID_EMPRESA}`).then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status === 204) {
-                const feed = document.getElementById("profile-card-row");
-                const mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado.";
-                feed.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!";
+        input.addEventListener('blur', () => {
+            if (input.tagName === 'SELECT') {
+                span.textContent = input.options[input.selectedIndex].text;
+            } else if (fieldId.startsWith(`senha_`)) {
+                span.textContent = '•'.repeat(input.value.length);
+            } else {
+                span.textContent = input.value;
             }
 
-            resposta.json().then(function (funcionarios) {
-                const container = document.getElementById("profile-card-row");
-                container.innerHTML = ""; // Limpa antes de renderizar
+            span.style.display = 'block';
+            input.style.display = 'none';
+        });
 
-                funcionarios.forEach(func => criarCardPerfil(func));
-            });
-        }
-    });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                input.blur();
+            }
+        });
+    }, 0);
 }
-
-// SALVAR / EXCLUIR PERFIL
 
 function salvarPerfil(idFuncionario) {
     const dadosAtualizados = {
@@ -135,8 +169,9 @@ function salvarPerfil(idFuncionario) {
         celular: document.getElementById(`celular_${idFuncionario}Input`).value,
         email: document.getElementById(`email_${idFuncionario}Input`).value,
         senha: document.getElementById(`senha_${idFuncionario}Input`).value,
-        gerente: document.getElementById(`gerente_${idFuncionario}Input`).value
+        isGerente: document.getElementById(`gerente_${idFuncionario}Input`).value
     };
+
 
     fetch(`/funcionarios/atualizar/${idFuncionario}`, {
         method: "PUT",
@@ -149,6 +184,7 @@ function salvarPerfil(idFuncionario) {
         if (resposta.ok) {
             alert("Perfil atualizado com sucesso!");
             document.getElementById(`saveBtn_${idFuncionario}`).style.display = 'none';
+            carregarPerfil()
         } else if (resposta.status === 404) {
             alert("Usuário não encontrado.");
         } else {
@@ -178,8 +214,6 @@ function excluirPerfil(idFuncionario) {
         });
     }
 }
-
-// CADASTRO
 
 function cadastrar() {
     const nome = document.getElementById('cadastroNomeInput').value;
@@ -228,8 +262,6 @@ function cadastrar() {
         alert("Erro inesperado ao criar o perfil.");
     });
 }
-
-// FORMULÁRIO MODAL
 
 function abrirFormulario() {
     const dialog = document.getElementById('formDialog');

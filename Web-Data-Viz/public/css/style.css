@@ -106,11 +106,8 @@ section{
     background-color: transparent;
     border-color: var(--primary-color);
     color: var(--primary-color);
-<<<<<<< HEAD
-=======
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     cursor: pointer;
->>>>>>> dev
 }
 
 .button_cadastrar a {
@@ -469,6 +466,10 @@ section .content {
     width: 100%;
 }
 
+.card_erro {
+    display: none;
+    justify-content: center;
+}
 
 .form-group .primary_button{
     display: none;

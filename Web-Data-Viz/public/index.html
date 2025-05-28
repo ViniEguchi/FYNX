@@ -61,7 +61,7 @@
     </div>
   </header>
 
-  <div class="banner">
+  <div class="banner" id="banner">
     <div class="container">
       <div class=" banner_img"></div>
       <div class="content banner_mensagem">
@@ -70,7 +70,7 @@
         <span>Bem-vindo à FYNX! Sua plataforma inteligente para entender e antecipar as tendências de pagamento no
           universo do microcrédito.</span>
 
-        <a class="primary_button button" href="#">Conheça nossa solução</a>
+        <a class="primary_button button" href="./login.html">Conheça nossa solução</a>
       </div>
     </div>
   </div>
@@ -96,7 +96,7 @@
             <li>Análise para maximização de lucro no microcrédito</li>
             <li>Crescimento sustentável</li>
           </ul>
-          <a class="secondary_button button margin-auto button" href="#">Saiba mais</a>
+          <a class="secondary_button button margin-auto button" href="#banner">Saiba mais</a>
         </div>
       </div>
 
@@ -120,7 +120,7 @@
             <li>Análises preditivas</li>
             <li>Integração fácil</li>
           </ul>
-          <a class="secondary_button button margin-auto" href="#">Conheça nossa proposta</a>
+          <a class="secondary_button button margin-auto" href="#banner">Conheça nossa proposta</a>
         </div>
       </div>
     </section>
@@ -136,7 +136,7 @@
             inteligência de dados para apoiar fintechs e financeiras na tomada de decisões assertivas.
           </span>
 
-          <a class="secondary_button button margin-auto" id="button_contato_desktop" href="#">Entre em contato</a>
+          <a class="secondary_button button margin-auto" id="button_contato_desktop" href="#contact_us">Entre em contato</a>
         </div>
         <div class="image-container">
           <img src="./assets/imgs/Group 40.png" alt="" class="image-container-q">
@@ -150,7 +150,7 @@
 
         <h2>Sua solução para análise de crédito</h2>
         <ul class="solucoes color_text_alternative">
-          
+
 
           <li>
             <div class="container-texto">
@@ -181,7 +181,7 @@
             </div>
 
           </li>
-          
+
           <li>
             <div class="container-texto">
               <h3>
@@ -217,38 +217,44 @@
     </section>
 
     <section class="container contact_us" id="contact_us">
-      
+
       <h2>Fale Conosco</h2>
-      
+
       <div class="content form_contact">
         <div class="formulario">
           <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" id="name" placeholder="Digite seu nome">
+            <input class="inputs" type="text" id="ipt_name" placeholder="Digite seu nome">
           </div>
 
           <div class="form-group">
             <label for="email">E-mail:</label>
-            <input type="email" id="email" placeholder="Digite seu e-mail">
+            <input class="inputs" type="email" id="ipt_email" placeholder="Digite seu e-mail">
           </div>
 
           <div class="form-group">
             <label for="message">Mensagem:</label>
-            <textarea id="message" placeholder="Digite sua mensagem"></textarea>
+            <textarea class="inputs" id="ipt_message" placeholder="Digite sua mensagem" maxlength="300"></textarea>
           </div>
+
+          <div class="alerta_erro">
+            <div class="card_erro" id="cardErro">
+              <span id="mensagem_erro"></span>
+            </div>
+          </div>
+
           <div class="form-group">
-            <div id="submit-btn" class="secondary_button button">Enviar</div>
-            <div id="submit-btn" class="primary_button button">Enviar</div>
+            <div id="submit-btn" class="primary_button button" onclick="enviar_formulario()">Enviar</div>
           </div>
         </div>
 
         <div class="texto_contato">
-          <span  style="text-align: center;">
+          <span style="text-align: center;">
             Quer saber mais sobre a FYNX e como nossa solução pode ajudar na análise de tendências para ME e MEIs? Nossa
             equipe está pronta para tirar dúvidas e apresentar as melhores opções para sua instituição financeira ou
             fintech.
           </span>
-  
+
           <ul class="contato_list">
             <li>(11) 99999-9999 <br></li>
             <li>contato@fynx.com.br <br></li>
@@ -281,7 +287,7 @@
         <li>contato@fynx.com.br</li>
         <li>Rua haddock lobo 595</li>
       </ul>
-  
+
       <ul class="informacoes">
         <h4>Informações</h4>
         <li>Termos e condições</li>
@@ -299,6 +305,70 @@
     sidebar.classList.toggle("active");
     menuButton.classList.toggle("hidden");
   }
+
+  function enviar_formulario() {
+    var nomeVar = ipt_name.value;
+    var emailVar = ipt_email.value;
+    var mensagemVar = ipt_message.value;
+
+    inputs = document.querySelectorAll('.inputs');
+
+    var correto = true;
+
+    for (i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == "") {
+            inputs[i].style.border = '1px solid red';
+            document.getElementById("cardErro").style.display = "flex";
+            document.getElementById("mensagem_erro").innerHTML = "<span style='color: red;'>Preencha todos os campos!</span>";
+
+            setTimeout(sumirMensagem, 5000);
+            correto = false;
+        } else {
+            inputs[i].style.border = 'none';
+        }     
+    }
+
+    if (!correto) {
+        return;
+    }
+
+    fetch("/formulario/enviar_formulario", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        mensagemServer: mensagemVar
+      }),
+    })
+      .then(function (resposta) {
+
+        // document.getElementById('loading').style.display = 'none';
+
+        if (resposta.ok) {
+          console.log("Formulario enviado com sucesso!");
+          // div_mensagem.innerHTML = "<span style='color: green;'>Cadastro realizado com sucesso!</span>";
+
+          // window.location.href = "index.html";
+        } else {
+          console.log(resposta)
+          // div_mensagem.innerHTML = "<span style='color: red;'>Erro ao cadastrar. Tente novamente.</span>";
+        }
+      })
+      .catch(function (erro) {
+
+        // document.getElementById('loading').style.display = 'none';
+
+        console.error("Erro:", erro);
+        // div_mensagem.innerHTML = "<span style='color: red;'>Erro ao conectar ao servidor.</span>";
+      });
+  }
+
+  function sumirMensagem() {
+            document.getElementById("cardErro").style.display = "none";
+        }
 </script>
 
 </html>

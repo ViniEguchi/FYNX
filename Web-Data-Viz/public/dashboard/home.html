@@ -1,333 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Home - Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
-    a {
-      text-decoration: none;
-      color: #fff;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #F2F2F2;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    .profile-card {
-      display: flex;
-      flex-wrap: wrap;
-      background-color: #fff;
-      padding: 20px 0;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 1000px;
-      height: 550px;
-      text-align: center;
-    }
-
-    .campos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 0 20px;
-      width: 100%;    
-      height: 100%;
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 24px;
-      color: #333;
-    }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      margin: 15px;
-      margin-bottom: 5px;
-      text-align: left;
-    }
-
-    .label {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    .editable,
-    .input-edit {
-      font-size: 16px;
-      padding: 10px;
-      min-width: 170px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: #f8f9fa;
-      transition: all 0.3s ease-in-out;
-      display: block;
-    }
-
-    .editable {
-      cursor: pointer;
-    }
-
-    .editable:hover {
-      background-color: #e9ecef;
-    }
-
-    .input-edit {
-      display: none;
-      background-color: #fff;
-    }
-
-    .input-edit:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      width: 100px;
-    }
-
-    .save-btn {
-      display: none;
-      width: 100%;
-      height: 40px;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .save-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 150px;
-    }
-
-    .options .option {
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      width: 230px;
-      gap: 20px;
-      border-radius: 8px;
-    }
-
-    .options .option.selected {
-      background-color: #fff;
-    }
-
-    .options .option.selected a {
-      color: #000;
-    }
-
-    .option img {
-      width: 30px;
-      height: 30px;
-    }
-
-    .side_menu {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-
-    .logo {
-      margin: 20px 0;
-    }
-
-    .caixa-principal {
-  background-color: #04251F;
-  padding: 20px;
-  border-radius: 8px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 10px;
-  border: 3px solid #FFFFFF;
-}
-
-.linha-setores {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-}
-
-.caixa-setor {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-}
-
-.caixa-setor p {
-  margin-bottom: 10px;
-}
-
-.caixa-branca {
-  background-color: transparent;
-  border: 3px solid white;
-  border-radius: 6px;
-  width: 80%;
-  height: 50px;
-}
-
-.graficos-superiores {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    .grafico-box {
-      flex: 1;
-      background-color: white;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-left: 25px;
-      margin-right: 25px;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 200px !important;
-    }
-
-    .grafico-maior {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-      margin-left: 25px;
-      margin-right: 25px;
-    }
-
-    @media (max-width: 624px) {
-  /* Esconde a sidebar */
-  .side_menu {
-    display: none  !important;
-  }
-
-  /* Header INÍCIO + BEM-VINDO na mesma linha, com texto menor */
-  .header .container-textos-header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 5px;
-  }
-
-  .header .container-textos-header h1,
-  .header .container-textos-header h2 {
-    font-size: 14px;
-    margin: 0;
-  }
-
-  /* Caixas dos setores LADO A LADO com wrap */
-  .linha-setores {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
-
-  .caixa-setor {
-    width: 30%;
-    min-width: 90px;
-    padding: 6px 4px;
-    font-size: 12px;
-  }
-  
-  .graficos-superiores {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
-  }
-
-  .grafico-box {
-    width: 45%;
-    min-width: 140px;
-    margin: 0;
-  }
-
-  .grafico-maior {
-    margin: 10px;
-  }
-
-  /* Ajuste geral */
-  .caixa-principal {
-    margin: 10px;
-  }
-
-  canvas {
-    height: auto !important;
-  }
-}
-  </style>
+  <link rel="stylesheet" href="../css/dashboard-css/home.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
 </head>
 
-<body onload="carregarPerfil()">
+<body onload="carregarGraficos()">
 
-  <main style="display: flex; justify-content: space-between; width: 100vw; height: 100%;  ">
-    <div class="side_menu" style="background-color: #04251F; width: 362px; height: 100vh; display: flex; flex-direction: column; align-items: center;">
-      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" style="width: 250px; height: 150px;" alt="">
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
 
       <div class="options">
         <div class="option selected">
           <img src="../assets/icon/home (1) 2.png" alt="">
-          <a href="#">HOME</a>
+          <a href="../dashboard/home.html">HOME</a>
         </div>
         <div class="option">
           <img src="../assets/icon/bar-chart 4.png" alt="">
-<<<<<<< HEAD
-          <a href="../dashboard/dash.html">DASHBOARD</a>
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
 
         </div>
         <div class="option">
           <img src="../assets/icon/user (1) 2.png" alt="">
           <a href="../dashboard/users.html">USUÁRIOS</a>
-=======
-          <a href="../dashboard/dashboard.html">DASHBOARD</a>
-        </div>
-        <div class="option">
-          <img src="../assets/icon/user (1) 2.png" alt="">
-          <a href="../dashboard/user.html">USUÁRIOS</a>
->>>>>>> dd70c5fb21312604125d6930e4c9f81257a41106
         </div>
         <div class="option">
           <img src="../assets/icon/edit 2.png" alt="">
@@ -335,140 +43,490 @@
         </div>
         <div class="option">
           <img src="../assets/icon/logout 2.png" alt="">
-          <a href="#">SAIR</a>
+          <a href="../index.html">SAIR</a>
         </div>
       </div>
     </div>
 
-    <div class="container" style="width: 100%; height: 100%;">
-        <div class="header" style="width: 100%; height: 60px; background-color: #ffffff;">
-          <div class="container-textos-header" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: space-between;">
-            <p style="margin-left: 30px; font-weight: 600; font-size: 23px;">INICIO</p>
-            
-            <button class="menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; margin-right: 30px; cursor: pointer;">
-                <img src="../assets/icon/Header.png" alt="Menu" style="width: 30px; height: 30px;">
-              </button>
-          </div>
-        </div>
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>INICIO</p>
+          <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
 
-        <div class="caixa-principal">
-            <div class="linha-setores">
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
+          <div class="container-hamburguer-menu" style="display: none;">
+            <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+            <ul class="navbar sidebar" id="sidebar">
+              <button class="close-btn" onclick="toggleMenu()">✖</button>
+              <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+              <div class="options">
+                <div class="option selected">
+                  <img src="../assets/icon/home (1) 2.png" alt="">
+                  <a href="../dashboard/home.html">HOME</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/bar-chart 4.png" alt="">
+                  <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/user (1) 2.png" alt="">
+                  <a href="../dashboard/users.html">USUÁRIOS</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/edit 2.png" alt="">
+                  <a href="../dashboard/perfil.html">EDITAR</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/logout 2.png" alt="">
+                  <a href="../index.html">SAIR</a>
+                </div>
               </div>
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
-              </div>
-              <div class="caixa-setor">
-                <p>SETOR</p>
-                <div class="caixa-branca"></div>
-              </div>
+            </ul>
+          </div>
+
+          <!-- <button class="menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; margin-right: 30px; cursor: pointer;">
+                <img src="../assets/icon/Header.png" alt="Menu" style="width: 30px; height: 30px;">
+              </button> -->
+        </div>
+      </div>
+
+      <div class="caixa-principal">
+        <div class="linha-setores">
+          <div class="caixa-setor">
+            <p>Setor c/ maior operação</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Varejo -
+              90.000</div>
+          </div>
+          <div class="caixa-setor">
+            <p>Menor taxa de juros</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Industria
+              extrativa - 3% a.a</div>
+          </div>
+          <div class="caixa-setor">
+            <p>Valor Total Concedido</p>
+            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 1.530.000
             </div>
           </div>
-          
-          <div class="graficos-superiores">
-            <div class="grafico-box"><canvas id="grafico1"></canvas></div>
-            <div class="grafico-box"><canvas id="grafico2"></canvas></div>
-            <div class="grafico-box"><canvas id="grafico3"></canvas></div>
-          </div>
-  
-          <div class="grafico-maior">
-            <canvas id="graficoPrincipal"></canvas>
-          </div>
         </div>
       </div>
-          
-    
+
+      <div class="graficos-superiores">
+        <div class="grafico-box"><canvas id="grafico1"></canvas></div>
+        <div class="grafico-box"><canvas id="grafico2"></canvas></div>
+        <div class="grafico-box"><canvas id="grafico3"></canvas></div>
       </div>
-    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+      <div class="grafico-maior">
+        <canvas id="graficoPrincipal"></canvas>
+      </div>
+    </div>
+    </div>
 
-function toggleSidebar() {
-  const menu = document.getElementById('sideMenu');
-  const isHidden = menu.style.display === 'none';
 
-  if (isHidden) {
-    menu.style.display = 'flex';  // Torna o menu visível
-  } else {
-    menu.style.display = 'none';  // Esconde o menu
-  }
+    </div>
+  </main>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+async function carregarGraficos() {
+  await totalOperacoes();
+  await jurosMedioSetor();
+  await prazoAmortizacaoMes();
+  await valorOperacoesMes();
 }
-      // Gráfico 1 - Setores A, B, C
-      new Chart(document.getElementById("grafico1"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [70, 40, 90],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
+  
 
-      // Gráfico 2 - Setores A, B, C
-      new Chart(document.getElementById("grafico2"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [50, 60, 70],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
+  function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const menuButton = document.getElementById("menuButton");
 
-      // Gráfico 3 - Setores A, B, C
-      new Chart(document.getElementById("grafico3"), {
-        type: 'bar',
-        data: {
-          labels: ['Setor A', 'Setor B', 'Setor C'],
-          datasets: [{
-            label: 'Valor',
-            data: [80, 60, 100],
-            backgroundColor: ['#04251F', '#04251F', '#04251F']
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 100 } }
-        }
-      });
+    sidebar.classList.toggle("active");
+    menuButton.classList.toggle("hidden");
+  }
 
-      new Chart(document.getElementById("graficoPrincipal"), {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-          datasets: [{
-            label: 'Total Produzido',
-            data: [100, 120, 90, 130],
-            backgroundColor: 'rgba(33,150,243,0.2)',
-            borderColor: '#04251F',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-          }]
+  usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+  // function toggleSidebar() {
+  //   const menu = document.getElementById('sideMenu');
+  //   const isHidden = menu.style.display === 'none';
+
+  //   if (isHidden) {
+  //     menu.style.display = 'flex';  // Torna o menu visível
+  //   } else {
+  //     menu.style.display = 'none';  // Esconde o menu
+  //   }
+  // }
+  // Gráfico 1 - Setores A, B, C
+  async function totalOperacoes() {
+    fetch("/grafico/totalOperacoes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          // console.log("totalOperacoes sucesso!");
+          resposta.json().then(json => {
+            graficoTotalOperacoes(json)
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  function graficoTotalOperacoes(dados) {
+    console.log(dados)
+    let label = [];
+    let data = [];
+    dados.forEach(element => {
+      label.push(element.setor_cnae)
+      data.push(element.total_valor)
+    });
+
+    new Chart(document.getElementById("grafico1"), {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Total de operações por setor',
+          data: data,
+          backgroundColor: '#04251F'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true }
         },
-        options: {
-          plugins: { legend: { display: true } },
-          scales: {
-            y: { beginAtZero: true }
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+  }
+
+  async function jurosMedioSetor() {
+    fetch("/grafico/jurosMedioSetor", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("jurosMedioSetor sucesso!");
+          resposta.json().then(json => {
+            graficoJurosMedioSetor(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  // Gráfico 2 - Setores A, B, C
+  function graficoJurosMedioSetor(dados) {
+    let label = [];
+    let data = [];
+    dados.forEach(element => {
+      label.push(element.setor_cnae)
+      data.push(element.media)
+    });
+    new Chart(document.getElementById("grafico2"), {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Juros médio por setor',
+          data: data,
+          backgroundColor: ['#04251F', '#04251F', '#04251F']
+        }]
+      },
+      options: {
+        plugins: { legend: { display: true } },
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  }
+
+  async function prazoAmortizacaoMes() {
+    fetch("/grafico/prazoAmortizacaoMes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("prazoAmortizacaoMes sucesso!");
+          resposta.json().then(json => {
+            graficoPrazoAmortizacaoMes(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  // Gráfico 3 - Setores A, B, C
+  function graficoPrazoAmortizacaoMes(dados) {
+  const meses = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  // Gerar labels dos meses no formato "Mês/Ano"
+  const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+
+  // Gerar todos os setores únicos
+  const setores = [...new Set(dados.map(e => e.setor_cnae))];
+
+  // Paleta de cores
+  const cores = ['#04251F', '#065143', '#0A7E69', '#A1C181', '#FF7F50', '#6A5ACD'];
+
+  // Construir os datasets dinamicamente
+  const datasets = setores.map((setor, index) => {
+    const data = labelMes.map(label => {
+      const [mesNome, ano] = label.split('/');
+      const mesNumero = meses.indexOf(mesNome) + 1;
+
+      const item = dados.find(
+        d => d.ano == ano && d.mes == mesNumero && d.setor_cnae == setor
+      );
+
+      return item ? Number(item.media_prazo) : null; // ou 0 se quiser mostrar 0 quando não tem
+    });
+
+    return {
+      label: setor,
+      data: data,
+      backgroundColor: cores[index % cores.length]
+    };
+  });
+
+  // Criar o gráfico
+  new Chart(document.getElementById("grafico3"), {
+    type: 'bar',
+    data: {
+      labels: labelMes, // Eixo X: meses
+      datasets: datasets
+    },
+    options: {
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Prazo (meses)'
+          }
+        },
+        x: {
+          stacked: false
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
+
+async function valorOperacoesMes(dados){
+  fetch("/grafico/valorOperacoesMes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("valorOperacoesMes sucesso!");
+          resposta.json().then(json => {
+            graficoValorOperacoesMes(json);
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+}
+
+function graficoValorOperacoesMes(dados){
+  const mesesNomes = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  // Obter lista única de meses ordenados
+  const meses = [...new Set(dados.map(d => d.mes))].sort((a, b) => a - b);
+  const labels = meses.map(m => mesesNomes[m - 1]);
+
+  // Obter lista única de setores
+  const setores = [...new Set(dados.map(d => d.setor_cnae))];
+
+  // Cores para cada setor
+  const cores = ['#04251F', '#065143', '#388E3C', '#0A7E69', '#F39C12', '#E74C3C'];
+
+  // Montar os datasets
+  const datasets = setores.map((setor, index) => {
+    const dataSetPorSetor = meses.map(mes => {
+      const dadoEncontrado = dados.find(d => d.mes === mes && d.setor_cnae === setor);
+      return dadoEncontrado ? dadoEncontrado.media_valor_operacao : 0;
+    });
+
+    return {
+      label: setor,
+      data: dataSetPorSetor,
+      borderColor: cores[index % cores.length],
+      tension: 0.3,
+      fill: false
+    };
+  });
+
+  // Gerar o gráfico
+  new Chart(document.getElementById("graficoPrincipal"), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: datasets
+    },
+    options: {
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Valor concedido (R$)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Mês'
           }
         }
-      });
-    </script>
-  </body>
-  </html>
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
+
+  // new Chart(document.getElementById("graficoPrincipal"), {
+  //   type: 'line',
+  //   data: {
+  //     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'], // Meses no eixo X
+  //     datasets: [
+  //       {
+  //         label: 'Comércio',
+  //         data: [50000, 52000, 51000, 53000, 54000, 55000],
+  //         borderColor: '#04251F',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Indústria',
+  //         data: [40000, 42000, 41000, 43000, 44000, 45000],
+  //         borderColor: '#065143',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Serviços',
+  //         data: [60000, 62000, 61000, 63000, 64000, 65000],
+  //         borderColor: '#388E3C',
+  //         tension: 0.3,
+  //         fill: false
+  //       },
+  //       {
+  //         label: 'Agropecuária',
+  //         data: [30000, 32000, 31000, 33000, 34000, 35000],
+  //         borderColor: '#0A7E69',
+  //         tension: 0.3,
+  //         fill: false
+  //       }
+  //     ]
+  //   },
+  //   options: {
+  //     plugins: {
+  //       legend: { display: true }
+  //     },
+  //     scales: {
+  //       y: {
+  //         beginAtZero: true,
+  //         title: {
+  //           display: true,
+  //           text: 'Valor concedido (R$)'
+  //         }
+  //       },
+  //       x: {
+  //         title: {
+  //           display: true,
+  //           text: 'Mês'
+  //         }
+  //       }
+  //     },
+  //     responsive: true,
+  //     maintainAspectRatio: false,
+  //   }
+  // });
+</script>
+
+<script>
+  const tipoUsuario = sessionStorage.IS_GERENTE;
+  const paginaAtual = window.location.pathname;
+
+  const optionsContainer = document.querySelector('.options');
+
+  optionsContainer.innerHTML = `
+      <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
+        <img src="../assets/icon/home (1) 2.png" alt="">
+        <a href="../dashboard/home.html">HOME</a>
+      </div>
+      <div class="option ${paginaAtual.includes('dashboard.html') ? 'selected' : ''}">
+        <img src="../assets/icon/bar-chart 4.png" alt="">
+        <a href="../dashboard/dashboard.html">DASHBOARD</a>
+      </div>
+      ${tipoUsuario == 1 ? `
+        <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+      ` : ''}
+      <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
+        <img src="../assets/icon/edit 2.png" alt="">
+        <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option">
+        <img src="../assets/icon/logout 2.png" alt="">
+        <a href="../index.html">SAIR</a>
+      </div>
+    `;
+</script>
+
+</html>

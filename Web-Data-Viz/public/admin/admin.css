@@ -1,14 +1,22 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f2f2f2;
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 100vh;
 }
 
 .container {
-  width: 80%;
+  position: relative;
+  overflow-x: scroll;
+  min-width: 100%;
   margin: 20px;
   background-color: white;
   padding: 20px;
@@ -23,25 +31,45 @@ h1 {
 
 section {
   margin-bottom: 30px;
+  min-width: 100%;
 }
 
-form input {
-  display: block;
+.form-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 100%;
+}
+
+form {
   width: 100%;
+}
+
+.field-group {
+  width: 100%;
+}
+
+input {
+  display: inline-block;
+  width: 350px;
   padding: 10px;
   margin-bottom: 10px;
 }
 
 button {
   padding: 10px 15px;
-  background-color: #4CAF50;
+  background-color: #04251f;
   color: white;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #145b4f;
 }
 
 table {
@@ -60,17 +88,22 @@ th, td {
 }
 
 dialog {
-  width: 400px;
+  width: 500px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 dialog button {
-  background-color: #f44336;
+  background-color: #04251f;
   margin-top: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
 dialog button:hover {
-  background-color: #e53935;
+  background-color: #145b4f;
+}
+
+.input-edit {
+  width: 150px;
 }
