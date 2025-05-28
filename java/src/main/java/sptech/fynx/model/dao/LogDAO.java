@@ -9,20 +9,17 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class LogDAO {
-
-    private final JdbcTemplate jdbcTemplate;
+public class LogDAO extends BaseDAO {
 
     public LogDAO(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        super(dataSource); // Chama o construtor do BaseDAO para inicializar jdbcTemplate
     }
 
-
     public void inserirLog(LogModel log) {
-
         String sql = "INSERT INTO log (data_hora_inicio, data_hora_fim, descricao, status_log, erro) VALUES (?, ?, ?, ?, ?)";
 
         try {
+            // Convertendo para Zona Horária Brasil (São Paulo)
             ZonedDateTime dataHoraInicioBrasilia = log.getDataHoraInicio() != null
                     ? log.getDataHoraInicio().atZone(ZoneId.of("America/Sao_Paulo"))
                     : null;
@@ -31,6 +28,7 @@ public class LogDAO {
                     ? log.getDataHoraFim().atZone(ZoneId.of("America/Sao_Paulo"))
                     : null;
 
+            // Convertendo para UTC
             Timestamp dataHoraInicioUTC = log.getDataHoraInicio() != null
                     ? Timestamp.from(log.getDataHoraInicio().atZone(ZoneId.of("UTC")).toInstant())
                     : null;
@@ -39,6 +37,7 @@ public class LogDAO {
                     ? Timestamp.from(log.getDataHoraFim().atZone(ZoneId.of("UTC")).toInstant())
                     : null;
 
+            // Formatando as datas
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             String dataHoraInicioFormatada = dataHoraInicioBrasilia != null
                     ? formatter.format(dataHoraInicioBrasilia)
@@ -48,6 +47,7 @@ public class LogDAO {
                     ? formatter.format(dataHoraFimBrasilia)
                     : "N/A";
 
+            // Logs para Debug
             System.out.println("======= Início do Log =======");
             System.out.println("Nome: " + log.getNome());
             System.out.println("Status: " + (log.getStatusLog() ? "Sucesso" : "Falha"));
@@ -55,9 +55,11 @@ public class LogDAO {
             System.out.println("Início: " + dataHoraInicioFormatada);
             System.out.println("Fim: " + dataHoraFimFormatada);
 
+            // Testando conexão com o banco
             jdbcTemplate.queryForObject("SELECT 1", Integer.class);
             System.out.println("Conexão com o banco testada com sucesso.");
 
+            // Inserindo log no banco
             jdbcTemplate.update(sql, dataHoraInicioUTC, dataHoraFimUTC, log.getNome(), log.getStatusLog(), log.getErro());
             System.out.println("Log inserido com sucesso.");
             System.out.println("======= Fim do Log =======\n");
@@ -66,7 +68,5 @@ public class LogDAO {
             System.err.println("Erro ao inserir log:");
             e.printStackTrace();
         }
-
-
     }
 }

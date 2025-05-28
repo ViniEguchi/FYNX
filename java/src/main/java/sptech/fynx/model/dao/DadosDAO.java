@@ -1,7 +1,6 @@
 package sptech.fynx.model.dao;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
 import sptech.fynx.model.DadosModel;
 
 import javax.sql.DataSource;
@@ -10,19 +9,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DadosDAO {
+public class DadosDAO extends BaseDAO {
 
-    private final JdbcTemplate jdbcTemplate;
     private Connection conexao;
 
     public DadosDAO(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        super(dataSource); // chama o construtor do BaseDAO e inicializa jdbcTemplate
 
         Connection tempConexao = null;
         try {
             tempConexao = jdbcTemplate.getDataSource().getConnection();
-            limparTabelaHistorico(); // <<< AQUI! Faz o TRUNCATE logo que inicia
-            criarTabela();
+            limparTabelaHistorico(); // <<< limpa tabela ao iniciar
+            criarTabela();           // <<< cria tabela se não existir
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
