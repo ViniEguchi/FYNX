@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS endereco (
     logradouro VARCHAR(45),
     numero CHAR(5),
     complemento VARCHAR(45),
+    
     CONSTRAINT PRIMARY KEY (idEndereco, fkEmpresa),
     CONSTRAINT fk_endereco_empresa FOREIGN KEY (fkEmpresa)
         REFERENCES empresa (idEmpresa)
@@ -218,6 +219,8 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/ViniEguchi/FYNX.git
 
 WORKDIR /FYNX/java
+
+EXPOSE 8080
 
 CMD ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
 EOF

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -245,23 +246,68 @@ async function carregarGraficos() {
       label.push(element.setor_cnae)
       data.push(element.media)
     });
-    new Chart(document.getElementById("grafico2"), {
-      type: 'bar',
-      data: {
-        labels: label,
-        datasets: [{
-          label: 'Juros médio por setor',
-          data: data,
-          backgroundColor: ['#04251F', '#04251F', '#04251F']
-        }]
-      },
-      options: {
-        plugins: { legend: { display: true } },
-        responsive: true,
-        maintainAspectRatio: false,
+    const isSmallScreen = window.innerWidth < 600;
+
+new Chart(document.getElementById("grafico2"), {
+  type: 'bar',
+  data: {
+    labels: label,
+    datasets: [{
+      label: 'Juros médio por setor',
+      data: data,
+      backgroundColor: ['#04251F', '#04251F', '#04251F']
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: isSmallScreen ? 10 : 14
+          }
+        }
       }
-    });
+    },
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: true,
+          maxRotation: isSmallScreen ? 45 : 0,
+          font: {
+            size: isSmallScreen ? 10 : 14
+          }
+        },
+        title: {
+          display: true,
+          text: 'Setor',
+          font: {
+            size: isSmallScreen ? 12 : 16
+          }
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          display: false,
+          font: {
+            size: isSmallScreen ? 10 : 14
+          }
+        },
+        title: {
+          display: true,
+          text: 'Juros médio (%)',
+          font: {
+            size: isSmallScreen ? 12 : 16
+          }
+        }
+      }
+    }
   }
+});
+}
 
   async function prazoAmortizacaoMes() {
     fetch("/grafico/prazoAmortizacaoMes", {
@@ -412,28 +458,41 @@ function graficoValorOperacoesMes(dados){
       datasets: datasets
     },
     options: {
-      plugins: {
-        legend: { display: true }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Valor concedido (R$)'
-          }
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Valor concedido (R$)'
         },
-        x: {
-          title: {
-            display: true,
-            text: 'Mês'
+        ticks: {
+          font: {
+            size: 12 // ou use uma função para ajustar dinamicamente
           }
         }
       },
-      responsive: true,
-      maintainAspectRatio: false,
+      x: {
+        title: {
+          display: true,
+          text: 'Mês'
+        },
+        ticks: {
+          maxRotation: 45,
+          minRotation: 0,
+          autoSkip: true,
+          font: {
+            size: 12
+          }
+        }
+      }
     }
-  });
+  }
+});
 }
 
   // new Chart(document.getElementById("graficoPrincipal"), {
