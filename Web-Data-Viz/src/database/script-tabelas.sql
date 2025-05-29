@@ -126,16 +126,6 @@ CREATE TABLE IF NOT EXISTS formulario (
 	mensagem VARCHAR(300)
 );
 
-CREATE TABLE IF NOT EXISTS alerta (
-	idAlerta INT PRIMARY KEY AUTO_INCREMENT,
-	status_alerta VARCHAR(12),
-	fkEmpresa INT,
-
-	CONSTRAINT fk_alerta_empresa
-	FOREIGN KEY (fkEmpresa)
-		REFERENCES Empresa(idEmpresa)
-);
-
 /*
 	SINTAXES
 
