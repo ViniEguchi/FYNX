@@ -37,22 +37,26 @@ main {
 
 .dashboard-filters {
   display: flex;
+  justify-content: space-between;
   gap: 10px;
 }
 
 .dashboard-filters select {
-  flex: 1;
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
+#select_option_setor {
+  width: 100%;
+}
+
 .caixa-principal {
   background-color: #04251F;
   padding: 20px;
   border-radius: 8px;
-  margin-top: 10px;
   border: 3px solid #FFFFFF;
   height: 150px;
 }
@@ -74,6 +78,7 @@ main {
 
 .caixa-setor p {
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .caixa-branca {
@@ -163,7 +168,6 @@ main {
   .caixa-principal {
     height: auto;
     padding: 15px;
-    margin-top: 15px;
   }
 
   .linha-setores {
