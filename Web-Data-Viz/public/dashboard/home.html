@@ -52,6 +52,36 @@
       <div class="header">
         <div class="container-textos-header">
           <p>INICIO</p>
+          <input type="text" id="inputAno"> 
+          <select name="" id="mesInicio">
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+          <select name="" id="mesFim">
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+          <button onclick="filtrarPorPeriodo()">Filtrar</button>
           <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
 
           <div class="container-hamburguer-menu" style="display: none;">
@@ -163,29 +193,68 @@ async function carregarGraficos() {
   //   }
   // }
   // Gráfico 1 - Setores A, B, C
-  async function totalOperacoes() {
-    fetch("/grafico/totalOperacoes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          // console.log("totalOperacoes sucesso!");
-          resposta.json().then(json => {
-            graficoTotalOperacoes(json)
-          })
-        } else {
-          console.log(resposta)
-        }
-      })
-      .catch(function (erro) {
-        console.error("Erro:", erro);
-      });
+async function filtrarPorPeriodo() {
+  const ano = document.getElementById('inputAno').value;
+  const mesInicio = parseInt(document.getElementById('mesInicio').value);
+  const mesFim = parseInt(document.getElementById('mesFim').value);
+
+  if (!ano || isNaN(mesInicio) || isNaN(mesFim)) {
+    alert("Preencha todos os campos corretamente!");
+    return;
   }
 
+  if (mesInicio > mesFim) {
+    alert("O mês inicial não pode ser maior que o mês final.");
+    return;
+  }
+
+  await totalOperacoes(ano, mesInicio, mesFim);
+  await jurosMedioSetor(ano, mesInicio, mesFim);
+  await prazoAmortizacaoMes(ano, mesInicio, mesFim);
+  await valorOperacoesMes(ano, mesInicio, mesFim);
+}
+
+function destroyChart(chartId) {
+  const chartElement = document.getElementById(chartId);
+  if (chartElement) {
+    // Verifique se já existe um gráfico e destrua
+    const chartInstance = Chart.getChart(chartId); // Obtém a instância do gráfico
+    if (chartInstance) {
+      chartInstance.destroy(); // Destrói o gráfico existente
+    }
+  }
+}
+
+async function totalOperacoes(ano, mesInicio, mesFim) {
+  let url = "/grafico/totalOperacoes";
+  if (ano && mesInicio && mesFim) {
+    url = `/grafico/totalOperacoes/${ano}/${mesInicio}/${mesFim}`;
+  }
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Erro ao buscar dados");
+      }
+    })
+    .then(json => {
+      graficoTotalOperacoes(json);
+    })
+    .catch(erro => {
+      console.error("Erro:", erro);
+    });
+}
+
+
   function graficoTotalOperacoes(dados) {
+    destroyChart("grafico1")
     console.log(dados)
     let label = [];
     let data = [];
@@ -216,30 +285,37 @@ async function carregarGraficos() {
 
   }
 
-  async function jurosMedioSetor() {
-    fetch("/grafico/jurosMedioSetor", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+  async function jurosMedioSetor(ano, mesInicio, mesFim) {
+  let url = "/grafico/JurosMedioSetor";
+  if (ano && mesInicio && mesFim) {
+    url = `/grafico/JurosMedioSetor/${ano}/${mesInicio}/${mesFim}`;
+  }
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Erro ao buscar dados");
       }
     })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          console.log("jurosMedioSetor sucesso!");
-          resposta.json().then(json => {
-            graficoJurosMedioSetor(json);
-          })
-        } else {
-          console.log(resposta)
-        }
-      })
-      .catch(function (erro) {
-        console.error("Erro:", erro);
-      });
-  }
+    .then(json => {
+      graficoJurosMedioSetor(json);
+    })
+    .catch(erro => {
+      console.error("Erro:", erro);
+    });
+}
+
 
   // Gráfico 2 - Setores A, B, C
   function graficoJurosMedioSetor(dados) {
+    destroyChart("grafico2")
     let label = [];
     let data = [];
     dados.forEach(element => {
@@ -309,30 +385,36 @@ new Chart(document.getElementById("grafico2"), {
 });
 }
 
-  async function prazoAmortizacaoMes() {
-    fetch("/grafico/prazoAmortizacaoMes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+async function prazoAmortizacaoMes(ano, mesInicio, mesFim) {
+  let url = "/grafico/prazoAmortizacaoMes";
+  if (ano && mesInicio && mesFim) {
+    url = `/grafico/prazoAmortizacaoMes/${ano}/${mesInicio}/${mesFim}`;
+  }
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Erro ao buscar dados");
       }
     })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          console.log("prazoAmortizacaoMes sucesso!");
-          resposta.json().then(json => {
-            graficoPrazoAmortizacaoMes(json);
-          })
-        } else {
-          console.log(resposta)
-        }
-      })
-      .catch(function (erro) {
-        console.error("Erro:", erro);
-      });
-  }
+    .then(json => {
+      graficoPrazoAmortizacaoMes(json);
+    })
+    .catch(erro => {
+      console.error("Erro:", erro);
+    });
+}
 
   // Gráfico 3 - Setores A, B, C
   function graficoPrazoAmortizacaoMes(dados) {
+  destroyChart("grafico3")
   const meses = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
@@ -396,29 +478,37 @@ new Chart(document.getElementById("grafico2"), {
   });
 }
 
-async function valorOperacoesMes(dados){
-  fetch("/grafico/valorOperacoesMes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+async function valorOperacoesMes(ano, mesInicio, mesFim) {
+  let url = "/grafico/valorOperacoesMes";
+  if (ano && mesInicio && mesFim) {
+    url = `/grafico/valorOperacoesMes/${ano}/${mesInicio}/${mesFim}`;
+  }
+
+  console.log("url", url);
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Erro ao buscar dados");
       }
     })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          console.log("valorOperacoesMes sucesso!");
-          resposta.json().then(json => {
-            graficoValorOperacoesMes(json);
-          })
-        } else {
-          console.log(resposta)
-        }
-      })
-      .catch(function (erro) {
-        console.error("Erro:", erro);
-      });
+    .then(json => {
+      graficoValorOperacoesMes(json);
+    })
+    .catch(erro => {
+      console.error("Erro:", erro);
+    });
 }
 
 function graficoValorOperacoesMes(dados){
+  destroyChart("graficoPrincipal");
   const mesesNomes = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
