@@ -30,6 +30,7 @@ main {
 
 .caixa-setor p {
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .caixa-branca {
@@ -42,10 +43,20 @@ main {
 
 .graficos-superiores {
   display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 5px;
   width: 100%;
+}
+
+.graficos-superiores .grafico-box:nth-child(1) {
+  margin-left: 25px;
+}
+
+.graficos-superiores .grafico-box:nth-child(2) {
+  margin: 0;
+}
+
+.graficos-superiores .grafico-box:nth-child(3) {
+  margin-right: 25px;
 }
 
 .grafico-box {
@@ -54,8 +65,8 @@ main {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 canvas {
@@ -68,7 +79,7 @@ canvas {
   padding: 20px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  margin-top: 10px;
+  margin-top: 8px;
   margin-left: 25px;
   margin-right: 25px;
   width: 95%;
@@ -145,6 +156,10 @@ canvas {
 
   .caixa-branca {
     width: 100%;
+  }
+
+  .caixa-branca p {
+    font-size: 10px !important;
   }
 
   .graficos-superiores {
