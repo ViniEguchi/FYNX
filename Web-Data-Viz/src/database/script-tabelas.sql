@@ -123,7 +123,16 @@ CREATE TABLE IF NOT EXISTS formulario (
 	idFormulario INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(50),
 	email VARCHAR(50),
-	mensagem VARCHAR(300)
+	mensagem VARCHAR(300),
+	fkFuncionario INT,
+	fkEmpresa INT,
+
+	CONSTRAINT fk_formulario_funcionario
+	FOREIGN KEY (fkFuncionario)
+		REFERENCES funcionario(idFuncionario),
+	CONSTRAINT fk_formulario_empresa
+	FOREIGN KEY (fkEmpresa)
+		REFERENCES empresa(idEmpresa)
 );
 
 /*
