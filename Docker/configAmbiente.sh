@@ -46,9 +46,6 @@ DB_PORT=3306
 APP_PORT=3333
 APP_HOST=localhost
 
-# Java App
-JAVA_PORT=8080
-
 # AWS (Exemplo de credenciais fictícias)
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
@@ -89,7 +86,6 @@ CREATE TABLE IF NOT EXISTS endereco (
     logradouro VARCHAR(45),
     numero CHAR(5),
     complemento VARCHAR(45),
-    
     CONSTRAINT PRIMARY KEY (idEndereco, fkEmpresa),
     CONSTRAINT fk_endereco_empresa FOREIGN KEY (fkEmpresa)
         REFERENCES empresa (idEmpresa)
@@ -218,11 +214,9 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/ViniEguchi/FYNX.git
 
-WORKDIR /FYNX/java
+WORKDIR /FYNX/java/jars
 
-EXPOSE 8080
-
-CMD ["java", "-jar", "Backend-java-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+CMD ["java", "-jar", "jar-com-slack-with-dep"]
 EOF
 echo "Criado: java-app/java/Dockerfile"
 fi
