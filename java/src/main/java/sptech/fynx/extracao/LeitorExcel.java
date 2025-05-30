@@ -29,117 +29,105 @@ public class LeitorExcel {
     // ===== VERSÃO COM AWS S3 =====
     // Método principal para ler a planilha armazenada no S3 e processar os dados
     public void lerPlanilha(String bucketName, String nomeArquivo, DadosDAO dadosDAO, LogDAO logDAO) {
-        long inicio = System.currentTimeMillis(); // INÍCIO DA CONTAGEM DO TEMPO DE EXECUÇÃO
-        S3Client s3 = null; // Inicializa o cliente S3
-        List<DadosModel> dadosBatch = new ArrayList<>(); // Lista que armazenará os dados processados em lotes
-        int contador = 0; // Contador de registros processados
+        long inicio = System.currentTimeMillis();
+        S3Client s3 = null;
+        List<DadosModel> dadosBatch = new ArrayList<>();
+        int contador = 0;
 
         try {
             System.out.println("Iniciando leitura...");
 
-
-            // Log de início - Grava um log informando que a leitura foi iniciada
             LogModel logInicio = new LogModel("Iniciando leitura...", getDataHoraBrasilia(), true);
             logDAO.inserirLog(logInicio);
 
-            // Cria o cliente S3 para acessar o bucket
+            // Criar cliente S3
             s3 = criarClienteS3();
 
-            // Solicitação para obter o arquivo do S3
+            // Preparar requisição para obter arquivo do S3
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(bucketName) // Nome do bucket no S3
-                    .key(nomeArquivo)    // Nome do arquivo no bucket
+                    .bucket(bucketName)
+                    .key(nomeArquivo)
                     .build();
 
-            // Tenta abrir o arquivo Excel do S3
+            // Abrir InputStream do arquivo no S3 e criar Workbook
             try (InputStream inputStream = s3.getObject(getObjectRequest);
-                 Workbook workbook = new XSSFWorkbook(inputStream)) { // Leitura do arquivo Excel
+                 Workbook workbook = new XSSFWorkbook(inputStream)) {
 
-                Sheet sheet = workbook.getSheetAt(0); // Seleciona a primeira aba do arquivo Excel
-                Connection conn = dadosDAO.getConexao(); // Obtem a conexão com o banco de dados
-                conn.setAutoCommit(false); // Desativa o auto-commit para gerenciar as transações manualmente
+                Sheet sheet = workbook.getSheetAt(0);
+                Connection conn = dadosDAO.getConexao();
+                conn.setAutoCommit(false);
 
-                // Loop que percorre as linhas da planilha
                 for (Row row : sheet) {
-                    if (row.getRowNum() == 0) continue; // Pula o cabeçalho (primeira linha)
+                    if (row.getRowNum() == 0) continue;
 
-                    // Criação de um objeto DadosModel para armazenar as informações da linha
                     DadosModel dados = new DadosModel();
-                    dados.setDataContratacao(getDateCellValue(row.getCell(0))); // Obtém a data de contratação da célula
-                    dados.setValorOperacao(getNumericCellValue(row.getCell(1))); // Obtém o valor da operação da célula
-                    dados.setValorDesenbolsado(getNumericCellValue(row.getCell(2))); // Obtém o valor desembolsado
-                    dados.setFonteRecurso(getStringCellValue(row.getCell(3))); // Obtém a fonte de recurso
-                    dados.setCustoFinanceiro(getStringCellValue(row.getCell(4))); // Obtém o custo financeiro
-                    dados.setJuros(getFloatCellValue(row.getCell(5))); // Obtém o valor dos juros
-                    dados.setPrazoCarencia(getIntCellValue(row.getCell(6))); // Obtém o prazo de carência
-                    dados.setPrazoAmortizacao(getIntCellValue(row.getCell(7))); // Obtém o prazo de amortização
-                    dados.setProduto(getStringCellValue(row.getCell(8))); // Obtém o produto
-                    dados.setSetorCnae(getStringCellValue(row.getCell(9))); // Obtém o setor CNAE
-                    dados.setSubsetorCnae(getStringCellValue(row.getCell(10))); // Obtém o subsetor CNAE
-                    dados.setCnae(getStringCellValue(row.getCell(11))); // Obtém o código CNAE
-                    dados.setSituacaoOperacao(getStringCellValue(row.getCell(12))); // Obtém a situação da operação
+                    dados.setDataContratacao(getDateCellValue(row.getCell(0)));
+                    dados.setValorOperacao(getNumericCellValue(row.getCell(1)));
+                    dados.setValorDesenbolsado(getNumericCellValue(row.getCell(2)));
+                    dados.setFonteRecurso(getStringCellValue(row.getCell(3)));
+                    dados.setCustoFinanceiro(getStringCellValue(row.getCell(4)));
+                    dados.setJuros(getFloatCellValue(row.getCell(5)));
+                    dados.setPrazoCarencia(getIntCellValue(row.getCell(6)));
+                    dados.setPrazoAmortizacao(getIntCellValue(row.getCell(7)));
+                    dados.setProduto(getStringCellValue(row.getCell(8)));
+                    dados.setSetorCnae(getStringCellValue(row.getCell(9)));
+                    dados.setSubsetorCnae(getStringCellValue(row.getCell(10)));
+                    dados.setCnae(getStringCellValue(row.getCell(11)));
+                    dados.setSituacaoOperacao(getStringCellValue(row.getCell(12)));
 
-                    dadosBatch.add(dados); // Adiciona os dados processados no lote
+                    dadosBatch.add(dados);
+                    contador++;
 
-                    contador++; // Incrementa o contador de registros
-
-                    // A cada 2000 registros, realiza o commit no banco de dados
                     if (contador % 2000 == 0) {
-                        dadosDAO.inserirDadosEmLote(dadosBatch); // Insere os dados do lote no banco de dados
-                        conn.commit(); // Confirma a transação no banco
+                        dadosDAO.inserirDadosEmLote(dadosBatch);
+                        conn.commit();
                         System.out.println("Carga de " + contador + " linhas realizada...");
 
-                        // Log do progresso - Grava um log informando o progresso da carga de dados
                         LogModel logParcial = new LogModel("Carga de " + contador + " linhas realizada...",
                                 getDataHoraBrasilia(), getDataHoraBrasilia(), true);
                         logDAO.inserirLog(logParcial);
 
-                        dadosBatch.clear(); // Limpa o lote de dados após o commit
+                        dadosBatch.clear();
                     }
                 }
 
-                // Commit final para os registros restantes que não atingiram 2000
                 if (!dadosBatch.isEmpty()) {
                     dadosDAO.inserirDadosEmLote(dadosBatch);
                     conn.commit();
                     System.out.println("Carga finalizada com o total de " + contador + " linhas.");
                 }
 
-                // Log final - Grava um log informando que a carga foi finalizada
                 LogModel logFinal = new LogModel("Carga finalizada com " + contador + " linhas.",
                         logInicio.getDataHoraInicio(), getDataHoraBrasilia(), true);
                 logDAO.inserirLog(logFinal);
 
-                // Log final da leitura - Grava um log informando que a leitura foi finalizada
                 LogModel logLeituraFim = new LogModel("Leitura finalizada.", getDataHoraBrasilia(), true);
                 logDAO.inserirLog(logLeituraFim);
 
-                conn.setAutoCommit(true); // Reativa o auto-commit após a carga dos dados
-
+                conn.setAutoCommit(true);
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime o erro no console
+            e.printStackTrace();
             try {
                 Connection conn = dadosDAO.getConexao();
-                if (conn != null) conn.rollback(); // Realiza o rollback em caso de erro, revertendo a transação
+                if (conn != null) conn.rollback();
 
-                // Log de erro - Grava um log informando o erro ocorrido durante a leitura
                 LogModel logErro = new LogModel("Erro durante a leitura da planilha",
                         getDataHoraBrasilia(), getDataHoraBrasilia(), false, e.getMessage());
                 logDAO.inserirLog(logErro);
 
             } catch (SQLException ex) {
-                ex.printStackTrace(); // Imprime o erro no console em caso de falha no rollback
+                ex.printStackTrace();
             }
 
         } finally {
-            long fim = System.currentTimeMillis(); // Fim da contagem de tempo
-            // Exibe o tempo total de execução da leitura e processamento
+            long fim = System.currentTimeMillis();
             System.out.println("Tempo total de execução: " + (fim - inicio) / 1000.0 + " segundos");
-            if (s3 != null) s3.close(); // Fecha o cliente S3 após o término
+            if (s3 != null) s3.close();
         }
     }
+
 
     // ===== CLIENTE S3 =====
     // Método para criar o cliente S3 usando credenciais da AWS
