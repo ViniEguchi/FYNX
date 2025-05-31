@@ -97,7 +97,7 @@ function exibirKpiDash(req, res) {
     console.log(periodo);
     console.log(setor);
 
-    graficoModel.exibirKpiDash(ano, mesInicial, mesFinal, setor)
+    graficoModel.exibirKpiDash(periodo, setor)
         .then(function (resultado) {
             res.json(resultado);
         })
