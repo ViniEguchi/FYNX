@@ -1,141 +1,112 @@
-var database = require("../database/config")
+var database = require("../database/config");
+
+const { format } = require('date-fns');
+// Função para montar datas no formato 'YYYY-MM-DD'
+function montarIntervalo(ano, mesInicial, mesFinal) {
+    const dataInicial = new Date(ano, mesInicial - 1, 1);
+    const dataFinal = new Date(ano, mesFinal, 0); // último dia do mês final
+
+    const dataInicialStr = format(dataInicial, 'yyyy-MM-dd');  // Usando date-fns para formatar
+    const dataFinalStr = format(dataFinal, 'yyyy-MM-dd');
+
+    return { dataInicialStr, dataFinalStr };
+}
 
 function preencherSetores() {
-    console.log("ACESSEI O empresa  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarPorId()");
-
-    var instrucaoSql = `SELECT DISTINCT subsetor_cnae FROM historico;`;
-
+    const instrucaoSql = `SELECT DISTINCT subsetor_cnae FROM historico;`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
     return database.executar(instrucaoSql);
 }
 
-function exibirKpiDash(periodo, setor) {
-    var instrucaoSql = `
+function exibirKpiDash(ano, mesInicial, mesFinal, setor) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+    const instrucaoSql = `
         SELECT 
-            AVG(valor_operacao * (1 + juros)) AS mediaOperacoes,
+            AVG(valor_operacao * (1 + (juros / 100))) AS mediaOperacoes,
             SUM(valor_operacao * (1 + (juros / 100))) AS somaCredito,
             MAX(valor_operacao * (1 + (juros / 100))) AS maximo, 
-            MIN(valor_operacao * (1 + (juros / 100))) AS minimo,
+            MIN(valor_operacao * (1 + (juros / 100))) AS minimo
         FROM historico 
-            WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) 
-            AND subsetor_cnae = ${setor});
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        AND subsetor_cnae = '${setor}';
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
     return database.executar(instrucaoSql);
 }
 
-function exibirKpiDash(periodo, setor) {
-    var instrucaoSql = `
-        SELECT 
-            AVG(valor_operacao * (1 + juros)) AS mediaOperacoes,
-            SUM(valor_operacao * (1 + (juros / 100))) AS somaCredito,
-            MAX(valor_operacao * (1 + (juros / 100))) AS maximo, 
-            MIN(valor_operacao * (1 + (juros / 100))) AS minimo,
-        FROM historico 
-            WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) 
-            AND subsetor_cnae = ${setor});
-    `;
+function totalOperacoes(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
-    return database.executar(instrucaoSql);
-}
-
-function totalOperacoes() {
-    console.log("ACESSEI O empresa  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function totalOperacoes()");
-
-    var instrucaoSql = `
+    const instrucaoSql = `
         SELECT 
             setor_cnae, 
             SUM(valor_operacao) AS total_valor
-        FROM 
-            historico
-        WHERE 
-            YEAR(data_contratacao) >= 2014
-            AND MONTH(data_contratacao) >= 1 AND MONTH(data_contratacao) <= 12
-        GROUP BY 
-            setor_cnae
-        ORDER BY 
-            total_valor DESC
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY setor_cnae
+        ORDER BY total_valor DESC
         LIMIT 3;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
     return database.executar(instrucaoSql);
 }
 
-function jurosMedioSetor() {
-    console.log("ACESSEI O empresa  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function totalOperacoes()");
+function jurosMedioSetor(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
-    var instrucaoSql = `
+    const instrucaoSql = `
         SELECT setor_cnae, ROUND(AVG(juros), 2) AS media
         FROM historico
-        WHERE 
-        YEAR(data_contratacao) >= 2014
-        AND MONTH(data_contratacao) >= 1 AND MONTH(data_contratacao) <= 6
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
         GROUP BY setor_cnae
         LIMIT 3;
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
+    console.log("Executando a instrução SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function prazoAmortizacaoMes() {
-    console.log("ACESSEI O empresa  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function totalOperacoes()");
+function prazoAmortizacaoMes(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
-    var instrucaoSql = `
+    const instrucaoSql = `
         WITH medias AS (
-        SELECT
-            YEAR(h.data_contratacao) AS ano,
-            MONTH(h.data_contratacao) AS mes,
-            h.setor_cnae,
-            ROUND(AVG(h.prazo_amortizacao), 2) AS media_prazo,
-            RANK() OVER (
-                PARTITION BY YEAR(h.data_contratacao), MONTH(h.data_contratacao)
-                ORDER BY AVG(h.prazo_amortizacao) DESC
-            ) AS ranking
-        FROM
-            historico h
-        WHERE 
-        YEAR(data_contratacao) >= 2014
-        AND MONTH(data_contratacao) >= 1 AND MONTH(data_contratacao) <= 6
-        GROUP BY
-            YEAR(h.data_contratacao),
-            MONTH(h.data_contratacao),
-            h.setor_cnae
-            limit 12
+            SELECT
+                YEAR(h.data_contratacao) AS ano,
+                MONTH(h.data_contratacao) AS mes,
+                h.setor_cnae,
+                ROUND(AVG(h.prazo_amortizacao), 2) AS media_prazo,
+                RANK() OVER (
+                    PARTITION BY YEAR(h.data_contratacao), MONTH(h.data_contratacao)
+                    ORDER BY AVG(h.prazo_amortizacao) DESC
+                ) AS ranking
+            FROM historico h
+            WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+            GROUP BY YEAR(h.data_contratacao), MONTH(h.data_contratacao), h.setor_cnae
+            LIMIT 12
         )
         SELECT ano, mes, setor_cnae, media_prazo
         FROM medias
         WHERE ranking <= 3
         ORDER BY ano, mes, media_prazo DESC;
-
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
     return database.executar(instrucaoSql);
 }
 
-function valorOperacoesMes() {
-    console.log("ACESSEI O empresa  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function totalOperacoes()");
+function valorOperacoesMes(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
-    var instrucaoSql = `
-            WITH setores_top4 AS (
-            SELECT
-                setor_cnae
-            FROM
-                historico
-            GROUP BY
-                setor_cnae
-            ORDER BY
-                COUNT(*) DESC
+    const instrucaoSql = `
+        WITH setores_top4 AS (
+            SELECT setor_cnae
+            FROM historico
+            GROUP BY setor_cnae
+            ORDER BY COUNT(*) DESC
             LIMIT 4
         ),
         media_setores AS (
@@ -144,36 +115,20 @@ function valorOperacoesMes() {
                 MONTH(h.data_contratacao) AS mes,
                 h.setor_cnae,
                 AVG(h.valor_operacao) AS media_valor_operacao
-            FROM
-                historico h
+            FROM historico h
             INNER JOIN setores_top4 s ON h.setor_cnae = s.setor_cnae
-        WHERE 
-        YEAR(data_contratacao) >= 2014
-        AND MONTH(data_contratacao) >= 1 AND MONTH(data_contratacao) <= 12
-            GROUP BY
-                YEAR(h.data_contratacao),
-                MONTH(h.data_contratacao),
-                h.setor_cnae
+            WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+            GROUP BY YEAR(h.data_contratacao), MONTH(h.data_contratacao), h.setor_cnae
         )
-        SELECT
-            ano,
-            mes,
-            setor_cnae,
-            media_valor_operacao
-        FROM
-            media_setores
-        ORDER BY
-            ano,
-            mes,
-            setor_cnae;
-
-
+        SELECT ano, mes, setor_cnae, media_valor_operacao
+        FROM media_setores
+        ORDER BY ano, mes, setor_cnae;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-
     return database.executar(instrucaoSql);
 }
+
 module.exports = {
     preencherSetores,
     totalOperacoes,

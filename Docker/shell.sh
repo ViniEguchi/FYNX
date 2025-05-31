@@ -1,11 +1,31 @@
 #!/bin/bash
 
-echo "Iniciando configuração do ambiente..."
+set -e
 
-# Atualizar só uma vez no começo
+# Cores
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+echo -e "${GREEN}Iniciando configuração do ambiente...${NC}"
+
+# === Verificar se é root ===
+if [ "$EUID" -ne 0 ]; then
+  echo -e "${RED}Execute como root (use: sudo $0)${NC}"
+  exit 1
+fi
+
+# === Atualização inicial ===
 sudo apt update
 
-# === Instalações ===
+# === Instalações necessárias ===
+for pkg in git curl; do
+  if ! command -v $pkg &> /dev/null; then
+    echo -e "${GREEN}Instalando $pkg...${NC}"
+    sudo apt install -y $pkg
+  fi
+done
+
 if ! command -v java &> /dev/null; then
   read -p "Java não está instalado. Deseja instalar? [s/n]: " opt
   [ "$opt" = "s" ] && sudo apt install -y openjdk-17-jre
@@ -13,23 +33,36 @@ fi
 
 if ! command -v docker &> /dev/null; then
   read -p "Docker não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && sudo apt install -y docker.io 
+  if [ "$opt" = "s" ]; then
+    sudo apt install -y docker.io
+    sudo systemctl enable --now docker
+  fi
 fi
 
 if ! command -v docker-compose &> /dev/null; then
-  read -p "Docker-compose não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ]  && sudo apt install -y docker-compose
+  read -p "Docker Compose não está instalado. Deseja instalar? [s/n]: " opt
+  if [ "$opt" = "s" ]; then
+    DOCKER_COMPOSE_VERSION="1.29.2"
+    curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" \
+      -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+    echo -e "${GREEN}Docker Compose instalado na versão ${DOCKER_COMPOSE_VERSION}${NC}"
+  fi
 fi
 
-if ! command -v node &> /dev/null; then
-  read -p "Node.js não está instalado. Deseja instalar? [s/n]: " opt
-  [ "$opt" = "s" ] && curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs
+# === Clone do repositório ===
+if [ ! -d FYNX ]; then
+  echo -e "${GREEN}Clonando o repositório FYNX...${NC}"
+  git clone https://github.com/ViniEguchi/FYNX.git
+else
+  echo -e "${GREEN}Repositório FYNX já existe. Pulando clone.${NC}"
 fi
 
-# === Estrutura do projeto ===
+# === Estrutura de diretórios ===
 mkdir -p db-init node-app java-app
 
-# .env
+# === Arquivo .env ===
 if [ ! -f .env ]; then
   cat <<EOF > .env
 # Ambiente
@@ -46,7 +79,7 @@ DB_PORT=3306
 APP_PORT=3333
 APP_HOST=localhost
 
-# AWS (Exemplo de credenciais fictícias)
+# AWS (Exemplo)
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_SESSION_TOKEN=
@@ -56,12 +89,13 @@ ARCHIEVE_NAME=
 AWS_REGION=us-east-1
 
 EOF
-  echo "Criado: .env"
+  echo -e "${GREEN}Criado: .env${NC}"
 fi
 
-# init.sql
+# === init.sql ===
 if [ ! -f db-init/init.sql ]; then
-  cat <<'EOF' > db-init/init.sql
+  cat <<EOF > db-init/init.sql
+
 CREATE DATABASE IF NOT EXISTS FYNX;
 USE FYNX;
 
@@ -184,17 +218,27 @@ CREATE TABLE IF NOT EXISTS formulario (
 );
 
 EOF
-  echo "Criado: db-init/init.sql"
+
+  echo -e "${GREEN}Criado: db-init/init.sql${NC}"
 fi
 
-# Dockerfile
-if [ ! -f node-app/Dockerfile ]; then
-  cat <<EOF > node-app/Dockerfile
+
+# === Copiando Node ===
+rm -rf node-app/*
+cp -r FYNX/Web-Data-Viz/* node-app/
+
+
+# === Copiando Java ===
+rm -rf java-app/*
+cp -r FYNX/java/jars/* java-app/
+
+# === Dockerfile Node ===
+cat <<EOF > node-app/Dockerfile
 FROM node:18
 
-RUN git clone https://github.com/ViniEguchi/FYNX.git
+WORKDIR /app
 
-WORKDIR /FYNX/Web-Data-Viz
+COPY . .
 
 RUN npm install
 
@@ -202,27 +246,23 @@ EXPOSE 3333
 
 CMD ["npm", "start"]
 EOF
-  echo "Criado: node-app/Dockerfile"
-fi
+
+echo -e "${GREEN}Criado: node-app/Dockerfile${NC}"
 
 # === Dockerfile Java ===
-if [ ! -f java-app/Dockerfile ]; then
 cat <<EOF > java-app/Dockerfile
 FROM openjdk:21-jdk-slim
 
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-RUN git clone https://github.com/ViniEguchi/FYNX.git
+COPY . .
 
-WORKDIR /FYNX/java/jars
-
-CMD ["java", "-jar", "jar-com-slack-with-dep.jar"]
+CMD ["java", "-jar", "jar-sem-slack-with-dep.jar"]
 EOF
-echo "Criado: java-app/java/Dockerfile"
-fi
+
+echo -e "${GREEN}Criado: java-app/Dockerfile${NC}"
 
 # === docker-compose.yml ===
-if [ ! -f docker-compose.yml ]; then
 cat <<EOF > docker-compose.yml
 version: '3.8'
 services:
@@ -248,18 +288,22 @@ services:
     env_file:
       - .env
     restart: always
-    build: ./node-app
+    build:
+        context: ./node-app
+        dockerfile: Dockerfile
     ports:
       - "3333:3333"
     depends_on:
       - mysql
 
   java:
-    container_name: java_container  
+    container_name: java_container
     env_file:
       - .env
     restart: always
-    build: ./java-app
+    build:
+       context: ./java-app
+       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -268,11 +312,14 @@ services:
 volumes:
   mysql_data:
 EOF
-echo "Criado: docker-compose.yml"
-fi
 
-# === Iniciar containers ===
-echo "Subindo containers com docker-compose..."
+echo -e "${GREEN}Criado: docker-compose.yml${NC}"
+
+# === Subir containers ===
+echo -e "${GREEN}Removendo containers antigos, se houver...${NC}"
+docker-compose down --remove-orphans
+
+echo -e "${GREEN}Subindo containers com docker-compose...${NC}"
 docker-compose up --build -d
 
-echo "Ambiente configurado com sucesso!"
+echo -e "${GREEN}Ambiente configurado e rodando com sucesso!${NC}"
