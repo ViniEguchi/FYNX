@@ -23,7 +23,7 @@ router.get("/valorOperacoesMes/:ano/:mesInicial/:mesFinal", function (req, res) 
   graficoController.valorOperacoesMes(req, res);
 });
 
-router.get("/exibirKpiDash/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
+router.get("/exibirKpiDash/:periodo/:setor", function (req, res) {
   graficoController.exibirKpiDash(req, res);
 });
 

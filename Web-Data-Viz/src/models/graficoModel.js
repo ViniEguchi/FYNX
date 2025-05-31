@@ -18,21 +18,20 @@ function preencherSetores() {
     return database.executar(instrucaoSql);
 }
 
-function exibirKpiDash(ano, mesInicial, mesFinal, setor) {
-    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
-
-    const instrucaoSql = `
+function exibirKpiDash(periodo, setor) {
+    var instrucaoSql = `
         SELECT 
-            AVG(valor_operacao * (1 + (juros / 100))) AS mediaOperacoes,
+            AVG(valor_operacao * (1 + juros)) AS mediaOperacoes,
             SUM(valor_operacao * (1 + (juros / 100))) AS somaCredito,
             MAX(valor_operacao * (1 + (juros / 100))) AS maximo, 
-            MIN(valor_operacao * (1 + (juros / 100))) AS minimo
+            MIN(valor_operacao * (1 + (juros / 100))) AS minimo,
         FROM historico 
-        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-        AND subsetor_cnae = '${setor}';
+            WHERE data_contratacao >= DATE_SUB('2024-11-24', INTERVAL ${periodo} MONTH) 
+            AND subsetor_cnae = ${setor});
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
