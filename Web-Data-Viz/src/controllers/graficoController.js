@@ -1,9 +1,13 @@
 var graficoModel = require("../models/graficoModel")
 
 function preencherSetores(req, res) {
+    var ano = req.params.ano;
+    var mesInicial = req.params.mesInicial;
+    var mesFinal = req.params.mesFinal;
+
     console.log("controller");
 
-    graficoModel.preencherSetores()
+    graficoModel.preencherSetores(ano, mesInicial, mesFinal)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -15,9 +19,13 @@ function preencherSetores(req, res) {
 }
 
 function totalOperacoes(req, res) {
+    var ano = req.params.ano;
+    var mesInicial = req.params.mesInicial;
+    var mesFinal = req.params.mesFinal;
+
     console.log("função totalOperacoes");
 
-    graficoModel.totalOperacoes()
+    graficoModel.totalOperacoes(ano, mesInicial, mesFinal)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -29,9 +37,13 @@ function totalOperacoes(req, res) {
 }
 
 function jurosMedioSetor(req, res) {
+    var ano = req.params.ano;
+    var mesInicial = req.params.mesInicial;
+    var mesFinal = req.params.mesFinal;
+
     console.log("função jurosMedioSetor");
 
-    graficoModel.jurosMedioSetor()
+    graficoModel.jurosMedioSetor(ano, mesInicial, mesFinal)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -43,9 +55,13 @@ function jurosMedioSetor(req, res) {
 }
 
 function prazoAmortizacaoMes(req, res) {
+    var ano = req.params.ano;
+    var mesInicial = req.params.mesInicial;
+    var mesFinal = req.params.mesFinal;
+
     console.log("função jurosMedioSetor");
 
-    graficoModel.prazoAmortizacaoMes()
+    graficoModel.prazoAmortizacaoMes(ano, mesInicial, mesFinal)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -57,9 +73,13 @@ function prazoAmortizacaoMes(req, res) {
 }
 
 function valorOperacoesMes(req, res) {
+    var ano = req.params.ano;
+    var mesInicial = req.params.mesInicial;
+    var mesFinal = req.params.mesFinal;
+
     console.log("função valorOperacoesMes");
 
-    graficoModel.valorOperacoesMes()
+    graficoModel.valorOperacoesMes(ano, mesInicial, mesFinal)
         .then(function (resultado) {
             res.json(resultado);
         })
