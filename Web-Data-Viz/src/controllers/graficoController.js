@@ -1,10 +1,6 @@
-var graficoModel = require("../models/graficoModel")
+let graficoModel = require("../models/graficoModel")
 
 function preencherSetores(req, res) {
-    var ano = req.params.ano;
-    var mesInicial = req.params.mesInicial;
-    var mesFinal = req.params.mesFinal;
-
     console.log("controller");
 
     graficoModel.preencherSetores(ano, mesInicial, mesFinal)
@@ -19,10 +15,6 @@ function preencherSetores(req, res) {
 }
 
 function totalOperacoes(req, res) {
-    var ano = req.params.ano;
-    var mesInicial = req.params.mesInicial;
-    var mesFinal = req.params.mesFinal;
-
     console.log("função totalOperacoes");
 
     graficoModel.totalOperacoes(ano, mesInicial, mesFinal)
@@ -37,10 +29,6 @@ function totalOperacoes(req, res) {
 }
 
 function jurosMedioSetor(req, res) {
-    var ano = req.params.ano;
-    var mesInicial = req.params.mesInicial;
-    var mesFinal = req.params.mesFinal;
-
     console.log("função jurosMedioSetor");
 
     graficoModel.jurosMedioSetor(ano, mesInicial, mesFinal)
@@ -55,10 +43,6 @@ function jurosMedioSetor(req, res) {
 }
 
 function prazoAmortizacaoMes(req, res) {
-    var ano = req.params.ano;
-    var mesInicial = req.params.mesInicial;
-    var mesFinal = req.params.mesFinal;
-
     console.log("função jurosMedioSetor");
 
     graficoModel.prazoAmortizacaoMes(ano, mesInicial, mesFinal)
@@ -73,10 +57,6 @@ function prazoAmortizacaoMes(req, res) {
 }
 
 function valorOperacoesMes(req, res) {
-    var ano = req.params.ano;
-    var mesInicial = req.params.mesInicial;
-    var mesFinal = req.params.mesFinal;
-
     console.log("função valorOperacoesMes");
 
     graficoModel.valorOperacoesMes(ano, mesInicial, mesFinal)
@@ -91,11 +71,10 @@ function valorOperacoesMes(req, res) {
 }
 
 function exibirKpiDash(req, res) {
-    var periodo = req.params.periodo;
-    var setor = req.params.setor;
-
-    console.log(periodo);
-    console.log(setor);
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+    let setor = req.params.setor;
 
     graficoModel.exibirKpiDash(ano, mesInicial, mesFinal, setor)
         .then(function (resultado) {
@@ -107,6 +86,43 @@ function exibirKpiDash(req, res) {
         });
 }
 
+function valorMedioOperacoesMes(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+    let setor = req.params.setor;
+
+    console.log("função valorMedioOperacoesMes");
+
+    graficoModel.valorMedioOperacoesMes(ano, mesInicial, mesFinal,setor)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar valor das operações:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
+
+}
+function creditoConcedido(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+    let setor = req.params.setor;
+
+    console.log("função creditoConcedido");
+
+    graficoModel.creditoConcedido(ano, mesInicial, mesFinal,setor)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar valor das operações:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
+
+}
+
 module.exports = {
     preencherSetores,
     exibirKpiDash,
@@ -114,5 +130,7 @@ module.exports = {
     totalOperacoes,
     jurosMedioSetor,
     prazoAmortizacaoMes,
-    valorOperacoesMes
+    valorOperacoesMes,
+    valorMedioOperacoesMes,
+    creditoConcedido
 }

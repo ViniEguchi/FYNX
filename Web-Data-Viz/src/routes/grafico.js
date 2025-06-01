@@ -27,5 +27,13 @@ router.get("/exibirKpiDash/:ano/:mesInicial/:mesFinal/:setor", function (req, re
   graficoController.exibirKpiDash(req, res);
 });
 
+router.get("/valorMedioOperacoesMes/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
+  graficoController.valorMedioOperacoesMes(req, res);
+});
+
+router.get("/creditoConcedido/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
+  graficoController.creditoConcedido(req, res);
+});
+
 
 module.exports = router;

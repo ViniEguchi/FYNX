@@ -24,26 +24,7 @@
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
-        <!-- <div class="option">
-          <img src="../assets/icon/home 3.png" alt="">
-          <a href="../dashboard/home.html">HOME</a>
-        </div>
-        <div class="option selected">
-          <img src="../assets/icon/bar-chart (1) 2.png" alt="">
-          <a href="../dashboard/dashboard.html">DASHBOARD</a>
-        </div>
-        <div class="option">
-          <img src="../assets/icon/user (1) 2.png" alt="">
-          <a href="../dashboard/users.html">USUÁRIOS</a>
-        </div>
-        <div class="option">
-          <img src="../assets/icon/edit 2.png" alt="">
-          <a href="../dashboard/perfil.html">EDITAR</a>
-        </div>
-        <div class="option">
-          <img src="../assets/icon/logout 2.png" alt="">
-          <a href="../index.html">SAIR</a>
-        </div> -->
+        
       </div>
     </div>
 
@@ -58,17 +39,62 @@
       <div class="dashboard-content">
         <div class="dashboard-filters">
           <div id="select_option_setor">
-            <!-- <select>
-            <option>Setores</option>
-          </select> -->
+            
           </div>
-          <select id="select_periodo" onchange="exibirKpiDash()">
-            <option>Período</option>
-            <option>Último Mês</option>
-            <option>Últimos Três Meses</option>
-            <option>Últimos Seis Meses</option>
-            <option>Último Ano</option>
+          <select name="" id="select_ano">
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
+            <option value="2009">2009</option>
+            <option value="2008">2008</option>
+            <option value="2007">2007</option>
+            <option value="2006">2006</option>
+            <option value="2005">2005</option>
+            <option value="2004">2004</option>
+            <option value="2003">2003</option>
+            <option value="2002">2002</option>
           </select>
+          <select name="" id="mesInicio">
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+          <select name="" id="mesFim">
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+          <button onclick="filtrarPorPeriodo()">Filtrar</button>
         </div>
 
         <div class="caixa-principal">
@@ -111,8 +137,13 @@
     const tipoUsuario = sessionStorage.IS_GERENTE;
     const paginaAtual = window.location.pathname;
 
-    const optionsContainer = document.querySelector('.options');
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
 
+    const optionsContainer = document.querySelector('.options');
+    
     optionsContainer.innerHTML = `
       <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
         <img src="../assets/icon/home 3.png" alt="">
@@ -147,18 +178,18 @@
       })
         .then(function (resposta) {
           if (resposta.ok) {
-            // console.log("sucesso!");
             resposta.json().then(json => {
-              console.log(JSON.stringify(json));
+              // console.log(JSON.stringify(json));
 
               var opt = '<option>Setores</option>';
 
               for (let i = 0; i < json.length; i++) {
+                // console.log(json[i].subsetor_cnae)
                 opt += `<option>${json[i].subsetor_cnae}</option>`;
               }
 
               select_option_setor.innerHTML = `
-              <select id="select_setor" onchange="exibirKpiDash()">
+              <select id="select_setor">
                 ${opt}
               </select>
             `;
@@ -172,29 +203,25 @@
         });
     }
 
-    function exibirKpiDash() {
-      var periodo = select_periodo.value;
-      var setor = select_setor.value;
-      console.log(`setor: ${setor}`);
-
-      if (setor == "Setores") {
+    function exibirKpiDash(ano, mesInicio, mesFim, sub_setor) {
+      if (sub_setor == "Setores") {
         kpi_media_operacoes.innerHTML = `Favor selecionar um setor`;
         kpi_soma_credito.innerHTML = `Favor selecionar um setor`;
         kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
         return;
       }
 
-      if (periodo == "Último Ano") {
-        periodo = 12;
-      } else if (periodo == "Últimos Três Meses") {
-        periodo = 3;
-      } else if (periodo == "Últimos Seis Meses") {
-        periodo = 6;
-      } else {
-        periodo = 1;
-      }
+      // if (periodo == "Último Ano") {
+      //   periodo = 12;
+      // } else if (periodo == "Últimos Três Meses") {
+      //   periodo = 3;
+      // } else if (periodo == "Últimos Seis Meses") {
+      //   periodo = 6;
+      // } else {
+      //   periodo = 1;
+      // }
 
-      fetch(`/grafico/exibirKpiDash/${periodo}/${setor}`, {
+      fetch(`/grafico/exibirKpiDash/${ano}/${mesInicio}/${mesFim}/${sub_setor}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -205,12 +232,13 @@
             console.log("sucesso!");
             resposta.json().then(json => {
               console.log(JSON.stringify(json));
-
               var variacao_credito = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
 
-              kpi_media_operacoes.innerHTML = `${json[0].mediaOperacoes}`;
-              kpi_soma_credito.innerHTML = `${json[0].somaCredito}`
-              kpi_variacao_credito.innerHTML = `${variacao_credito}%`;
+              kpi_media_operacoes.innerHTML = `R$${json[0].mediaOperacoes.toFixed(2)}`;
+              kpi_soma_credito.innerHTML = `R$${json[0].somaCredito.toFixed(2)}`;
+              kpi_variacao_credito.innerHTML = `R$${variacao_credito.toFixed(2)}%`;
+
+              
             })
           } else {
             console.log(resposta)
@@ -221,16 +249,164 @@
         });
     }
 
+    async function filtrarPorPeriodo() {
+      const ano = document.getElementById('select_ano').value;
+      const mesInicio = parseInt(document.getElementById('mesInicio').value);
+      const mesFim = parseInt(document.getElementById('mesFim').value);
+      const sub_setor = document.getElementById('select_setor').value;
+
+
+      if (!ano || isNaN(mesInicio) || isNaN(mesFim)) {
+        alert("Preencha todos os campos corretamente!");
+        return;
+      }
+
+      if (mesInicio > mesFim) {
+        alert("O mês inicial não pode ser maior que o mês final.");
+        return;
+      }
+
+      await creditoConcedido(ano, mesInicio, mesFim,sub_setor);
+      await valorMedioOperacoesMes(ano, mesInicio, mesFim,sub_setor);
+      await exibirKpiDash(ano, mesInicio, mesFim, sub_setor);
+      // await jurosMedioSetor(ano, mesInicio, mesFim);
+      // await prazoAmortizacaoMes(ano, mesInicio, mesFim);
+      // await valorOperacoesMes(ano, mesInicio, mesFim);
+    }
+
+    function destroyChart(chartId) {
+      const chartElement = document.getElementById(chartId);
+      if (chartElement) {
+        // Verifique se já existe um gráfico e destrua
+        const chartInstance = Chart.getChart(chartId); // Obtém a instância do gráfico
+        if (chartInstance) {
+          chartInstance.destroy(); // Destrói o gráfico existente
+        }
+      }
+    }
+
     const ctx1 = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
 
-    new Chart(ctx1, {
+    async function valorMedioOperacoesMes(ano, mesInicio, mesFim) {
+      setor = 'Transporte terrestre'
+      let url = "/grafico/valorMedioOperacoesMes";
+      if (ano && mesInicio && mesFim) {
+        url = `/grafico/valorMedioOperacoesMes/${ano}/${mesInicio}/${mesFim}/${setor}`;
+      }
+
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
+        }
+      })
+      .then(json => {
+        graficoValorMedioOperacoesMes(json);
+        
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
+    }
+
+    function graficoValorMedioOperacoesMes(dados) {
+      destroyChart("grafico1")
+      console.log(dados)
+      let label = [];
+      let data = [];
+      
+      // Gerar labels dos meses no formato "Mês/Ano"
+      const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+
+      dados.forEach(element => {
+        label.push(element.mes)
+        data.push(element.media_valores_mes)
+      });
+
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: labelMes,
+          datasets: [{
+            label: 'Valor médio de operações por mês',
+            data: data,
+            borderColor: '#04251F',
+            backgroundColor: 'rgba(4, 37, 31, 0.2)',
+            fill: true
+          }]
+        },
+        options: {
+          plugins: { legend: { display: true } },
+          scales: {
+            y: { beginAtZero: true }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+
+    }
+
+
+    async function creditoConcedido(ano, mesInicio, mesFim,sub_setor) {
+      console.log("AQ")
+      setor = 'Transporte terrestre'
+      let url = "/grafico/creditoConcedido";
+      if (ano && mesInicio && mesFim) {
+        url = `/grafico/creditoConcedido/${ano}/${mesInicio}/${mesFim}/${setor}`;
+      }
+
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
+        }
+      })
+      .then(json => {
+        graficoCreditoConcedido(json);
+        
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
+    }
+
+    function graficoCreditoConcedido(dados) {
+      destroyChart("grafico2")
+      console.log(dados)
+      let label = [];
+      let data = [];
+      
+      // Gerar labels dos meses no formato "Mês/Ano"
+      const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+
+      dados.forEach(element => {
+        label.push(element.mes)
+        data.push(element.total_mes)
+      });
+
+      new Chart(ctx2, {
       type: 'line',
       data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+        labels: labelMes,
         datasets: [{
-          label: 'Valor médio de operações por mês',
-          data: [5000, 500, 7000, 2000],
+          label: 'Valor de crédito concedido',
+          data: data,
           borderColor: '#04251F',
           backgroundColor: 'rgba(4, 37, 31, 0.2)',
           fill: true
@@ -246,27 +422,8 @@
       }
     });
 
-    new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr'],
-        datasets: [{
-          label: 'Valor de crédito concedido',
-          data: [120000, 130000, 125000, 140000],
-          borderColor: '#04251F',
-          backgroundColor: 'rgba(4, 37, 31, 0.2)',
-          fill: true
-        }]
-      },
-      options: {
-        plugins: { legend: { display: true } },
-        scales: {
-          y: { beginAtZero: true }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    });
+    }
+
   </script>
 </body>
 
