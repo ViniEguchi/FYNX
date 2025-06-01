@@ -1,9 +1,6 @@
 let graficoModel = require("../models/graficoModel")
 
 function preencherSetores(req, res) {
-
-    console.log("controller preencherSetores");
-
     graficoModel.preencherSetores()
         .then(function (resultado) {
             res.json(resultado);

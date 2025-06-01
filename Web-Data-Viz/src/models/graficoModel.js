@@ -147,13 +147,11 @@ function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
             YEAR(data_contratacao), MONTH(data_contratacao)
         ORDER BY 
             mes;
-
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-
 function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
