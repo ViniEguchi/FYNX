@@ -123,6 +123,7 @@ function valorOperacoesMes(ano, mesInicial, mesFinal) {
         SELECT ano, mes, setor_cnae, media_valor_operacao
         FROM media_setores
         ORDER BY ano, mes, setor_cnae;
+<<<<<<< HEAD
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -148,6 +149,11 @@ function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
         ORDER BY 
             mes;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> main
+>>>>>>> homolog
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
