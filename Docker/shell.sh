@@ -193,6 +193,8 @@ CREATE TABLE IF NOT EXISTS log (
     erro VARCHAR(50)
 );
 
+ALTER TABLE log MODIFY erro VARCHAR(250);
+
 CREATE TABLE IF NOT EXISTS historico (
     id INT PRIMARY KEY AUTO_INCREMENT,
     data_contratacao DATE,
@@ -300,7 +302,6 @@ services:
     container_name: java_container
     env_file:
       - .env
-    restart: always
     build:
        context: ./java-app
        dockerfile: Dockerfile
