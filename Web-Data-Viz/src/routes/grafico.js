@@ -3,7 +3,7 @@ var router = express.Router();
 
 var graficoController = require("../controllers/graficoController");
 
-router.get("/preencherSetores/:ano/:mesInicial/:mesFinal", function (req, res) {
+router.get("/preencherSetores", function (req, res) {
   graficoController.preencherSetores(req, res);
 });
 
