@@ -258,7 +258,6 @@ services:
     container_name: java_container  
     env_file:
       - .env
-    restart: always
     build: ./java-app
     ports:
       - "8080:8080"
