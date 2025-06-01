@@ -3,7 +3,7 @@ var router = express.Router();
 
 var graficoController = require("../controllers/graficoController");
 
-router.get("/preencherSetores/:ano/:mesInicial/:mesFinal", function (req, res) {
+router.get("/preencherSetores", function (req, res) {
   graficoController.preencherSetores(req, res);
 });
 
@@ -25,6 +25,14 @@ router.get("/valorOperacoesMes/:ano/:mesInicial/:mesFinal", function (req, res) 
 
 router.get("/exibirKpiDash/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
   graficoController.exibirKpiDash(req, res);
+});
+
+router.get("/valorMedioOperacoesMes/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
+  graficoController.valorMedioOperacoesMes(req, res);
+});
+
+router.get("/creditoConcedido/:ano/:mesInicial/:mesFinal/:setor", function (req, res) {
+  graficoController.creditoConcedido(req, res);
 });
 
 

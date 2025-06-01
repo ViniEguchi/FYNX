@@ -23,10 +23,10 @@ function exibirKpiDash(ano, mesInicial, mesFinal, setor) {
 
     const instrucaoSql = `
         SELECT 
-            AVG(valor_operacao * (1 + (juros / 100))) AS mediaOperacoes,
-            SUM(valor_operacao * (1 + (juros / 100))) AS somaCredito,
-            MAX(valor_operacao * (1 + (juros / 100))) AS maximo, 
-            MIN(valor_operacao * (1 + (juros / 100))) AS minimo
+            ROUND(AVG(valor_operacao * (1 + (juros / 100))),2) AS mediaOperacoes,
+            ROUND(SUM(valor_operacao * (1 + (juros / 100))),2) AS somaCredito,
+            ROUND(MAX(valor_operacao * (1 + (juros / 100))),2) AS maximo, 
+            ROUND(MIN(valor_operacao * (1 + (juros / 100))),2) AS minimo
         FROM historico 
         WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
         AND subsetor_cnae = '${setor}';
@@ -129,11 +129,63 @@ function valorOperacoesMes(ano, mesInicial, mesFinal) {
     return database.executar(instrucaoSql);
 }
 
+function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+    const instrucaoSql = `
+        SELECT 
+            YEAR(data_contratacao) AS ano,
+            MONTH(data_contratacao) AS mes,
+            ROUND(SUM(valor_operacao), 2) AS total_mes,
+            ROUND(AVG(valor_operacao), 2) AS media_valores_mes
+        FROM 
+            historico
+        WHERE 
+            subsetor_cnae = '${sub_setor}'
+            AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY 
+            YEAR(data_contratacao), MONTH(data_contratacao)
+        ORDER BY 
+            mes;
+
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+    const instrucaoSql = `
+        SELECT
+            YEAR(data_contratacao) AS ano,
+            MONTH(data_contratacao) AS mes,
+            ROUND(SUM(valor_desenbolsado), 2) AS total_mes
+        FROM
+            historico
+        WHERE
+            subsetor_cnae = '${sub_setor}'
+            AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY
+            YEAR(data_contratacao),
+            MONTH(data_contratacao)
+        ORDER BY
+            mes;
+
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     preencherSetores,
     totalOperacoes,
     jurosMedioSetor,
     prazoAmortizacaoMes,
     valorOperacoesMes,
-    exibirKpiDash
+    exibirKpiDash,
+    valorMedioOperacoesMes,
+    creditoConcedido
 }
