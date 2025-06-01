@@ -123,6 +123,7 @@ function valorOperacoesMes(ano, mesInicial, mesFinal) {
         SELECT ano, mes, setor_cnae, media_valor_operacao
         FROM media_setores
         ORDER BY ano, mes, setor_cnae;
+<<<<<<< HEAD
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -148,12 +149,15 @@ function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
         ORDER BY 
             mes;
 
+=======
+>>>>>>> main
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+<<<<<<< HEAD
 function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
@@ -179,13 +183,19 @@ function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
     return database.executar(instrucaoSql);
 }
 
+=======
+>>>>>>> main
 module.exports = {
     preencherSetores,
     totalOperacoes,
     jurosMedioSetor,
     prazoAmortizacaoMes,
     valorOperacoesMes,
+<<<<<<< HEAD
     exibirKpiDash,
     valorMedioOperacoesMes,
     creditoConcedido
+=======
+    exibirKpiDash
+>>>>>>> main
 }
