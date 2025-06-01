@@ -124,6 +124,8 @@ CREATE TABLE IF NOT EXISTS formulario (
 	nome VARCHAR(50),
 	email VARCHAR(50),
 	mensagem VARCHAR(300),
+	dt_criacao DATE,
+	dt_atualizacao DATE,
 	fkFuncionario INT,
 	fkEmpresa INT,
 
