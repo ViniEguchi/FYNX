@@ -123,11 +123,9 @@ CREATE TABLE IF NOT EXISTS historico (
 
 CREATE TABLE IF NOT EXISTS formulario (
 	idFormulario INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
 	mensagem VARCHAR(300),
-	dt_criacao DATE,
-	dt_atualizacao DATE,
+	dt_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+	dt_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	fkFuncionario INT,
 	fkEmpresa INT,
 
