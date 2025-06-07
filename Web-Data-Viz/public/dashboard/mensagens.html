@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea name="" id=""></textarea>
+</body>
+</html>
+
+<script>
+
+    function getMessages(){
+        var idUsuarioServer = sessionStorage.ID_USUARIO;
+        var idEmpresaServer = sessionStorage.ID_EMPRESA;
+        fetch(`/mensagens/${idUsuarioServer}/${idEmpresaServer}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+            console.log(resposta)
+          if (resposta.ok) {
+            console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));              
+            })
+          } else {
+            console.log(resposta)
+            // Faz um inner html colocando onde ficaria as mensagem um texto tipo = vc nao possui mensagens
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function sendMessage(mensagem){
+        fetch(`/mensagens/enviar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            mensagemServer: mensagem,
+            idUsuarioServer: sessionStorage.ID_USUARIO,
+            idEmpresaServer: sessionStorage.ID_EMPRESA
+        })
+      })
+        .then(function (resposta) {
+            console.log(resposta)
+          if (resposta.ok) {
+            console.log("Mensagem enviada com sucesso!");
+            // inner com msg de sucesso
+          } else {
+            console.log(resposta)
+            // inner com msg de erro
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function updateMessage(mensagem, idMensagem){
+        fetch(`/mensagens/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            mensagemServer: mensagem,
+            idUsuarioServer: sessionStorage.ID_USUARIO,
+            idMensagemServer: idMensagem
+        })
+      })
+        .then(function (resposta) {
+            console.log(resposta)
+          if (resposta.ok) {
+            console.log("Mensagem atualizada com sucesso!");
+            // inner com msg de sucesso
+          } else {
+            console.log(resposta)
+            // inner com msg de erro
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+    function deleteMessage(idMensagem){
+        fetch(`/mensagens/deletar/${idMensagem}/${sessionStorage.ID_USUARIO}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+            console.log(resposta)
+          if (resposta.ok) {
+            console.log("Mensagem deletada com sucesso!");
+            // inner com msg de sucesso
+          } else {
+            console.log(resposta)
+            // inner com msg de erro
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
+    }
+
+</script>
