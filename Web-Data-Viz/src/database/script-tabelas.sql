@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS login (
 	idLogin INT AUTO_INCREMENT,
 	fkFuncionario INT,
 	fkEmpresa INT,
-	gerente BOOLEAN,
+	gerente BOOLEAN DEFAULT TRUE,
 	email VARCHAR(100),
 	senha VARCHAR(50),
 
