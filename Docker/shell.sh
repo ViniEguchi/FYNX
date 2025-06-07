@@ -88,11 +88,7 @@ BUCKET_NAME=
 ARCHIEVE_NAME=
 AWS_REGION=us-east-1
 
-<<<<<<< Updated upstream
 SLACK_WEBHOOK_URL
-=======
-SLACK_WEBHOOK_URL=
->>>>>>> Stashed changes
 
 EOF
   echo -e "${GREEN}Criado: .env${NC}"
