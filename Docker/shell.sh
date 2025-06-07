@@ -148,15 +148,21 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: \${DB_PASSWORD}
-      MYSQL_DATABASE: \${DB_DATABASE}
-      MYSQL_USER: \${DB_USER}
-      MYSQL_PASSWORD: \${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db-init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   node-site:
     container_name: node_container
@@ -164,27 +170,30 @@ services:
       - .env
     restart: always
     build:
-        context: ./node-app
-        dockerfile: Dockerfile
+      context: ./node-app
+      dockerfile: Dockerfile
     ports:
       - "3333:3333"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   java:
     container_name: java_container
     env_file:
       - .env
     build:
-       context: ./java-app
-       dockerfile: Dockerfile
+      context: ./java-app
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
 volumes:
   mysql_data:
+
 EOF
 
 echo -e "${GREEN}Criado: docker-compose.yml${NC}"
