@@ -17,7 +17,7 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
-// var medidasRouter = require("./src/routes/medidas");
+var mensagensRouter = require("./src/routes/mensagens");
 var empresasRouter = require("./src/routes/empresas");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var adminRouter = require("./src/routes/admin");
@@ -32,7 +32,7 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
-// app.use("/medidas", medidasRouter);
+app.use("/mensagens", mensagensRouter);
 app.use("/empresas", empresasRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/admin", adminRouter);
