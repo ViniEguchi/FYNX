@@ -132,7 +132,7 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["java", "-jar", "jar-sem-slack-with-dep.jar"]
+CMD ["java", "-jar", "jar-com-slack-with-dep.jar"]
 EOF
 
 echo -e "${GREEN}Criado: java-app/Dockerfile${NC}"
