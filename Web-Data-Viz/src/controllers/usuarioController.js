@@ -106,7 +106,7 @@ function perfil(req, res) {
 
             const usuario = resultadoCarregarPerfil[0];
 
-            if (usuario.gerente) {
+            if (usuario.gerente == 0) {
                 empresaModel.buscarPorId(usuario.fkEmpresa)
                     .then(([empresa]) => {
                         if (!empresa) return res.status(404).send("Empresa não encontrada.");

@@ -14,7 +14,7 @@ optionsContainer.innerHTML = `
 <img src="../assets/icon/bar-chart 4.png" alt="">
 <a href="../dashboard/dashboard.html">DASHBOARD</a>
 </div>
-${tipoUsuario == 1 ? `
+${tipoUsuario == 0 ? `
 <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
 <img src="../assets/icon/user (1) 2.png" alt="">
 <a href="../dashboard/users.html">USUÁRIOS</a>
@@ -72,7 +72,7 @@ function carregarPerfil() {
                   </div>
                 `;
 
-                if (tipoUsuario == 1) {
+                if (tipoUsuario == 0) {
                     htmlCampos = `
                     <div class="campos">
                         ${camposUsuarioAdmin}
@@ -90,7 +90,7 @@ function carregarPerfil() {
                 ];
 
                 camposComuns.forEach(makeEditable);
-                if (tipoUsuario == 1) {
+                if (tipoUsuario == 0) {
                     camposGerente.forEach(makeEditable);
                 }
 
@@ -157,7 +157,7 @@ function salvarPerfil() {
         senha: document.getElementById('senhaInput').value,
     };
 
-    if (tipoUsuario == 1) {
+    if (tipoUsuario == 0) {
         Object.assign(dadosAtualizados, {
             nome_fantasia: document.getElementById('nome_fantasiaInput').value,
             razao_social: document.getElementById('razao_socialInput').value,

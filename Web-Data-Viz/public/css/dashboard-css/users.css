@@ -1,3 +1,7 @@
+body{
+  overflow: hidden;
+}
+
 .field-group {
 display: flex;
 flex-direction: column;
@@ -92,8 +96,6 @@ background-color: #145b4f;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  height: 15%;
-  margin-bottom: 20px;
 }
 
 .container-button button {
@@ -104,24 +106,26 @@ background-color: #145b4f;
   background-color: #04251f;
   color: #fff;
   border-radius: 8px;
-  margin: 20px 40px 20px 0;
+  margin: 20px 40px 10px 0;
   font-size: 18px;
   cursor: pointer;
 }
 
 .container-tabela-usuarios {
   display: flex;
-  width: 1000px;
+  width: 97%;
+  margin: 0 15px 0 15px;
   height: 60%;
   align-items: center;
-  overflow-x: scroll;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .tabela-usuarios {
-  width: 100%;
   height: 450px;
   border-collapse: collapse;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 
 .tabela-usuarios th,
@@ -131,6 +135,7 @@ background-color: #145b4f;
   text-align: center;
   font-size: 14px;
 }
+
 
 .tabela-usuarios th {
   background-color: #ffffff;
@@ -195,6 +200,9 @@ background-color: #145b4f;
     height: 100% !important;
     width: 90vw !important;
     margin-bottom: 50px;
+    
+    overflow-y: scroll;
+    overflow-x: scroll;
   }
 
   .tabela-usuarios {

@@ -153,7 +153,7 @@
         <img src="../assets/icon/bar-chart (1) 2.png" alt="">
         <a href="../dashboard/dashboard.html">DASHBOARD</a>
       </div>
-      ${tipoUsuario == 1 ? `
+      ${tipoUsuario == 0 ? `
         <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
           <img src="../assets/icon/user (1) 2.png" alt="">
           <a href="../dashboard/users.html">USUÁRIOS</a>
@@ -179,12 +179,9 @@
         .then(function (resposta) {
           if (resposta.ok) {
             resposta.json().then(json => {
-              // console.log(JSON.stringify(json));
-
               var opt = '<option>Setores</option>';
 
               for (let i = 0; i < json.length; i++) {
-                // console.log(json[i].subsetor_cnae)
                 opt += `<option>${json[i].subsetor_cnae}</option>`;
               }
 
@@ -210,16 +207,6 @@
         kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
         return;
       }
-
-      // if (periodo == "Último Ano") {
-      //   periodo = 12;
-      // } else if (periodo == "Últimos Três Meses") {
-      //   periodo = 3;
-      // } else if (periodo == "Últimos Seis Meses") {
-      //   periodo = 6;
-      // } else {
-      //   periodo = 1;
-      // }
 
       fetch(`/grafico/exibirKpiDash/${ano}/${mesInicio}/${mesFim}/${sub_setor}`, {
         method: "GET",
