@@ -64,7 +64,7 @@ function cadastrar(req, res) {
                 return res.status(400).send("Empresa já cadastrada com esse CNPJ.");
             }
 
-            empresaModel.cadastrar(responsavel, cnpj, razaoSocial, nomeFantasia)
+            empresaModel.cadastrarEmpresa(nomeFantasia, razaoSocial, responsavel, cnpj)
                 .then((resultadoEmpresa) => {
                     const idEmpresa = resultadoEmpresa.insertId;
                     if (!idEmpresa) throw new Error("Erro ao cadastrar empresa.");
