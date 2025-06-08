@@ -55,8 +55,6 @@ function cadastrar(req, res) {
         bairroServer: bairro,
         logradouroServer: logradouro,
         numeroServer: numero,
-        estadoServer: estado,
-        ufServer: uf,
         complementoServer: complemento
     } = req.body;
 
