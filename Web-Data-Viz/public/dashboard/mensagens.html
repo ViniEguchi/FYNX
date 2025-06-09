@@ -1,117 +1,357 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Usuários - Dashboard</title>
+
+  <link rel="stylesheet" href="../css/dashboard-css/users.css">
+  <link rel="stylesheet" href="../css/dashboard-css/global.css">
+  <link rel="stylesheet" href="../css/dashboard-css/messages.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <textarea name="" id=""></textarea>
-</body>
-</html>
 
+<body onload="getMessages()">
+  <main>
+    <div class="side-menu">
+      <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+      <div class="options">
+        <div class="option">
+          <img src="../assets/icon/home 3.png" alt="">
+          <a href="../dashboard/home.html">HOME</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/bar-chart 4.png" alt="">
+          <a href="../dashboard/dashboard.html">DASHBOARD</a>
+
+        </div>
+        <div class="option">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/edit 2.png" alt="">
+          <a href="../dashboard/perfil.html">EDITAR</a>
+        </div>
+        <div class="option selected">
+          <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+          <a href="../dashboard/mensagens.html">MENSAGENS</a>
+        </div>
+        <div class="option">
+          <img src="../assets/icon/logout 2.png" alt="">
+          <a href="../index.html">SAIR</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <div class="container-textos-header">
+          <p>MENSAGENS</p>
+          <p>BEM VINDO, <span id="usuario"></span>!</p>
+
+          <div class="container-hamburguer-menu" style="display: none;">
+            <button class="menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
+            <ul class="navbar sidebar" id="sidebar">
+              <button class="close-btn" onclick="toggleMenu()">✖</button>
+              <img class="logo" src="../assets/icon/v5-removebg-preview 2.png" alt="">
+
+              <div class="options">
+                <div class="option">
+                  <img src="../assets/icon/home 3.png" alt="">
+                  <a href="../dashboard/home.html">HOME</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/bar-chart 4.png" alt="">
+                  <a href="../dashboard/dashboard.html">DASHBOARD</a>
+                </div>
+                <div class="option selected">
+                  <img src="../assets/icon/user (2) 2.png" alt="">
+                  <a href="../dashboard/users.html">USUÁRIOS</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/edit 2.png" alt="">
+                  <a href="../dashboard/perfil.html">EDITAR</a>
+                </div>
+                <div class="option">
+                  <img src="../assets/icon/logout 2.png" alt="">
+                  <a href="../index.html">SAIR</a>
+                </div>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="profile-card-row" id="profile-card-row">
+      </div> -->
+      <div class="container-mensagens">
+        <div class="chat-container" id="chatContainer"></div>
+        <div class="input-container">
+          <input type="text" id="messageInput" placeholder="Digite sua mensagem..." />
+          <button onclick="sendMessage2()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
 <script>
+    const tipoUsuario = sessionStorage.IS_GERENTE;
+    const paginaAtual = window.location.pathname;
 
-    function getMessages(){
-        var idUsuarioServer = sessionStorage.ID_USUARIO;
-        var idEmpresaServer = sessionStorage.ID_EMPRESA;
-        fetch(`/mensagens/${idUsuarioServer}/${idEmpresaServer}`, {
+    const optionsContainer = document.querySelector('.options');
+
+    optionsContainer.innerHTML = `
+      <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
+        <img src="../assets/icon/home 3.png" alt="">
+        <a href="../dashboard/home.html">HOME</a>
+      </div>
+      <div class="option ${paginaAtual.includes('dashboard.html') ? 'selected' : ''}">
+        <img src="../assets/icon/bar-chart 4.png" alt="">
+        <a href="../dashboard/dashboard.html">DASHBOARD</a>
+      </div>
+      ${tipoUsuario == 0 ? `
+        <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
+          <img src="../assets/icon/user (1) 2.png" alt="">
+          <a href="../dashboard/users.html">USUÁRIOS</a>
+        </div>
+      ` : ''}
+      <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
+        <img src="../assets/icon/edit 2.png" alt="">
+        <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option ${paginaAtual.includes('mensagens.html') ? 'selected' : ''} ">
+        <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+        <a href="../dashboard/mensagens.html">MENSAGENS</a>
+      </div>
+      <div class="option">
+        <img src="../assets/icon/logout 2.png" alt="">
+        <a href="../index.html">SAIR</a>
+      </div>
+    `;
+
+    usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+    const chatContainer = document.getElementById("chatContainer");
+    const input = document.getElementById("messageInput");
+    const messagesByDate = {};
+
+    function formatDate(date) {
+      return date.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function sendMessage2() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      sendMessage(text);
+
+      input.value = "";
+      setTimeout(getMessages, 300);
+    }
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage2();
+    });
+
+    function getMessages() {
+      const idUsuarioServer = sessionStorage.ID_USUARIO;
+      const idEmpresaServer = sessionStorage.ID_EMPRESA;
+
+      fetch(`/mensagens/${idUsuarioServer}/${idEmpresaServer}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         }
       })
-        .then(function (resposta) {
-            console.log(resposta)
-          if (resposta.ok) {
-            console.log("sucesso!");
-            resposta.json().then(json => {
-              console.log(JSON.stringify(json));              
-            })
-          } else {
-            console.log(resposta)
-            // Faz um inner html colocando onde ficaria as mensagem um texto tipo = vc nao possui mensagens
+      .then(resposta => {
+        if (!resposta.ok) throw new Error("Erro ao buscar mensagens.");
+        return resposta.json();
+      })
+      .then(mensagens => {
+        chatContainer.innerHTML = ""; 
+        const messagesByDate = {};
+        let idFormulario = 0;
+
+        mensagens.forEach(msg => {
+          const data = new Date(msg.dt_criacao);
+          const dateStr = formatDate(data);
+          idFormulario = msg.idFormulario;
+
+          if (!messagesByDate[dateStr]) {
+            messagesByDate[dateStr] = [];
           }
-        })
-        .catch(function (erro) {
-          console.error("Erro:", erro);
+
+          messagesByDate[dateStr].push({
+            texto: msg.mensagem,
+            data: data
+          });
         });
+
+        const datasOrdenadas = Object.keys(messagesByDate).sort((a, b) => {
+          const [diaA, mesA, anoA] = a.split('/').map(Number);
+          const [diaB, mesB, anoB] = b.split('/').map(Number);
+          return new Date(anoA, mesA - 1, diaA) - new Date(anoB, mesB - 1, diaB);
+        });
+
+        datasOrdenadas.forEach(dateStr => {
+          const dateLabel = document.createElement("div");
+          dateLabel.className = "chat-date";
+          dateLabel.textContent = dateStr;
+          chatContainer.appendChild(dateLabel);
+
+          messagesByDate[dateStr]
+            .sort((a, b) => a.data - b.data)
+            .forEach(msg => {
+              const messageWrapper = document.createElement("div");
+              messageWrapper.className = "message-wrapper";
+
+              const messageDiv = document.createElement("div");
+              messageDiv.className = "message";
+              messageDiv.textContent = msg.texto;
+
+              const iconGroup = document.createElement("div");
+              iconGroup.className = "icon-group";
+
+              const editBtn = document.createElement("button");
+              editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+              editBtn.classList.add("icon-btn");
+
+              const deleteBtn = document.createElement("button");
+              deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+              deleteBtn.classList.add("icon-btn");
+
+              let editing = false;
+              let inputEdit = document.createElement("input");
+              inputEdit.className = "edit-input";
+              inputEdit.style.display = "none";
+
+              editBtn.onclick = () => {
+                if (!editing) {
+                  inputEdit.value = msg.texto;
+                  messageDiv.style.display = "none";
+                  inputEdit.style.display = "inline-block";
+                  messageWrapper.insertBefore(inputEdit, iconGroup);
+                  editBtn.innerHTML = '<i class="fas fa-save"></i>';
+                  editing = true;
+                } else {
+                  const novoTexto = inputEdit.value.trim();
+                  if (novoTexto && novoTexto !== msg.texto) {
+                    updateMessage(novoTexto, idFormulario);
+                    messageDiv.textContent = novoTexto;
+                  }
+                  inputEdit.style.display = "none";
+                  messageDiv.style.display = "block";
+                  editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                  editing = false;
+                }
+              };
+
+              deleteBtn.onclick = () => {
+                deleteMessage(idFormulario);
+                messageWrapper.remove();
+              };
+
+              iconGroup.appendChild(editBtn);
+              iconGroup.appendChild(deleteBtn);
+
+              messageWrapper.appendChild(messageDiv);
+              messageWrapper.appendChild(iconGroup);
+
+              chatContainer.appendChild(messageWrapper);
+            });
+        });
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+        chatContainer.innerHTML = "<p>Você não possui mensagens.</p>";
+      });
     }
 
-    function sendMessage(mensagem){
-        fetch(`/mensagens/enviar`, {
+    function sendMessage(mensagem) {
+      fetch(`/mensagens/enviar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            mensagemServer: mensagem,
-            idUsuarioServer: sessionStorage.ID_USUARIO,
-            idEmpresaServer: sessionStorage.ID_EMPRESA
+          mensagemServer: mensagem,
+          idUsuarioServer: sessionStorage.ID_USUARIO,
+          idEmpresaServer: sessionStorage.ID_EMPRESA
         })
       })
-        .then(function (resposta) {
-            console.log(resposta)
-          if (resposta.ok) {
-            console.log("Mensagem enviada com sucesso!");
-            // inner com msg de sucesso
-          } else {
-            console.log(resposta)
-            // inner com msg de erro
-          }
-        })
-        .catch(function (erro) {
-          console.error("Erro:", erro);
-        });
+      .then(function (resposta) {
+        console.log(resposta);
+        if (resposta.ok) {
+          console.log("Mensagem enviada com sucesso!");
+        } else {
+          console.log(resposta);
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
     }
 
-    function updateMessage(mensagem, idMensagem){
-        fetch(`/mensagens/update`, {
+    function updateMessage(mensagem, idMensagem) {
+      fetch(`/mensagens/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            mensagemServer: mensagem,
-            idUsuarioServer: sessionStorage.ID_USUARIO,
-            idMensagemServer: idMensagem
+          mensagemServer: mensagem,
+          idUsuarioServer: sessionStorage.ID_USUARIO,
+          idMensagemServer: idMensagem
         })
       })
-        .then(function (resposta) {
-            console.log(resposta)
-          if (resposta.ok) {
-            console.log("Mensagem atualizada com sucesso!");
-            // inner com msg de sucesso
-          } else {
-            console.log(resposta)
-            // inner com msg de erro
-          }
-        })
-        .catch(function (erro) {
-          console.error("Erro:", erro);
-        });
+      .then(function (resposta) {
+        console.log(resposta);
+        if (resposta.ok) {
+          console.log("Mensagem atualizada com sucesso!");
+        } else {
+          console.log(resposta);
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
     }
 
-    function deleteMessage(idMensagem){
-        fetch(`/mensagens/deletar/${idMensagem}/${sessionStorage.ID_USUARIO}`, {
+    function deleteMessage(idMensagem) {
+      fetch(`/mensagens/deletar/${idMensagem}/${sessionStorage.ID_USUARIO}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         }
       })
-        .then(function (resposta) {
-            console.log(resposta)
-          if (resposta.ok) {
-            console.log("Mensagem deletada com sucesso!");
-            // inner com msg de sucesso
-          } else {
-            console.log(resposta)
-            // inner com msg de erro
-          }
-        })
-        .catch(function (erro) {
-          console.error("Erro:", erro);
-        });
+      .then(function (resposta) {
+        console.log(resposta);
+        if (resposta.ok) {
+          console.log("Mensagem deletada com sucesso!");
+        } else {
+          console.log(resposta);
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
     }
-
-</script>
+  </script>
