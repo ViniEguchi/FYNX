@@ -43,7 +43,7 @@ select {
 
 .caixa-setor p {
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .caixa-branca {
@@ -51,7 +51,7 @@ select {
   border: 3px solid white;
   border-radius: 6px;
   width: 80%;
-  height: 50px;
+  height: 40px;
 }
 
 .graficos-superiores {
@@ -165,10 +165,6 @@ canvas {
   .caixa-setor {
     width: 90%;
     font-size: 14px;
-  }
-
-  .caixa-branca {
-    width: 100%;
   }
 
   .caixa-branca p {
