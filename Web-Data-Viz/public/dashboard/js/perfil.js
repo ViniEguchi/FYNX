@@ -24,6 +24,10 @@ ${tipoUsuario == 0 ? `
           <img src="../assets/icon/edit (1) 1.png" alt="">
 <a href="../dashboard/perfil.html">EDITAR</a>
 </div>
+<div class="option ${paginaAtual.includes('mensagens.html') ? 'selected' : ''} ">
+        <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+        <a href="../dashboard/mensagens.html">MENSAGENS</a>
+      </div>
 <div class="option">
 <img src="../assets/icon/logout 2.png" alt="">
 <a href="../index.html">SAIR</a>

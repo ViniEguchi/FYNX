@@ -40,6 +40,10 @@
   .options .option.selected {
     background-color: #fff;
   }
+
+  .options .option.selected img {
+    filter: none !important;
+  }
   
   .options .option.selected a {
     color: #000;
