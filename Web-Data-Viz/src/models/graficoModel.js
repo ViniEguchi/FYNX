@@ -1,7 +1,20 @@
 var database = require("../database/config");
 
 /*
-HOME 
+HOME Prazo mais aceito
+SELECT  COUNT(*)                 AS contagem
+       ,MONTH(prazo_carencia)    AS carencia
+       ,MONTH(prazo_amortizacao) AS amortizacao
+FROM historico
+GROUP BY  carencia
+         ,amortizacao
+ORDER BY  contagem DESC
+
+HOME Onde investir
+SELECT
+
+HOME Evolução setor
+SELECT
 */
 
 const { format } = require('date-fns');
