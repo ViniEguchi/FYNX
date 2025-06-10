@@ -40,6 +40,17 @@ function montarIntervalo(ano, mesInicial, mesFinal) {
     return { dataInicialStr, dataFinalStr };
 }
 
+function montarDataPassado(ano, mesInicial, mesFinal) {
+    ano = ano - 1;
+    const dataInicial = new Date(ano, mesInicial - 1, 1);
+    const dataFinal = new Date(ano, mesFinal, 0); // último dia do mês final
+
+    const dataInicialStrPassado = format(dataInicial, 'yyyy-MM-dd');  // Usando date-fns para formatar
+    const dataFinalStrPassado = format(dataFinal, 'yyyy-MM-dd');
+
+    return { dataInicialStrPassado, dataFinalStrPassado };
+}
+
 function preencherSetores() {
     const instrucaoSql = `SELECT DISTINCT subsetor_cnae FROM historico;`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -184,23 +195,38 @@ function valorOperacoesMes(ano, mesInicial, mesFinal) {
 
 function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+    const { dataInicialStrPassado, dataFinalStrPassado } = montarDataPassado(ano, mesInicial, mesFinal);
+    // const instrucaoSql = `
+    //     SELECT 
+    //         YEAR(data_contratacao) AS ano,
+    //         MONTH(data_contratacao) AS mes,
+    //         ROUND(SUM(valor_operacao), 2) AS total_mes,
+    //         ROUND(AVG(valor_operacao), 2) AS media_valores_mes
+    //     FROM 
+    //         historico
+    //     WHERE 
+    //         subsetor_cnae = '${sub_setor}'
+    //         AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+    //     GROUP BY 
+    //         YEAR(data_contratacao), MONTH(data_contratacao)
+    //     ORDER BY 
+    //         mes;
 
+    // `;
     const instrucaoSql = `
-        SELECT 
-            YEAR(data_contratacao) AS ano,
-            MONTH(data_contratacao) AS mes,
-            ROUND(SUM(valor_operacao), 2) AS total_mes,
-            ROUND(AVG(valor_operacao), 2) AS media_valores_mes
-        FROM 
-            historico
-        WHERE 
-            subsetor_cnae = '${sub_setor}'
-            AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-        GROUP BY 
-            YEAR(data_contratacao), MONTH(data_contratacao)
-        ORDER BY 
-            mes;
-
+        SELECT  ano_atual.atual     AS atual
+            ,ano_passado.passado AS passado
+        FROM
+        (
+            SELECT  valor_desenbolsado AS atual
+            FROM historico
+            WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+            AND subsetor_cnae = '${sub_setor}'
+        ) AS ano_atual, (
+        SELECT  valor_desenbolsado AS passado
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStrPassado}' AND '${dataFinalStrPassado}'
+        AND subsetor_cnae = '${sub_setor}') AS ano_passado
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
