@@ -140,6 +140,21 @@ function creditoConcedido(req, res) {
 
 }
 
+function exibirKpiHome(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
+    graficoModel.exibirKpiHome(ano, mesInicial, mesFinal)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar valor das operações:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
+}
+
 module.exports = {
     preencherSetores,
     exibirKpiDash,
@@ -149,5 +164,6 @@ module.exports = {
     prazoAmortizacaoMes,
     valorOperacoesMes,
     valorMedioOperacoesMes,
-    creditoConcedido
+    creditoConcedido,
+    exibirKpiHome
 }

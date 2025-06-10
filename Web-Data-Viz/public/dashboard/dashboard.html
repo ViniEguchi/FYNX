@@ -100,21 +100,21 @@
         <div class="caixa-principal">
           <div class="linha-setores">
             <div class="caixa-setor">
-              <p>Média operações no mês</p>
+              <p>Mes Maior Qtd de Operações</p>
               <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
-                id="kpi_media_operacoes">R$ 20.000
+                id="kpi_mes_mais_operacoes">Favor selecionar um setor
               </div>
             </div>
             <div class="caixa-setor">
-              <p>Soma crédito concedido</p>
+              <p>Variação Prazo de Carencia</p>
               <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
-                id="kpi_soma_credito">R$ 515.000
+                id="kpi_variacao_prazo">Favor selecionar um setor
               </div>
             </div>
             <div class="caixa-setor">
-              <p>Variação crédito p/ mês</p>
+              <p>Variação Juros no Periodo</p>
               <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
-                id="kpi_variacao_credito">+12%</div>
+                id="kpi_variacao_juros">Favor selecionar um setor</div>
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@
         .then(function (resposta) {
           if (resposta.ok) {
             resposta.json().then(json => {
-              var opt = '<option>Setores</option>';
+              var opt = '<option>SubSetores</option>';
 
               for (let i = 0; i < json.length; i++) {
                 opt += `<option>${json[i].subsetor_cnae}</option>`;
@@ -205,10 +205,10 @@
     }
 
     function exibirKpiDash(ano, mesInicio, mesFim, sub_setor) {
-      if (sub_setor == "Setores") {
-        kpi_media_operacoes.innerHTML = `Favor selecionar um setor`;
-        kpi_soma_credito.innerHTML = `Favor selecionar um setor`;
-        kpi_variacao_credito.innerHTML = `Favor selecionar um setor`;
+      if (sub_setor == "SubSetores") {
+        kpi_mes_mais_operacoes.innerHTML = `Favor selecionar um setor`;
+        kpi_variacao_prazo.innerHTML = `Favor selecionar um setor`;
+        kpi_variacao_juros.innerHTML = `Favor selecionar um setor`;
         return;
       }
 
@@ -223,13 +223,13 @@
             console.log("sucesso!");
             resposta.json().then(json => {
               console.log(JSON.stringify(json));
-              var variacao_credito = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+              var variacao_juros = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+              var variacao_prazo = ((json[0].carencia_max - json[0].carencia_min) / json[0].carencia_min) * 100;
 
-              kpi_media_operacoes.innerHTML = `R$${json[0].mediaOperacoes.toFixed(2)}`;
-              kpi_soma_credito.innerHTML = `R$${json[0].somaCredito.toFixed(2)}`;
-              kpi_variacao_credito.innerHTML = `R$${variacao_credito.toFixed(2)}%`;
+              kpi_mes_mais_operacoes.innerHTML = `${json[0].mes}`;
+              kpi_variacao_prazo.innerHTML = `${json[0].variacao_prazo.toFixed(2)}%`;
+              kpi_variacao_juros.innerHTML = `${variacao_juros.toFixed(2)}%`;
 
-              
             })
           } else {
             console.log(resposta)
