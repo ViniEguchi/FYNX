@@ -1,5 +1,33 @@
 var database = require("../database/config");
 
+/*
+DASH Comparar Ano Anterior
+SELECT  ano_atual.atual     AS atual
+       ,ano_passado.passado AS passado
+FROM
+(
+	SELECT  valor_desenbolsado AS atual
+	FROM historico
+	WHERE data_contratacao BETWEEN '${dataInicialStrAtual}' AND '${dataFinalStrAtual}'
+	AND subsetor_cnae = '${setor}'
+) AS ano_atual, (
+SELECT  valor_desenbolsado AS passado
+FROM historico
+WHERE data_contratacao BETWEEN '${dataInicialStrPassado}' AND '${dataFinalStrPassado}'
+AND subsetor_cnae = '${setor}') AS ano_passado
+
+DASH Variação Juros
+SELECT  AVG(juros) as juros
+       ,MONTH(data_contratacao) AS mes
+FROM historico
+WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+AND subsetor_cnae = '${setor}'
+GROUP BY mes
+ORDER BY  mes
+
+HOME 
+*/
+
 const { format } = require('date-fns');
 // Função para montar datas no formato 'YYYY-MM-DD'
 function montarIntervalo(ano, mesInicial, mesFinal) {
@@ -22,14 +50,39 @@ function exibirKpiDash(ano, mesInicial, mesFinal, setor) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
     const instrucaoSql = `
-        SELECT 
-            ROUND(AVG(valor_operacao * (1 + (juros / 100))),2) AS mediaOperacoes,
-            ROUND(SUM(valor_operacao * (1 + (juros / 100))),2) AS somaCredito,
-            ROUND(MAX(valor_operacao * (1 + (juros / 100))),2) AS maximo, 
-            ROUND(MIN(valor_operacao * (1 + (juros / 100))),2) AS minimo
-        FROM historico 
+        SELECT  mesMais.mes as mes
+                ,maximo.juros_max as maximo
+                ,minimo.juros_min as minimo
+                ,prazo.carencia_max as carencia_max
+                ,prazo.carencia_min as carencia_min
+        FROM
+        (
+        	SELECT  MONTH(data_contratacao) AS mes
+        	       ,COUNT(*)                AS todo
+        	FROM historico
+        	WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        	AND subsetor_cnae = '${setor}'
+        	GROUP BY  mes
+        	ORDER BY  todo DESC
+        	LIMIT 1
+        ) AS mesMais, (
+        SELECT  juros AS juros_max
+        FROM historico
         WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-        AND subsetor_cnae = '${setor}';
+        AND subsetor_cnae = '${setor}'
+        ORDER BY data_contratacao DESC
+        LIMIT 1) AS maximo, (
+        SELECT  juros AS juros_min
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        AND subsetor_cnae = '${setor}'
+        ORDER BY data_contratacao
+        LIMIT 1) AS minimo, (
+        SELECT MAX(prazo_carencia) as carencia_max
+                ,MIN(prazo_carencia) as carencia_min
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        AND subsetor_cnae = '${setor}') as prazo;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -179,6 +232,26 @@ function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
     return database.executar(instrucaoSql);
 }
 
+function exibirKpiHome(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+    const instrucaoSql = `
+        SELECT
+            CONCAT(menor_juros.setor, ' - ', menor_juros.juros) as menor_juros,
+            menor_investimento.setor as setor_menor_investimento,
+            maior_risco.setor as setor_maior_risco,
+            menor_risco.setor as setor_menor_risco
+        FROM
+        (SELECT setor_cnae as setor, MIN(juros) as juros FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY juros LIMIT 1) as menor_juros,
+        (SELECT setor_cnae as setor, MIN(valor_desenbolsado) as valor FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor LIMIT 1) as menor_investimento,
+        (SELECT setor_cnae as setor, MAX(prazo_carencia) as maximo FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor DESC LIMIT 1) as maior_risco,
+        (SELECT setor_cnae as setor, MIN(prazo_carencia) as minimo FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor LIMIT 1) as menor_risco
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     preencherSetores,
     totalOperacoes,
@@ -187,5 +260,6 @@ module.exports = {
     valorOperacoesMes,
     exibirKpiDash,
     valorMedioOperacoesMes,
-    creditoConcedido
+    creditoConcedido,
+    exibirKpiHome
 }

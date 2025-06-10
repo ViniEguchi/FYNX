@@ -159,18 +159,21 @@
       <div class="caixa-principal">
         <div class="linha-setores">
           <div class="caixa-setor">
-            <p>Setor c/ maior operação</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Varejo -
-              90.000</div>
+            <p>Setor c/ Menor Juros</p>
+            <div class="caixa-branca" id="kpi_menor_juros" style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro</div>
           </div>
           <div class="caixa-setor">
-            <p>Menor taxa de juros</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Industria
-              extrativa - 3% a.a</div>
+            <p>Setor c/ Menor Investimento</p>
+            <div class="caixa-branca" id="kpi_menor_investimento" style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro</div>
           </div>
           <div class="caixa-setor">
-            <p>Valor Total Concedido</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 1.530.000
+            <p>Setor c/ Menos Risco</p>
+            <div class="caixa-branca" id="kpi_menor_risco" style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro
+            </div>
+          </div>
+          <div class="caixa-setor">
+            <p>Setor c/ Maior Risco</p>
+            <div class="caixa-branca" id="kpi_maior_risco" style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro
             </div>
           </div>
         </div>
@@ -246,6 +249,7 @@ async function filtrarPorPeriodo() {
   await jurosMedioSetor(ano, mesInicio, mesFim);
   await prazoAmortizacaoMes(ano, mesInicio, mesFim);
   await valorOperacoesMes(ano, mesInicio, mesFim);
+  exibirKpiHome(ano, mesInicio, mesFim);
 }
 
 function destroyChart(chartId) {
@@ -257,6 +261,38 @@ function destroyChart(chartId) {
       chartInstance.destroy(); // Destrói o gráfico existente
     }
   }
+}
+
+function exibirKpiHome(ano, mesInicio, mesFim) {
+  let url = "/grafico/exibirKpiHome";
+  if (ano && mesInicio && mesFim) {
+    url = `/grafico/exibirKpiHome/${ano}/${mesInicio}/${mesFim}`;
+  }
+
+  fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            console.log("sucesso!");
+            resposta.json().then(json => {
+              console.log(JSON.stringify(json));
+
+              kpi_menor_juros.innerHTML = `${json[0].menor_juros}`
+              kpi_menor_investimento.innerHTML = `${json[0].setor_menor_investimento}`
+              kpi_menor_risco.innerHTML = `${json[0].setor_maior_risco}`
+              kpi_maior_risco.innerHTML = `${json[0].setor_menor_risco}`
+            })
+          } else {
+            console.log(resposta)
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro:", erro);
+        });
 }
 
 async function totalOperacoes(ano, mesInicio, mesFim) {
