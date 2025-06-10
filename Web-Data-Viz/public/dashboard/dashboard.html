@@ -223,11 +223,20 @@
             console.log("sucesso!");
             resposta.json().then(json => {
               console.log(JSON.stringify(json));
-              var variacao_juros = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
-              var variacao_prazo = ((json[0].carencia_max - json[0].carencia_min) / json[0].carencia_min) * 100;
+              if (json[0].minimo == 0) {
+                var variacao_juros = 1;
+              } else {
+                var variacao_juros = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+              }
+
+              if (json[0].carencia_min == 0) {
+                var variacao_prazo = 1;
+              } else {
+                var variacao_prazo = ((json[0].carencia_max - json[0].carencia_min) / json[0].carencia_min) * 100;
+              }
 
               kpi_mes_mais_operacoes.innerHTML = `${json[0].mes}`;
-              kpi_variacao_prazo.innerHTML = `${json[0].variacao_prazo.toFixed(2)}%`;
+              kpi_variacao_prazo.innerHTML = `${variacao_prazo.toFixed(2)}%`;
               kpi_variacao_juros.innerHTML = `${variacao_juros.toFixed(2)}%`;
 
             })

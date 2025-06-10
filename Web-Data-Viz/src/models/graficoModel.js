@@ -215,18 +215,27 @@ function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
     // `;
     const instrucaoSql = `
         SELECT  ano_atual.atual     AS atual
-            ,ano_passado.passado AS passado
+                ,ano_passado.passado AS passado
+                ,ano_atual.mes       AS mes
         FROM
         (
-            SELECT  valor_desenbolsado AS atual
-            FROM historico
-            WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-            AND subsetor_cnae = '${sub_setor}'
-        ) AS ano_atual, (
-        SELECT  valor_desenbolsado AS passado
-        FROM historico
-        WHERE data_contratacao BETWEEN '${dataInicialStrPassado}' AND '${dataFinalStrPassado}'
-        AND subsetor_cnae = '${sub_setor}') AS ano_passado
+        	SELECT  SUM(valor_desenbolsado) AS atual
+        	       ,MONTH(data_contratacao) AS mes
+        	FROM historico
+        	WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        	AND subsetor_cnae = '${sub_setor}'
+        	GROUP BY  mes
+        ) AS ano_atual
+        JOIN
+        (
+        	SELECT  SUM(valor_desenbolsado) AS passado
+        	       ,MONTH(data_contratacao) AS mes
+        	FROM historico
+        	WHERE data_contratacao BETWEEN '${dataInicialStrPassado}' AND '${dataFinalStrPassado}'
+        	AND subsetor_cnae = '${sub_setor}'
+        	GROUP BY  mes
+        ) AS ano_passado
+        ON ano_atual.mes = ano_passado.mes
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -236,22 +245,30 @@ function valorMedioOperacoesMes(ano, mesInicial, mesFinal, sub_setor) {
 function creditoConcedido(ano, mesInicial, mesFinal, sub_setor) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
+    // const instrucaoSql = `
+    //     SELECT
+    //         YEAR(data_contratacao) AS ano,
+    //         MONTH(data_contratacao) AS mes,
+    //         ROUND(SUM(valor_desenbolsado), 2) AS total_mes
+    //     FROM
+    //         historico
+    //     WHERE
+    //         subsetor_cnae = '${sub_setor}'
+    //         AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+    //     GROUP BY
+    //         YEAR(data_contratacao),
+    //         MONTH(data_contratacao)
+    //     ORDER BY
+    //         mes;
+    // `;
     const instrucaoSql = `
-        SELECT
-            YEAR(data_contratacao) AS ano,
-            MONTH(data_contratacao) AS mes,
-            ROUND(SUM(valor_desenbolsado), 2) AS total_mes
-        FROM
-            historico
-        WHERE
-            subsetor_cnae = '${sub_setor}'
-            AND data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-        GROUP BY
-            YEAR(data_contratacao),
-            MONTH(data_contratacao)
-        ORDER BY
-            mes;
-
+        SELECT  ROUND(AVG(juros), 2) as juros
+                ,MONTH(data_contratacao) AS mes
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        AND subsetor_cnae = '${sub_setor}'
+        GROUP BY mes
+        ORDER BY  mes
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -262,16 +279,41 @@ function exibirKpiHome(ano, mesInicial, mesFinal) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
     const instrucaoSql = `
-        SELECT
-            CONCAT(menor_juros.setor, ' - ', menor_juros.juros) as menor_juros,
-            menor_investimento.setor as setor_menor_investimento,
-            maior_risco.setor as setor_maior_risco,
-            menor_risco.setor as setor_menor_risco
+        SELECT  CONCAT(menor_juros.setor,' - ',menor_juros.juros) AS menor_juros
+               ,menor_investimento.setor                          AS setor_menor_investimento
+               ,maior_risco.setor                                 AS setor_maior_risco
+               ,menor_risco.setor                                 AS setor_menor_risco
         FROM
-        (SELECT setor_cnae as setor, MIN(juros) as juros FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY juros LIMIT 1) as menor_juros,
-        (SELECT setor_cnae as setor, MIN(valor_desenbolsado) as valor FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor LIMIT 1) as menor_investimento,
-        (SELECT setor_cnae as setor, MAX(prazo_carencia) as maximo FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor DESC LIMIT 1) as maior_risco,
-        (SELECT setor_cnae as setor, MIN(prazo_carencia) as minimo FROM historico WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}' GROUP BY setor ORDER BY valor LIMIT 1) as menor_risco
+        (
+        	SELECT  setor_cnae AS setor
+        	       ,MIN(juros) AS juros
+        	FROM historico
+        	WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        	GROUP BY  setor
+        	ORDER BY  juros
+        	LIMIT 1
+        ) AS menor_juros, (
+        SELECT  setor_cnae              AS setor
+               ,MIN(valor_desenbolsado) AS valor
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY setor
+        ORDER BY valor
+        LIMIT 1) AS menor_investimento, (
+        SELECT  setor_cnae          AS setor
+               ,AVG(prazo_carencia) AS maximo
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY setor
+        ORDER BY maximo DESC
+        LIMIT 1) AS maior_risco, (
+        SELECT  setor_cnae          AS setor
+               ,AVG(prazo_carencia) AS minimo
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY setor
+        ORDER BY minimo
+        LIMIT 1) AS menor_risco
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
