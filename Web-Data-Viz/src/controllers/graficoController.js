@@ -111,7 +111,7 @@ function valorMedioOperacoesMes(req, res) {
 
     console.log("função valorMedioOperacoesMes");
 
-    graficoModel.valorMedioOperacoesMes(ano, mesInicial, mesFinal,setor)
+    graficoModel.valorMedioOperacoesMes(ano, mesInicial, mesFinal, setor)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -129,7 +129,7 @@ function creditoConcedido(req, res) {
 
     console.log("função creditoConcedido");
 
-    graficoModel.creditoConcedido(ano, mesInicial, mesFinal,setor)
+    graficoModel.creditoConcedido(ano, mesInicial, mesFinal, setor)
         .then(function (resultado) {
             res.json(resultado);
         })

@@ -1,30 +1,6 @@
 var database = require("../database/config");
 
 /*
-DASH Comparar Ano Anterior
-SELECT  ano_atual.atual     AS atual
-       ,ano_passado.passado AS passado
-FROM
-(
-	SELECT  valor_desenbolsado AS atual
-	FROM historico
-	WHERE data_contratacao BETWEEN '${dataInicialStrAtual}' AND '${dataFinalStrAtual}'
-	AND subsetor_cnae = '${setor}'
-) AS ano_atual, (
-SELECT  valor_desenbolsado AS passado
-FROM historico
-WHERE data_contratacao BETWEEN '${dataInicialStrPassado}' AND '${dataFinalStrPassado}'
-AND subsetor_cnae = '${setor}') AS ano_passado
-
-DASH Variação Juros
-SELECT  AVG(juros) as juros
-       ,MONTH(data_contratacao) AS mes
-FROM historico
-WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
-AND subsetor_cnae = '${setor}'
-GROUP BY mes
-ORDER BY  mes
-
 HOME 
 */
 

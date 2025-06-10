@@ -24,7 +24,7 @@
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
-        
+
       </div>
     </div>
 
@@ -39,7 +39,7 @@
       <div class="dashboard-content">
         <div class="dashboard-filters">
           <div id="select_option_setor">
-            
+
           </div>
           <select name="" id="select_ano">
             <option value="2024">2024</option>
@@ -143,7 +143,7 @@
     ];
 
     const optionsContainer = document.querySelector('.options');
-    
+
     optionsContainer.innerHTML = `
       <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
         <img src="../assets/icon/home 3.png" alt="">
@@ -266,8 +266,8 @@
         return;
       }
 
-      await creditoConcedido(ano, mesInicio, mesFim,sub_setor);
-      await valorMedioOperacoesMes(ano, mesInicio, mesFim,sub_setor);
+      await creditoConcedido(ano, mesInicio, mesFim, sub_setor);
+      await valorMedioOperacoesMes(ano, mesInicio, mesFim, sub_setor);
       await exibirKpiDash(ano, mesInicio, mesFim, sub_setor);
       // await jurosMedioSetor(ano, mesInicio, mesFim);
       // await prazoAmortizacaoMes(ano, mesInicio, mesFim);
@@ -301,21 +301,21 @@
           "Content-Type": "application/json",
         }
       })
-      .then(resposta => {
-        if (resposta.ok) {
-          return resposta.json();
-        } else {
-          throw new Error("Erro ao buscar dados");
-        }
-      })
-      .then(json => {
-        // graficoValorMedioOperacoesMes(json);
-        console.log(json)
-        
-      })
-      .catch(erro => {
-        console.error("Erro:", erro);
-      });
+        .then(resposta => {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar dados");
+          }
+        })
+        .then(json => {
+          // graficoValorMedioOperacoesMes(json);
+          console.log(json)
+
+        })
+        .catch(erro => {
+          console.error("Erro:", erro);
+        });
     }
 
     function graficoValorMedioOperacoesMes(dados) {
@@ -323,7 +323,7 @@
       console.log(dados)
       let label = [];
       let data = [];
-      
+
       // Gerar labels dos meses no formato "Mês/Ano"
       const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
 
@@ -356,8 +356,7 @@
 
     }
 
-
-    async function creditoConcedido(ano, mesInicio, mesFim,sub_setor) {
+    async function creditoConcedido(ano, mesInicio, mesFim, sub_setor) {
       console.log("AQ")
       setor = 'Transporte terrestre'
       let url = "/grafico/creditoConcedido";
@@ -371,20 +370,20 @@
           "Content-Type": "application/json",
         }
       })
-      .then(resposta => {
-        if (resposta.ok) {
-          return resposta.json();
-        } else {
-          throw new Error("Erro ao buscar dados");
-        }
-      })
-      .then(json => {
-        graficoCreditoConcedido(json);
-        
-      })
-      .catch(erro => {
-        console.error("Erro:", erro);
-      });
+        .then(resposta => {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar dados");
+          }
+        })
+        .then(json => {
+          graficoCreditoConcedido(json);
+
+        })
+        .catch(erro => {
+          console.error("Erro:", erro);
+        });
     }
 
     function graficoCreditoConcedido(dados) {
@@ -392,7 +391,7 @@
       console.log(dados)
       let label = [];
       let data = [];
-      
+
       // Gerar labels dos meses no formato "Mês/Ano"
       const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
 
@@ -402,26 +401,26 @@
       });
 
       new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: labelMes,
-        datasets: [{
-          label: 'Valor de crédito concedido',
-          data: data,
-          borderColor: '#04251F',
-          backgroundColor: 'rgba(4, 37, 31, 0.2)',
-          fill: true
-        }]
-      },
-      options: {
-        plugins: { legend: { display: true } },
-        scales: {
-          y: { beginAtZero: true }
+        type: 'line',
+        data: {
+          labels: labelMes,
+          datasets: [{
+            label: 'Valor de crédito concedido',
+            data: data,
+            borderColor: '#04251F',
+            backgroundColor: 'rgba(4, 37, 31, 0.2)',
+            fill: true
+          }]
         },
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    });
+        options: {
+          plugins: { legend: { display: true } },
+          scales: {
+            y: { beginAtZero: true }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
 
     }
 
