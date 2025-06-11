@@ -35,5 +35,9 @@ router.get("/creditoConcedido/:ano/:mesInicial/:mesFinal/:setor", function (req,
   graficoController.creditoConcedido(req, res);
 });
 
+router.get("/exibirKpiHome/:ano/:mesInicial/:mesFinal", function (req, res) {
+  graficoController.exibirKpiHome(req, res);
+});
+
 
 module.exports = router;

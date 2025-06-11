@@ -164,7 +164,6 @@
     validarEmail();
     validarSenha();
     validarCEP();
-    validarEstado();
     validarBairro();
     validarRua();
     validarNumero();
@@ -183,9 +182,7 @@
         var cepVar = input_cep.value;
         var bairroVar = input_bairro.value;
         var logradouroVar = input_logradouro.value;
-        var estadoVar = input_estado.value;
         var numeroVar = input_numero.value;
-        var ufVar = uf.value;
         var complementoVar = input_complemento.value;
 
         fetch("/usuarios/cadastrar", {
@@ -204,8 +201,6 @@
                 bairroServer: bairroVar,
                 logradouroServer: logradouroVar,
                 numeroServer: numeroVar,
-                estadoServer: estadoVar,
-                ufServer: ufVar,
                 complementoServer: complementoVar
             }),
         })
@@ -217,7 +212,7 @@
                 console.log("Cadastro realizado com sucesso!");
                 div_mensagem.innerHTML = "<span style='color: green;'>Cadastro realizado com sucesso!</span>";
                 
-                window.location.href = "index.html";  
+                window.location.href = "login.html";  
             } else {
                 div_mensagem.innerHTML = "<span style='color: red;'>Erro ao cadastrar. Tente novamente.</span>";
             }
@@ -481,21 +476,6 @@ function validarCEP() {
     }
     div_mensagem2.innerHTML = mensagem;
 
-}
-
-function validarEstado() {
-    var estado = input_estado.value;
-    var mensagem = "";
-
-    if (estado.length < 6) {
-        input_estado.style.borderColor = "red";
-        mensagem += "Nome de estado inválido.<br>";
-        correto = false;
-    } else {
-        input_estado.style.borderColor = "green";
-        mensagem += "<span style='color: green;'>Estado válido</span>";
-    }
-    div_mensagem2.innerHTML = mensagem;
 }
 
 function validarBairro() {

@@ -14,7 +14,7 @@ optionsContainer.innerHTML = `
 <img src="../assets/icon/bar-chart 4.png" alt="">
 <a href="../dashboard/dashboard.html">DASHBOARD</a>
 </div>
-${tipoUsuario == 1 ? `
+${tipoUsuario == 0 ? `
 <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
 <img src="../assets/icon/user (1) 2.png" alt="">
 <a href="../dashboard/users.html">USUÁRIOS</a>
@@ -24,6 +24,10 @@ ${tipoUsuario == 1 ? `
           <img src="../assets/icon/edit (1) 1.png" alt="">
 <a href="../dashboard/perfil.html">EDITAR</a>
 </div>
+<div class="option ${paginaAtual.includes('mensagens.html') ? 'selected' : ''} ">
+        <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+        <a href="../dashboard/mensagens.html">MENSAGENS</a>
+      </div>
 <div class="option">
 <img src="../assets/icon/logout 2.png" alt="">
 <a href="../index.html">SAIR</a>
@@ -72,7 +76,7 @@ function carregarPerfil() {
                   </div>
                 `;
 
-                if (tipoUsuario == 1) {
+                if (tipoUsuario == 0) {
                     htmlCampos = `
                     <div class="campos">
                         ${camposUsuarioAdmin}
@@ -90,7 +94,7 @@ function carregarPerfil() {
                 ];
 
                 camposComuns.forEach(makeEditable);
-                if (tipoUsuario == 1) {
+                if (tipoUsuario == 0) {
                     camposGerente.forEach(makeEditable);
                 }
 
@@ -157,7 +161,7 @@ function salvarPerfil() {
         senha: document.getElementById('senhaInput').value,
     };
 
-    if (tipoUsuario == 1) {
+    if (tipoUsuario == 0) {
         Object.assign(dadosAtualizados, {
             nome_fantasia: document.getElementById('nome_fantasiaInput').value,
             razao_social: document.getElementById('razao_socialInput').value,

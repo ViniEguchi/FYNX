@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS login (
 	idLogin INT AUTO_INCREMENT,
 	fkFuncionario INT,
 	fkEmpresa INT,
-	gerente BOOLEAN,
+	gerente BOOLEAN DEFAULT TRUE,
 	email VARCHAR(100),
 	senha VARCHAR(50),
 
@@ -80,18 +80,18 @@ CREATE TABLE IF NOT EXISTS login (
 );
 
 INSERT INTO login VALUES
-	(default, 1, 1, true, "Francis@email.com", "Abc1234@"),
-	(default, 2, 1, false, "Nick@email.com", "Abc1234@"),
-	(default, 3, 1, false, "Lucas@email.com", "Abc1234@"),
-	(default, 4, 2, false, "Rodrigo@email.com", "Abc1234@"),
-	(default, 5, 2, true, "Maria@email.com", "Abc1234@"),
-	(default, 6, 3, false, "Roberto@email.com", "Abc1234@"),
-	(default, 7, 3, false, "Caio@email.com", "Abc1234@"),
-	(default, 8, 3, true, "Breno@email.com", "Abc1234@"),
-	(default, 9, 4, true, "Vitoria@email.com", "Abc1234@"),
-	(default, 10, 4, false, "Marcela@email.com", "Abc1234@"),
-	(default, 11, 4, false, "Thiago@email.com", "Abc1234@"),
-	(default, 12, 4, true, "Shirley@email.com", "Abc1234@");
+	(default, 1, 1, false, "francis@email.com", "12345678"),
+	(default, 2, 1, true, "nick@email.com", "12345678"),
+	(default, 3, 1, true, "lucas@email.com", "12345678"),
+	(default, 4, 2, false, "rodrigo@email.com", "12345678"),
+	(default, 5, 2, true, "maria@email.com", "12345678"),
+	(default, 6, 3, true, "roberto@email.com", "12345678"),
+	(default, 7, 3, false, "caio@email.com", "12345678"),
+	(default, 8, 3, true, "breno@email.com", "12345678"),
+	(default, 9, 4, true, "vitoria@email.com", "12345678"),
+	(default, 10, 4, true, "marcela@email.com", "12345678"),
+	(default, 11, 4, true, "thiago@email.com", "12345678"),
+	(default, 12, 4, false, "shirley@email.com", "12345678");
 
 CREATE TABLE IF NOT EXISTS log (
 	idLog INT PRIMARY KEY AUTO_INCREMENT,
@@ -123,11 +123,9 @@ CREATE TABLE IF NOT EXISTS historico (
 
 CREATE TABLE IF NOT EXISTS formulario (
 	idFormulario INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
 	mensagem VARCHAR(300),
-	dt_criacao DATE,
-	dt_atualizacao DATE,
+	dt_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+	dt_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	fkFuncionario INT,
 	fkEmpresa INT,
 

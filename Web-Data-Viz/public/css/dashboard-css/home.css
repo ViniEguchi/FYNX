@@ -2,13 +2,26 @@ main {
   height: 100% !important;
 }
 
+.container-selects {
+  display: flex; 
+  margin-top: 20px; 
+  gap: 10px; 
+  width: 95%;
+}
+
+select {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+}
+
 .caixa-principal {
   background-color: #04251f;
   padding: 20px;
   border-radius: 8px;
   margin-left: 25px;
   margin-right: 25px;
-  margin-top: 10px;
+  margin-top: 15px;
   border: 3px solid #ffffff;
   width: 95%;
 }
@@ -30,7 +43,7 @@ main {
 
 .caixa-setor p {
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .caixa-branca {
@@ -38,12 +51,12 @@ main {
   border: 3px solid white;
   border-radius: 6px;
   width: 80%;
-  height: 50px;
+  height: 40px;
 }
 
 .graficos-superiores {
   display: flex;
-  margin-top: 5px;
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -152,10 +165,6 @@ canvas {
   .caixa-setor {
     width: 90%;
     font-size: 14px;
-  }
-
-  .caixa-branca {
-    width: 100%;
   }
 
   .caixa-branca p {
