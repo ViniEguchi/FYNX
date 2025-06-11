@@ -24,7 +24,7 @@
       <img class="logo" src="../assets/icon/v5-removebg-preview 2.png">
 
       <div class="options">
-        
+
       </div>
     </div>
 
@@ -39,7 +39,7 @@
       <div class="dashboard-content">
         <div class="dashboard-filters">
           <div id="select_option_setor">
-            
+
           </div>
           <select name="" id="select_ano">
             <option value="2024">2024</option>
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="caixa-setor">
-              <p>Variação Prazo de Carencia</p>
+              <p>Média do Prazo total</p>
               <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;"
                 id="kpi_variacao_prazo">Favor selecionar um setor
               </div>
@@ -143,7 +143,7 @@
     ];
 
     const optionsContainer = document.querySelector('.options');
-    
+
     optionsContainer.innerHTML = `
       <div class="option ${paginaAtual.includes('home.html') ? 'selected' : ''}">
         <img src="../assets/icon/home 3.png" alt="">
@@ -220,14 +220,25 @@
       })
         .then(function (resposta) {
           if (resposta.ok) {
-            console.log("sucesso!");
             resposta.json().then(json => {
-              console.log(JSON.stringify(json));
-              var variacao_juros = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
-              var variacao_prazo = ((json[0].carencia_max - json[0].carencia_min) / json[0].carencia_min) * 100;
+              // console.log(json[0].carencia_max)
+              if (json[0].minimo == 0) {
+                var variacao_juros = 1;
+              } else {
+                var variacao_juros = ((json[0].maximo - json[0].minimo) / json[0].minimo) * 100;
+              }
 
-              kpi_mes_mais_operacoes.innerHTML = `${json[0].mes}`;
-              kpi_variacao_prazo.innerHTML = `${json[0].variacao_prazo.toFixed(2)}%`;
+              if (json[0].carencia_min == 0) {
+                var variacao_prazo = 1;
+              } else {
+                var variacao_prazo = ((json[0].carencia_max - json[0].carencia_min) / json[0].carencia_min) * 100;
+              }
+
+              // kpi_mes_mais_operacoes.innerHTML = `${json[0].mes}`;
+              kpi_mes_mais_operacoes.innerHTML = `${meses[json[0].mes - 1]}`;
+
+              // kpi_variacao_prazo.innerHTML = `${variacao_prazo.toFixed(2)}%`;
+              kpi_variacao_prazo.innerHTML = `${json[0].prazo_total_medio} Meses`;
               kpi_variacao_juros.innerHTML = `${variacao_juros.toFixed(2)}%`;
 
             })
@@ -257,8 +268,8 @@
         return;
       }
 
-      await creditoConcedido(ano, mesInicio, mesFim,sub_setor);
-      await valorMedioOperacoesMes(ano, mesInicio, mesFim,sub_setor);
+      await creditoConcedido(ano, mesInicio, mesFim, sub_setor);
+      await valorMedioOperacoesMes(ano, mesInicio, mesFim, sub_setor);
       await exibirKpiDash(ano, mesInicio, mesFim, sub_setor);
       // await jurosMedioSetor(ano, mesInicio, mesFim);
       // await prazoAmortizacaoMes(ano, mesInicio, mesFim);
@@ -279,8 +290,8 @@
     const ctx1 = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
 
-    async function valorMedioOperacoesMes(ano, mesInicio, mesFim) {
-      setor = 'Transporte terrestre'
+    async function valorMedioOperacoesMes(ano, mesInicio, mesFim, setor) {
+      // setor = 'Transporte terrestre'
       let url = "/grafico/valorMedioOperacoesMes";
       if (ano && mesInicio && mesFim) {
         url = `/grafico/valorMedioOperacoesMes/${ano}/${mesInicio}/${mesFim}/${setor}`;
@@ -292,34 +303,33 @@
           "Content-Type": "application/json",
         }
       })
-      .then(resposta => {
-        if (resposta.ok) {
-          return resposta.json();
-        } else {
-          throw new Error("Erro ao buscar dados");
-        }
-      })
-      .then(json => {
-        graficoValorMedioOperacoesMes(json);
-        
-      })
-      .catch(erro => {
-        console.error("Erro:", erro);
-      });
+        .then(resposta => {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar dados");
+          }
+        })
+        .then(json => {
+          graficoValorMedioOperacoesMes(json, ano);
+        })
+        .catch(erro => {
+          console.error("Erro:", erro);
+        });
     }
 
-    function graficoValorMedioOperacoesMes(dados) {
+    function graficoValorMedioOperacoesMes(dados, ano) {
       destroyChart("grafico1")
-      console.log(dados)
       let label = [];
-      let data = [];
-      
+      let dataAtual = [];
+      let dataPassado = [];
       // Gerar labels dos meses no formato "Mês/Ano"
-      const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
-
+      const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}`))];
+      // const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
       dados.forEach(element => {
         label.push(element.mes)
-        data.push(element.media_valores_mes)
+        dataAtual.push(element.atual);
+        dataPassado.push(element.passado);
       });
 
       new Chart(ctx1, {
@@ -327,18 +337,38 @@
         data: {
           labels: labelMes,
           datasets: [{
-            label: 'Valor médio de operações por mês',
-            data: data,
+            label: ano,
+            data: dataAtual,
             borderColor: '#04251F',
-            backgroundColor: 'rgba(4, 37, 31, 0.2)',
-            fill: true
+            backgroundColor: 'rgba(4, 37, 31, 0.1)',
+            fill: true,
+            tension: 0.3
+          },
+          {
+            label: ano - 1,
+            data: dataPassado,
+            borderColor: '#808080',
+            backgroundColor: 'rgba(128, 128, 128, 0.1)',
+            fill: true,
+            tension: 0.3
           }]
         },
         options: {
-          plugins: { legend: { display: true } },
+          plugins: { 
+            legend: { display: true },
+            title: {
+            display: true,            
+            text: 'Comparativo Mensal de Valor Desembolsado', 
+            font: {
+              size: 18             
+            },
+          },
+        
+          },
           scales: {
             y: { beginAtZero: true }
           },
+
           responsive: true,
           maintainAspectRatio: false,
         }
@@ -346,13 +376,10 @@
 
     }
 
-
-    async function creditoConcedido(ano, mesInicio, mesFim,sub_setor) {
-      console.log("AQ")
-      setor = 'Transporte terrestre'
+    async function creditoConcedido(ano, mesInicio, mesFim, sub_setor) {
       let url = "/grafico/creditoConcedido";
       if (ano && mesInicio && mesFim) {
-        url = `/grafico/creditoConcedido/${ano}/${mesInicio}/${mesFim}/${setor}`;
+        url = `/grafico/creditoConcedido/${ano}/${mesInicio}/${mesFim}/${sub_setor}`;
       }
 
       fetch(url, {
@@ -361,59 +388,70 @@
           "Content-Type": "application/json",
         }
       })
-      .then(resposta => {
-        if (resposta.ok) {
-          return resposta.json();
-        } else {
-          throw new Error("Erro ao buscar dados");
-        }
-      })
-      .then(json => {
-        graficoCreditoConcedido(json);
-        
-      })
-      .catch(erro => {
-        console.error("Erro:", erro);
-      });
+        .then(resposta => {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar dados");
+          }
+        })
+        .then(json => {
+          graficoCreditoConcedido(json);
+
+        })
+        .catch(erro => {
+          console.error("Erro:", erro);
+        });
     }
 
-    function graficoCreditoConcedido(dados) {
-      destroyChart("grafico2")
-      console.log(dados)
-      let label = [];
-      let data = [];
-      
-      // Gerar labels dos meses no formato "Mês/Ano"
-      const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+function graficoCreditoConcedido(dados) {
+  destroyChart("grafico2");
+  
+  let label = [];
+  let data = [];
 
-      dados.forEach(element => {
-        label.push(element.mes)
-        data.push(element.total_mes)
-      });
+  
 
-      new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: labelMes,
-        datasets: [{
-          label: 'Valor de crédito concedido',
-          data: data,
-          borderColor: '#04251F',
-          backgroundColor: 'rgba(4, 37, 31, 0.2)',
-          fill: true
-        }]
+  const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}`))];
+
+  dados.forEach(element => {
+    label.push(element.mes);
+    data.push(element.variacao_percentual);
+  });
+
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: labelMes,
+      datasets: [{
+        label: 'Variação Percentual dos Juros Médios',
+        data: data,
+        backgroundColor: 'rgba(4, 37, 31, 0.6)',
+        borderColor: '#04251F',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false },
+      title: {
+            display: true,            
+            text: 'Variação Percentual dos Juros', 
+            font: {
+              size: 18             
+            },
+          }    
       },
-      options: {
-        plugins: { legend: { display: true } },
-        scales: {
-          y: { beginAtZero: true }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    });
-
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
     }
+  });
+}
+
 
   </script>
 </body>
