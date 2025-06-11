@@ -102,29 +102,29 @@
 
       <div class="container-selects">
         <select name="" id="SelectAno">
-          <option>2002</option>
-          <option>2003</option>
-          <option>2004</option>
-          <option>2005</option>
-          <option>2006</option>
-          <option>2007</option>
-          <option>2008</option>
-          <option>2009</option>
-          <option>2010</option>
-          <option>2011</option>
-          <option>2012</option>
-          <option>2013</option>
-          <option>2014</option>
-          <option>2015</option>
-          <option>2016</option>
-          <option>2017</option>
-          <option>2018</option>
-          <option>2019</option>
-          <option>2020</option>
-          <option>2021</option>
-          <option>2022</option>
-          <option>2023</option>
           <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+            <option>2020</option>
+            <option>2019</option>
+            <option>2018</option>
+            <option>2017</option>
+            <option>2016</option>
+            <option>2015</option>
+            <option>2014</option>
+            <option>2013</option>
+            <option>2012</option>
+            <option>2011</option>
+            <option>2010</option>
+            <option>2009</option>
+            <option>2008</option>
+            <option>2007</option>
+            <option>2006</option>
+            <option>2005</option>
+            <option>2004</option>
+            <option>2003</option>
+            <option>2002</option>
         </select>
         <select name="" id="mesInicio">
           <option value="1">Janeiro</option>
@@ -185,7 +185,7 @@
 
       <div class="graficos-superiores">
         <div class="grafico-box"><canvas id="grafico1"></canvas></div>
-        <div class="grafico-box"><canvas id="grafico2"></canvas></div>
+        <div class="grafico-box"><canvas id="grafico2" style="width: 100%;"></canvas></div>
         <div class="grafico-box"><canvas id="grafico3"></canvas></div>
       </div>
 
@@ -206,7 +206,7 @@
 <script>
 
   async function carregarGraficos() {
-    await totalOperacoes();
+    await prazoMaisAceito();
     await jurosMedioSetor();
     await prazoAmortizacaoMes();
     await valorOperacoesMes();
@@ -249,7 +249,7 @@
       return;
     }
 
-    await totalOperacoes(ano, mesInicio, mesFim);
+    await prazoMaisAceito(ano, mesInicio, mesFim);
     await jurosMedioSetor(ano, mesInicio, mesFim);
     await prazoAmortizacaoMes(ano, mesInicio, mesFim);
     await valorOperacoesMes(ano, mesInicio, mesFim);
@@ -299,13 +299,8 @@
       });
   }
 
-  async function totalOperacoes(ano, mesInicio, mesFim) {
-    let url = "/grafico/totalOperacoes";
-    if (ano && mesInicio && mesFim) {
-      url = `/grafico/totalOperacoes/${ano}/${mesInicio}/${mesFim}`;
-    }
-
-    fetch(url, {
+  async function prazoMaisAceito(ano, mesInicial, mesFinal) {
+    fetch(`/grafico/prazoMaisAceito/${ano}/${mesInicial}/${mesFinal}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -319,7 +314,7 @@
         }
       })
       .then(json => {
-        graficoTotalOperacoes(json);
+        graficoPrazoMaisAceito(json);
       })
       .catch(erro => {
         console.error("Erro:", erro);
@@ -327,37 +322,44 @@
   }
 
 
-  function graficoTotalOperacoes(dados) {
-    destroyChart("grafico1")
-    console.log(dados)
-    let label = [];
-    let data = [];
-    dados.forEach(element => {
-      label.push(element.setor_cnae)
-      data.push(element.total_valor)
-    });
+  function graficoPrazoMaisAceito(dados) {
+  destroyChart("grafico1")
+  console.log(dados)
 
-    new Chart(document.getElementById("grafico1"), {
-      type: 'bar',
-      data: {
-        labels: label,
-        datasets: [{
-          label: 'Total de operações por setor',
-          data: data,
-          backgroundColor: '#04251F'
-        }]
+  let label = [];
+  let data = [];
+
+  const nomesMeses = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
+
+  dados.forEach(element => {
+    let nomeMes = nomesMeses[element.mes - 1];
+    label.push(nomeMes);
+    data.push(element.contagem);
+  });
+
+  new Chart(document.getElementById("grafico1"), {
+    type: 'line',
+    data: {
+      labels: label,
+      datasets: [{
+        label: 'Qtd de operações',
+        data: data,
+        backgroundColor: '#04251F'
+      }]
+    },
+    options: {
+      plugins: { legend: { display: true } },
+      scales: {
+        y: { beginAtZero: true }
       },
-      options: {
-        plugins: { legend: { display: true } },
-        scales: {
-          y: { beginAtZero: true }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    });
-
-  }
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
 
   async function jurosMedioSetor(ano, mesInicio, mesFim) {
     let url = "/grafico/JurosMedioSetor";
@@ -396,6 +398,7 @@
       label.push(element.setor_cnae)
       data.push(element.media)
     });
+    console.log(label)
     const isSmallScreen = window.innerWidth < 600;
 
     new Chart(document.getElementById("grafico2"), {
@@ -425,18 +428,10 @@
           x: {
             ticks: {
               autoSkip: true,
-              maxRotation: isSmallScreen ? 45 : 0,
               font: {
-                size: isSmallScreen ? 10 : 14
+                size: 8
               }
             },
-            title: {
-              display: true,
-              text: 'Setor',
-              font: {
-                size: isSmallScreen ? 12 : 16
-              }
-            }
           },
           y: {
             beginAtZero: true,
