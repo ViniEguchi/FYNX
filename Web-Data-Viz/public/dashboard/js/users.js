@@ -1,7 +1,7 @@
 window.onload = () => {
     const isGerente = sessionStorage.getItem("IS_GERENTE");
 
-    if (isGerente !== "1") {
+    if (isGerente != 0) {
         
         window.location.href = "/pagina-nao-autorizada.html";
         
@@ -119,18 +119,6 @@ function makeEditable(fieldId, idSufixo) {
             return;
         }
 
-        // const isSelect = input.tagName === 'SELECT';
-        // if (isSelect) {
-        //     input.addEventListener('change', () => {
-        //         const selectedText = input.options[input.selectedIndex].text;
-        //         span.textContent = selectedText;
-        //         span.style.display = 'block';
-        //         input.style.display = 'none';
-        //         saveBtn.style.display = 'block';
-        //     });
-        // }
-
-
         span.addEventListener('click', () => {
             span.style.display = 'none';
             input.style.display = 'block';
@@ -171,7 +159,6 @@ function salvarPerfil(idFuncionario) {
         senha: document.getElementById(`senha_${idFuncionario}Input`).value,
         isGerente: document.getElementById(`gerente_${idFuncionario}Input`).value
     };
-
 
     fetch(`/funcionarios/atualizar/${idFuncionario}`, {
         method: "PUT",

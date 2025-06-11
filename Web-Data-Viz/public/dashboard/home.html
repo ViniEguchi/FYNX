@@ -42,6 +42,10 @@
           <a href="../dashboard/perfil.html">EDITAR</a>
         </div>
         <div class="option">
+          <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+          <a href="../dashboard/mensagens.html">MENSAGENS</a>
+        </div>
+        <div class="option">
           <img src="../assets/icon/logout 2.png" alt="">
           <a href="../index.html">SAIR</a>
         </div>
@@ -52,36 +56,6 @@
       <div class="header">
         <div class="container-textos-header">
           <p>INICIO</p>
-          <input type="text" id="inputAno"> 
-          <select name="" id="mesInicio">
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-            <option value="4">Abril</option>
-            <option value="5">Maio</option>
-            <option value="6">Junho</option>
-            <option value="7">Julho</option>
-            <option value="8">Agosto</option>
-            <option value="9">Setembro</option>
-            <option value="10">Outubro</option>
-            <option value="11">Novembro</option>
-            <option value="12">Dezembro</option>
-          </select>
-          <select name="" id="mesFim">
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-            <option value="4">Abril</option>
-            <option value="5">Maio</option>
-            <option value="6">Junho</option>
-            <option value="7">Julho</option>
-            <option value="8">Agosto</option>
-            <option value="9">Setembro</option>
-            <option value="10">Outubro</option>
-            <option value="11">Novembro</option>
-            <option value="12">Dezembro</option>
-          </select>
-          <button onclick="filtrarPorPeriodo()">Filtrar</button>
           <p class="bem-vindo">BEM VINDO, <span id="usuario"></span>!</p>
 
           <div class="container-hamburguer-menu" style="display: none;">
@@ -109,6 +83,10 @@
                   <a href="../dashboard/perfil.html">EDITAR</a>
                 </div>
                 <div class="option">
+                  <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+                  <a href="../dashboard/mensagens.html">MENSAGENS</a>
+                </div>
+                <div class="option">
                   <img src="../assets/icon/logout 2.png" alt="">
                   <a href="../index.html">SAIR</a>
                 </div>
@@ -122,21 +100,84 @@
         </div>
       </div>
 
+      <div class="container-selects">
+        <select name="" id="SelectAno">
+          <option>2002</option>
+          <option>2003</option>
+          <option>2004</option>
+          <option>2005</option>
+          <option>2006</option>
+          <option>2007</option>
+          <option>2008</option>
+          <option>2009</option>
+          <option>2010</option>
+          <option>2011</option>
+          <option>2012</option>
+          <option>2013</option>
+          <option>2014</option>
+          <option>2015</option>
+          <option>2016</option>
+          <option>2017</option>
+          <option>2018</option>
+          <option>2019</option>
+          <option>2020</option>
+          <option>2021</option>
+          <option>2022</option>
+          <option>2023</option>
+          <option>2024</option>
+        </select>
+        <select name="" id="mesInicio">
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+        <select name="" id="mesFim">
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+        <button onclick="filtrarPorPeriodo()">Filtrar</button>
+      </div>
       <div class="caixa-principal">
         <div class="linha-setores">
           <div class="caixa-setor">
-            <p>Setor c/ maior operação</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Varejo -
-              90.000</div>
+            <p>Setor c/ Menor Juros</p>
+            <div class="caixa-branca" id="kpi_menor_juros"
+              style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro</div>
           </div>
           <div class="caixa-setor">
-            <p>Menor taxa de juros</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">Industria
-              extrativa - 3% a.a</div>
+            <p>Setor c/ Menor Investimento</p>
+            <div class="caixa-branca" id="kpi_menor_investimento"
+              style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro</div>
           </div>
           <div class="caixa-setor">
-            <p>Valor Total Concedido</p>
-            <div class="caixa-branca" style="display: flex; align-items: center; justify-content: center;">R$ 1.530.000
+            <p>Setor c/ Menos Risco</p>
+            <div class="caixa-branca" id="kpi_menor_risco"
+              style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro
+            </div>
+          </div>
+          <div class="caixa-setor">
+            <p>Setor c/ Maior Risco</p>
+            <div class="caixa-branca" id="kpi_maior_risco"
+              style="display: flex; align-items: center; justify-content: center;">Favor Escolher Um Filtro
             </div>
           </div>
         </div>
@@ -164,13 +205,13 @@
 
 <script>
 
-async function carregarGraficos() {
-  await totalOperacoes();
-  await jurosMedioSetor();
-  await prazoAmortizacaoMes();
-  await valorOperacoesMes();
-}
-  
+  async function carregarGraficos() {
+    await totalOperacoes();
+    await jurosMedioSetor();
+    await prazoAmortizacaoMes();
+    await valorOperacoesMes();
+  }
+
 
   function toggleMenu() {
     const sidebar = document.getElementById("sidebar");
@@ -193,64 +234,97 @@ async function carregarGraficos() {
   //   }
   // }
   // Gráfico 1 - Setores A, B, C
-async function filtrarPorPeriodo() {
-  const ano = document.getElementById('inputAno').value;
-  const mesInicio = parseInt(document.getElementById('mesInicio').value);
-  const mesFim = parseInt(document.getElementById('mesFim').value);
+  async function filtrarPorPeriodo() {
+    const ano = document.getElementById('SelectAno').value;
+    const mesInicio = parseInt(document.getElementById('mesInicio').value);
+    const mesFim = parseInt(document.getElementById('mesFim').value);
 
-  if (!ano || isNaN(mesInicio) || isNaN(mesFim)) {
-    alert("Preencha todos os campos corretamente!");
-    return;
+    if (!ano || isNaN(mesInicio) || isNaN(mesFim)) {
+      alert("Preencha todos os campos corretamente!");
+      return;
+    }
+
+    if (mesInicio > mesFim) {
+      alert("O mês inicial não pode ser maior que o mês final.");
+      return;
+    }
+
+    await totalOperacoes(ano, mesInicio, mesFim);
+    await jurosMedioSetor(ano, mesInicio, mesFim);
+    await prazoAmortizacaoMes(ano, mesInicio, mesFim);
+    await valorOperacoesMes(ano, mesInicio, mesFim);
+    exibirKpiHome(ano, mesInicio, mesFim);
   }
 
-  if (mesInicio > mesFim) {
-    alert("O mês inicial não pode ser maior que o mês final.");
-    return;
-  }
-
-  await totalOperacoes(ano, mesInicio, mesFim);
-  await jurosMedioSetor(ano, mesInicio, mesFim);
-  await prazoAmortizacaoMes(ano, mesInicio, mesFim);
-  await valorOperacoesMes(ano, mesInicio, mesFim);
-}
-
-function destroyChart(chartId) {
-  const chartElement = document.getElementById(chartId);
-  if (chartElement) {
-    // Verifique se já existe um gráfico e destrua
-    const chartInstance = Chart.getChart(chartId); // Obtém a instância do gráfico
-    if (chartInstance) {
-      chartInstance.destroy(); // Destrói o gráfico existente
+  function destroyChart(chartId) {
+    const chartElement = document.getElementById(chartId);
+    if (chartElement) {
+      // Verifique se já existe um gráfico e destrua
+      const chartInstance = Chart.getChart(chartId); // Obtém a instância do gráfico
+      if (chartInstance) {
+        chartInstance.destroy(); // Destrói o gráfico existente
+      }
     }
   }
-}
 
-async function totalOperacoes(ano, mesInicio, mesFim) {
-  let url = "/grafico/totalOperacoes";
-  if (ano && mesInicio && mesFim) {
-    url = `/grafico/totalOperacoes/${ano}/${mesInicio}/${mesFim}`;
-  }
-
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  function exibirKpiHome(ano, mesInicio, mesFim) {
+    let url = "/grafico/exibirKpiHome";
+    if (ano && mesInicio && mesFim) {
+      url = `/grafico/exibirKpiHome/${ano}/${mesInicio}/${mesFim}`;
     }
-  })
-    .then(resposta => {
-      if (resposta.ok) {
-        return resposta.json();
-      } else {
-        throw new Error("Erro ao buscar dados");
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       }
     })
-    .then(json => {
-      graficoTotalOperacoes(json);
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("sucesso!");
+          resposta.json().then(json => {
+            console.log(JSON.stringify(json));
+
+            kpi_menor_juros.innerHTML = `${json[0].menor_juros}`
+            kpi_menor_investimento.innerHTML = `${json[0].setor_menor_investimento}`
+            kpi_menor_risco.innerHTML = `${json[0].setor_maior_risco}`
+            kpi_maior_risco.innerHTML = `${json[0].setor_menor_risco}`
+          })
+        } else {
+          console.log(resposta)
+        }
+      })
+      .catch(function (erro) {
+        console.error("Erro:", erro);
+      });
+  }
+
+  async function totalOperacoes(ano, mesInicio, mesFim) {
+    let url = "/grafico/totalOperacoes";
+    if (ano && mesInicio && mesFim) {
+      url = `/grafico/totalOperacoes/${ano}/${mesInicio}/${mesFim}`;
+    }
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
     })
-    .catch(erro => {
-      console.error("Erro:", erro);
-    });
-}
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
+        }
+      })
+      .then(json => {
+        graficoTotalOperacoes(json);
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
+  }
 
 
   function graficoTotalOperacoes(dados) {
@@ -286,31 +360,31 @@ async function totalOperacoes(ano, mesInicio, mesFim) {
   }
 
   async function jurosMedioSetor(ano, mesInicio, mesFim) {
-  let url = "/grafico/JurosMedioSetor";
-  if (ano && mesInicio && mesFim) {
-    url = `/grafico/JurosMedioSetor/${ano}/${mesInicio}/${mesFim}`;
-  }
-
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+    let url = "/grafico/JurosMedioSetor";
+    if (ano && mesInicio && mesFim) {
+      url = `/grafico/JurosMedioSetor/${ano}/${mesInicio}/${mesFim}`;
     }
-  })
-    .then(resposta => {
-      if (resposta.ok) {
-        return resposta.json();
-      } else {
-        throw new Error("Erro ao buscar dados");
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       }
     })
-    .then(json => {
-      graficoJurosMedioSetor(json);
-    })
-    .catch(erro => {
-      console.error("Erro:", erro);
-    });
-}
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
+        }
+      })
+      .then(json => {
+        graficoJurosMedioSetor(json);
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
+  }
 
 
   // Gráfico 2 - Setores A, B, C
@@ -324,266 +398,266 @@ async function totalOperacoes(ano, mesInicio, mesFim) {
     });
     const isSmallScreen = window.innerWidth < 600;
 
-new Chart(document.getElementById("grafico2"), {
-  type: 'bar',
-  data: {
-    labels: label,
-    datasets: [{
-      label: 'Juros médio por setor',
-      data: data,
-      backgroundColor: ['#04251F', '#04251F', '#04251F']
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          font: {
-            size: isSmallScreen ? 10 : 14
-          }
-        }
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          autoSkip: true,
-          maxRotation: isSmallScreen ? 45 : 0,
-          font: {
-            size: isSmallScreen ? 10 : 14
-          }
-        },
-        title: {
-          display: true,
-          text: 'Setor',
-          font: {
-            size: isSmallScreen ? 12 : 16
-          }
-        }
+    new Chart(document.getElementById("grafico2"), {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Juros médio por setor',
+          data: data,
+          backgroundColor: ['#04251F', '#04251F', '#04251F']
+        }]
       },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          display: false,
-          font: {
-            size: isSmallScreen ? 10 : 14
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: {
+                size: isSmallScreen ? 10 : 14
+              }
+            }
           }
         },
-        title: {
-          display: true,
-          text: 'Juros médio (%)',
-          font: {
-            size: isSmallScreen ? 12 : 16
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: true,
+              maxRotation: isSmallScreen ? 45 : 0,
+              font: {
+                size: isSmallScreen ? 10 : 14
+              }
+            },
+            title: {
+              display: true,
+              text: 'Setor',
+              font: {
+                size: isSmallScreen ? 12 : 16
+              }
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              display: false,
+              font: {
+                size: isSmallScreen ? 10 : 14
+              }
+            },
+            title: {
+              display: true,
+              text: 'Juros médio (%)',
+              font: {
+                size: isSmallScreen ? 12 : 16
+              }
+            }
           }
         }
       }
-    }
-  }
-});
-}
-
-async function prazoAmortizacaoMes(ano, mesInicio, mesFim) {
-  let url = "/grafico/prazoAmortizacaoMes";
-  if (ano && mesInicio && mesFim) {
-    url = `/grafico/prazoAmortizacaoMes/${ano}/${mesInicio}/${mesFim}`;
+    });
   }
 
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  async function prazoAmortizacaoMes(ano, mesInicio, mesFim) {
+    let url = "/grafico/prazoAmortizacaoMes";
+    if (ano && mesInicio && mesFim) {
+      url = `/grafico/prazoAmortizacaoMes/${ano}/${mesInicio}/${mesFim}`;
     }
-  })
-    .then(resposta => {
-      if (resposta.ok) {
-        return resposta.json();
-      } else {
-        throw new Error("Erro ao buscar dados");
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       }
     })
-    .then(json => {
-      graficoPrazoAmortizacaoMes(json);
-    })
-    .catch(erro => {
-      console.error("Erro:", erro);
-    });
-}
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
+        }
+      })
+      .then(json => {
+        graficoPrazoAmortizacaoMes(json);
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
+  }
 
   // Gráfico 3 - Setores A, B, C
   function graficoPrazoAmortizacaoMes(dados) {
-  destroyChart("grafico3")
-  const meses = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ];
+    destroyChart("grafico3")
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
 
-  // Gerar labels dos meses no formato "Mês/Ano"
-  const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
+    // Gerar labels dos meses no formato "Mês/Ano"
+    const labelMes = [...new Set(dados.map(e => `${meses[e.mes - 1]}/${e.ano}`))];
 
-  // Gerar todos os setores únicos
-  const setores = [...new Set(dados.map(e => e.setor_cnae))];
+    // Gerar todos os setores únicos
+    const setores = [...new Set(dados.map(e => e.setor_cnae))];
 
-  // Paleta de cores
-  const cores = ['#04251F', '#065143', '#0A7E69', '#A1C181', '#FF7F50', '#6A5ACD'];
+    // Paleta de cores
+    const cores = ['#04251F', '#065143', '#0A7E69', '#A1C181', '#FF7F50', '#6A5ACD'];
 
-  // Construir os datasets dinamicamente
-  const datasets = setores.map((setor, index) => {
-    const data = labelMes.map(label => {
-      const [mesNome, ano] = label.split('/');
-      const mesNumero = meses.indexOf(mesNome) + 1;
+    // Construir os datasets dinamicamente
+    const datasets = setores.map((setor, index) => {
+      const data = labelMes.map(label => {
+        const [mesNome, ano] = label.split('/');
+        const mesNumero = meses.indexOf(mesNome) + 1;
 
-      const item = dados.find(
-        d => d.ano == ano && d.mes == mesNumero && d.setor_cnae == setor
-      );
+        const item = dados.find(
+          d => d.ano == ano && d.mes == mesNumero && d.setor_cnae == setor
+        );
 
-      return item ? Number(item.media_prazo) : null; // ou 0 se quiser mostrar 0 quando não tem
+        return item ? Number(item.media_prazo) : null; // ou 0 se quiser mostrar 0 quando não tem
+      });
+
+      return {
+        label: setor,
+        data: data,
+        backgroundColor: cores[index % cores.length]
+      };
     });
 
-    return {
-      label: setor,
-      data: data,
-      backgroundColor: cores[index % cores.length]
-    };
-  });
-
-  // Criar o gráfico
-  new Chart(document.getElementById("grafico3"), {
-    type: 'bar',
-    data: {
-      labels: labelMes, // Eixo X: meses
-      datasets: datasets
-    },
-    options: {
-      plugins: {
-        legend: { display: true }
+    // Criar o gráfico
+    new Chart(document.getElementById("grafico3"), {
+      type: 'bar',
+      data: {
+        labels: labelMes, // Eixo X: meses
+        datasets: datasets
       },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Prazo (meses)'
+      options: {
+        plugins: {
+          legend: { display: true }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Prazo (meses)'
+            }
+          },
+          x: {
+            stacked: false
           }
         },
-        x: {
-          stacked: false
-        }
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-    }
-  });
-}
-
-async function valorOperacoesMes(ano, mesInicio, mesFim) {
-  let url = "/grafico/valorOperacoesMes";
-  if (ano && mesInicio && mesFim) {
-    url = `/grafico/valorOperacoesMes/${ano}/${mesInicio}/${mesFim}`;
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
   }
 
-  console.log("url", url);
-
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  async function valorOperacoesMes(ano, mesInicio, mesFim) {
+    let url = "/grafico/valorOperacoesMes";
+    if (ano && mesInicio && mesFim) {
+      url = `/grafico/valorOperacoesMes/${ano}/${mesInicio}/${mesFim}`;
     }
-  })
-    .then(resposta => {
-      if (resposta.ok) {
-        return resposta.json();
-      } else {
-        throw new Error("Erro ao buscar dados");
+
+    console.log("url", url);
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       }
     })
-    .then(json => {
-      graficoValorOperacoesMes(json);
-    })
-    .catch(erro => {
-      console.error("Erro:", erro);
-    });
-}
-
-function graficoValorOperacoesMes(dados){
-  destroyChart("graficoPrincipal");
-  const mesesNomes = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ];
-
-  // Obter lista única de meses ordenados
-  const meses = [...new Set(dados.map(d => d.mes))].sort((a, b) => a - b);
-  const labels = meses.map(m => mesesNomes[m - 1]);
-
-  // Obter lista única de setores
-  const setores = [...new Set(dados.map(d => d.setor_cnae))];
-
-  // Cores para cada setor
-  const cores = ['#04251F', '#065143', '#388E3C', '#0A7E69', '#F39C12', '#E74C3C'];
-
-  // Montar os datasets
-  const datasets = setores.map((setor, index) => {
-    const dataSetPorSetor = meses.map(mes => {
-      const dadoEncontrado = dados.find(d => d.mes === mes && d.setor_cnae === setor);
-      return dadoEncontrado ? dadoEncontrado.media_valor_operacao : 0;
-    });
-
-    return {
-      label: setor,
-      data: dataSetPorSetor,
-      borderColor: cores[index % cores.length],
-      tension: 0.3,
-      fill: false
-    };
-  });
-
-  // Gerar o gráfico
-  new Chart(document.getElementById("graficoPrincipal"), {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: datasets
-    },
-    options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: true }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Valor concedido (R$)'
-        },
-        ticks: {
-          font: {
-            size: 12 // ou use uma função para ajustar dinamicamente
-          }
+      .then(resposta => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Erro ao buscar dados");
         }
-      },
-      x: {
-        title: {
-          display: true,
-          text: 'Mês'
-        },
-        ticks: {
-          maxRotation: 45,
-          minRotation: 0,
-          autoSkip: true,
-          font: {
-            size: 12
-          }
-        }
-      }
-    }
+      })
+      .then(json => {
+        graficoValorOperacoesMes(json);
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+      });
   }
-});
-}
+
+  function graficoValorOperacoesMes(dados) {
+    destroyChart("graficoPrincipal");
+    const mesesNomes = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    // Obter lista única de meses ordenados
+    const meses = [...new Set(dados.map(d => d.mes))].sort((a, b) => a - b);
+    const labels = meses.map(m => mesesNomes[m - 1]);
+
+    // Obter lista única de setores
+    const setores = [...new Set(dados.map(d => d.setor_cnae))];
+
+    // Cores para cada setor
+    const cores = ['#04251F', '#065143', '#388E3C', '#0A7E69', '#F39C12', '#E74C3C'];
+
+    // Montar os datasets
+    const datasets = setores.map((setor, index) => {
+      const dataSetPorSetor = meses.map(mes => {
+        const dadoEncontrado = dados.find(d => d.mes === mes && d.setor_cnae === setor);
+        return dadoEncontrado ? dadoEncontrado.media_valor_operacao : 0;
+      });
+
+      return {
+        label: setor,
+        data: dataSetPorSetor,
+        borderColor: cores[index % cores.length],
+        tension: 0.3,
+        fill: false
+      };
+    });
+
+    // Gerar o gráfico
+    new Chart(document.getElementById("graficoPrincipal"), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Valor concedido (R$)'
+            },
+            ticks: {
+              font: {
+                size: 12 // ou use uma função para ajustar dinamicamente
+              }
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Mês'
+            },
+            ticks: {
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              font: {
+                size: 12
+              }
+            }
+          }
+        }
+      }
+    });
+  }
 
   // new Chart(document.getElementById("graficoPrincipal"), {
   //   type: 'line',
@@ -660,7 +734,7 @@ function graficoValorOperacoesMes(dados){
         <img src="../assets/icon/bar-chart 4.png" alt="">
         <a href="../dashboard/dashboard.html">DASHBOARD</a>
       </div>
-      ${tipoUsuario == 1 ? `
+      ${tipoUsuario == 0 ? `
         <div class="option ${paginaAtual.includes('users.html') ? 'selected' : ''}">
           <img src="../assets/icon/user (1) 2.png" alt="">
           <a href="../dashboard/users.html">USUÁRIOS</a>
@@ -669,6 +743,10 @@ function graficoValorOperacoesMes(dados){
       <div class="option ${paginaAtual.includes('perfil.html') ? 'selected' : ''}">
         <img src="../assets/icon/edit 2.png" alt="">
         <a href="../dashboard/perfil.html">EDITAR</a>
+      </div>
+      <div class="option">
+        <img style="filter: invert(1);" src="../assets/icon/mail-icon.png" alt="">
+        <a href="../dashboard/mensagens.html">MENSAGENS</a>
       </div>
       <div class="option">
         <img src="../assets/icon/logout 2.png" alt="">

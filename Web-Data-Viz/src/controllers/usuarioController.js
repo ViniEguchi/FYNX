@@ -55,8 +55,6 @@ function cadastrar(req, res) {
         bairroServer: bairro,
         logradouroServer: logradouro,
         numeroServer: numero,
-        estadoServer: estado,
-        ufServer: uf,
         complementoServer: complemento
     } = req.body;
 
@@ -66,7 +64,7 @@ function cadastrar(req, res) {
                 return res.status(400).send("Empresa já cadastrada com esse CNPJ.");
             }
 
-            empresaModel.cadastrar(responsavel, cnpj, razaoSocial, nomeFantasia)
+            empresaModel.cadastrarEmpresa(nomeFantasia, razaoSocial, responsavel, cnpj)
                 .then((resultadoEmpresa) => {
                     const idEmpresa = resultadoEmpresa.insertId;
                     if (!idEmpresa) throw new Error("Erro ao cadastrar empresa.");
@@ -106,7 +104,7 @@ function perfil(req, res) {
 
             const usuario = resultadoCarregarPerfil[0];
 
-            if (usuario.gerente) {
+            if (usuario.gerente == 0) {
                 empresaModel.buscarPorId(usuario.fkEmpresa)
                     .then(([empresa]) => {
                         if (!empresa) return res.status(404).send("Empresa não encontrada.");
