@@ -297,7 +297,7 @@ function exibirKpiHome(ano, mesInicial, mesFinal) {
     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
 
     const instrucaoSql = `
-        SELECT  CONCAT(mj.setor_cnae,' - ',mj.juros) AS menor_juros
+        SELECT  CONCAT(mj.setor_cnae) AS menor_juros
             ,mi.setor_cnae                        AS setor_menor_investimento
             ,mr.setor_cnae                        AS setor_maior_risco
             ,lr.setor_cnae                        AS setor_menor_risco
@@ -340,7 +340,40 @@ function exibirKpiHome(ano, mesInicial, mesFinal) {
     return database.executar(instrucaoSql);
 }
 
+function prazoMaisAceito(ano, mesInicial, mesFinal) {
+     const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+     const instrucaoSql = `
+        SELECT COUNT(*) AS contagem,
+        MONTH(data_contratacao) as mes
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY mes;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function setorParaInvestir(ano, mesInicial, mesFinal) {
+    const { dataInicialStr, dataFinalStr } = montarIntervalo(ano, mesInicial, mesFinal);
+
+     const instrucaoSql = `
+        SELECT
+        setor_cnae as setor,
+        ROUND(SUM(juros * prazo_amortizacao * valor_desenbolsado), 2) AS credito
+        FROM historico
+        WHERE data_contratacao BETWEEN '${dataInicialStr}' AND '${dataFinalStr}'
+        GROUP BY setor;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
+    setorParaInvestir,
+    prazoMaisAceito,
     preencherSetores,
     totalOperacoes,
     jurosMedioSetor,

@@ -39,5 +39,13 @@ router.get("/exibirKpiHome/:ano/:mesInicial/:mesFinal", function (req, res) {
   graficoController.exibirKpiHome(req, res);
 });
 
+router.get("/prazoMaisAceito/:ano/:mesInicial/:mesFinal", function (req, res) {
+  graficoController.prazoMaisAceito(req, res);
+});
+
+router.get("/setorParaInvestir/:ano/:mesInicial/:mesFinal", function (req, res) {
+  graficoController.setorParaInvestir(req, res);
+});
+
 
 module.exports = router;
