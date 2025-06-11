@@ -1,9 +1,6 @@
 let graficoModel = require("../models/graficoModel")
 
 function preencherSetores(req, res) {
-
-    console.log("controller preencherSetores");
-
     graficoModel.preencherSetores()
         .then(function (resultado) {
             res.json(resultado);
@@ -16,6 +13,10 @@ function preencherSetores(req, res) {
 }
 
 function totalOperacoes(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
     let ano = req.params.ano;
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
@@ -38,6 +39,10 @@ function jurosMedioSetor(req, res) {
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
 
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
     console.log("função jurosMedioSetor");
 
     graficoModel.jurosMedioSetor(ano, mesInicial, mesFinal)
@@ -56,6 +61,10 @@ function prazoAmortizacaoMes(req, res) {
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
 
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
     console.log("função jurosMedioSetor");
 
     graficoModel.prazoAmortizacaoMes(ano, mesInicial, mesFinal)
@@ -70,6 +79,10 @@ function prazoAmortizacaoMes(req, res) {
 }
 
 function valorOperacoesMes(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
     let ano = req.params.ano;
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
