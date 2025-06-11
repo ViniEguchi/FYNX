@@ -155,7 +155,39 @@ function exibirKpiHome(req, res) {
         });
 }
 
+function prazoMaisAceito(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
+    graficoModel.prazoMaisAceito(ano, mesInicial, mesFinal)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar valor das operações:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
+}
+
+function setorParaInvestir(req, res) {
+    let ano = req.params.ano;
+    let mesInicial = req.params.mesInicial;
+    let mesFinal = req.params.mesFinal;
+
+    graficoModel.setorParaInvestir(ano, mesInicial, mesFinal)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar valor das operações:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
+}
+
 module.exports = {
+    setorParaInvestir,
+    prazoMaisAceito,
     preencherSetores,
     exibirKpiDash,
     preencherSetores,
