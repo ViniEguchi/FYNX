@@ -17,10 +17,6 @@ function totalOperacoes(req, res) {
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
 
-    let ano = req.params.ano;
-    let mesInicial = req.params.mesInicial;
-    let mesFinal = req.params.mesFinal;
-
     console.log("função totalOperacoes");
 
     graficoModel.totalOperacoes(ano, mesInicial, mesFinal)
@@ -35,10 +31,6 @@ function totalOperacoes(req, res) {
 }
 
 function jurosMedioSetor(req, res) {
-    let ano = req.params.ano;
-    let mesInicial = req.params.mesInicial;
-    let mesFinal = req.params.mesFinal;
-
     let ano = req.params.ano;
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
@@ -61,10 +53,6 @@ function prazoAmortizacaoMes(req, res) {
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
 
-    let ano = req.params.ano;
-    let mesInicial = req.params.mesInicial;
-    let mesFinal = req.params.mesFinal;
-
     console.log("função jurosMedioSetor");
 
     graficoModel.prazoAmortizacaoMes(ano, mesInicial, mesFinal)
@@ -79,10 +67,6 @@ function prazoAmortizacaoMes(req, res) {
 }
 
 function valorOperacoesMes(req, res) {
-    let ano = req.params.ano;
-    let mesInicial = req.params.mesInicial;
-    let mesFinal = req.params.mesFinal;
-
     let ano = req.params.ano;
     let mesInicial = req.params.mesInicial;
     let mesFinal = req.params.mesFinal;
